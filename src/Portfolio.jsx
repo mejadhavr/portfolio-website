@@ -579,21 +579,21 @@ function Navigation({ active }) {
 
       {/* Mobile Hamburger — sibling to nav, NOT inside it, so fixed positioning works */}
       <button
-        className="nav-hamburger"
         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen(o => !o)}
+        className="menu-toggle"
         style={{
-          display: 'none', // shown via CSS @media
-          position: 'fixed', top: 16, right: 16,
-          alignItems: 'center', justifyContent: 'center',
-          width: 44, height: 44, borderRadius: 12,
-          background: menuOpen ? 'rgba(200,169,110,0.15)' : 'rgba(6,6,12,0.85)',
-          backdropFilter: 'blur(20px)',
-          border: `1px solid ${menuOpen ? 'rgba(200,169,110,0.5)' : 'rgba(200,169,110,0.25)'}`,
-          cursor: 'pointer', flexDirection: 'column', gap: 5,
-          zIndex: 9002, transition: 'background 0.3s, border-color 0.3s',
-          opacity: visible ? 1 : 0,
+          position: 'fixed', top: 30, right: 30, zIndex: 3000,
+          width: 54, height: 54, borderRadius: '50%',
+          background: 'rgba(10,10,15,0.4)', backdropFilter: 'blur(15px)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
+          cursor: 'none', transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,169,110,0.5)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'scale(1)'; }}
+        onClick={() => {
+          setMenuOpen(!menuOpen);
+          if (window.trackEvent) window.trackEvent("menu_toggle_click");
         }}
       >
         {[0,1,2].map(i => (
@@ -756,6 +756,9 @@ function HeroSection() {
   const [tagVisible, setTagVisible] = useState(true);
   const [revealed, setRevealed] = useState(false);
   const [tagIndex, setTagIndex] = useState(0);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [showVideoBg, setShowVideoBg] = useState(false);
+  
   const isMobile = useIsMobile();
   const isLowEnd = useIsLowEnd();
 
@@ -772,28 +775,30 @@ function HeroSection() {
   // reveal animation synchronised with loading screen
   useEffect(() => {
     // 3500ms line + 800ms fade = 4300ms total. 
-    // Trigger slightly before the fade completely finishes to mask the DOM swap
-    const t = setTimeout(() => setRevealed(true), 4000); 
+    const t = setTimeout(() => {
+      setRevealed(true);
+      // Defer video background load until after main page load for Core Web Vitals
+      setTimeout(() => setShowVideoBg(true), 1500); 
+    }, 4000); 
     return () => clearTimeout(t);
   }, []);
 
   // rotating tagline
   useEffect(() => {
-
     const interval = setInterval(() => {
-
       setTagVisible(false); // fade out
-
       setTimeout(() => {
         setTagIndex((prev) => (prev + 1) % taglines.length);
         setTagVisible(true); // fade in
       }, 400);
-
     }, 3500);
-
     return () => clearInterval(interval);
-
   }, []);
+
+  const openShowreel = () => {
+    setVideoModalOpen(true);
+    if(window.trackEvent) window.trackEvent("reel_play");
+  };
 
   return (
     <section id="home" style={{
@@ -801,6 +806,33 @@ function HeroSection() {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       overflow: 'hidden', flexDirection: 'column',
     }}>
+      {/* Background Poster (LCP focus) */}
+      <img 
+        src="/images/hero-poster.webp" 
+        alt="Rushikesh Jadhav - Cinematic Video Editor Hero Backdrop"
+        loading="eager"
+        fetchpriority="high"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: -1,
+          opacity: 0.4,
+          filter: 'brightness(0.7) contrast(1.1)',
+        }} 
+      />
+      
+      {/* Deferred Background Video (Optional if needed, but per prompt only opened in modal usually, or plays silently after load) */}
+      {showVideoBg && !isMobile && !isLowEnd && (
+        <video 
+          src="/assets/videos/showreel.mp4" 
+          autoPlay loop muted playsInline
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.15, zIndex: 0 }}
+        />
+      )}
+
       <AuroraBg accent="gold" />
       {/* CSS-only cinematic background for mobile */}
       {isMobile && <MobileHeroBg />}
@@ -813,60 +845,95 @@ function HeroSection() {
       {/* Light leak top */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: '35%', pointerEvents: 'none',
-        background: 'linear-gradient(180deg, rgba(200,169,110,0.04) 0%, transparent 100%)',
+        background: 'linear-gradient(180deg, rgba(200,169,110,0.04) 0%, transparent 100%)', zIndex: 1
       }} />
       {/* Light leak bottom */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, height: '25%', pointerEvents: 'none',
-        background: 'linear-gradient(0deg, rgba(0,201,255,0.03) 0%, transparent 100%)',
+        background: 'linear-gradient(0deg, rgba(0,201,255,0.03) 0%, transparent 100%)', zIndex: 1
       }} />
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px' }}>
-        {/* Pre-title */}
-        <div className="hero-label" style={{
-          fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 6,
-          color: 'var(--gold)', marginBottom: 32, textTransform: 'uppercase',
+      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px', width: '100%' }}>
+        
+        {/* Availability Badge & Location */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 24,
           opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)',
-          transition: 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s',
+          transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s',
+          flexWrap: 'wrap'
         }}>
-          ◆ Professional Video Editor · 7+ Years ◆
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 2,
+            color: 'var(--white)', textTransform: 'uppercase', opacity: 0.8
+          }}>
+            Pune, India 📍
+          </div>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px',
+            background: 'rgba(200,169,110,0.1)', border: '1px solid rgba(200,169,110,0.2)',
+            borderRadius: 20, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)'
+          }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#25D366', boxShadow: '0 0 8px #25D366', animation: 'glow-pulse 2s infinite' }}></span>
+            Available for Projects
+          </div>
+        </div>
+
+        {/* Circular Play Button for Showreel */}
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+          zIndex: 0, // Behind text but above background
+          opacity: revealed ? 0.3 : 0, transition: 'opacity 1s ease 1s', cursor: 'pointer'
+        }} onClick={openShowreel}>
+          <div style={{
+            width: 120, height: 120, borderRadius: '50%', border: '1px solid var(--gold)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'rgba(200,169,110,0.05)', backdropFilter: 'blur(5px)',
+            animation: 'glow-pulse 3s infinite'
+          }}>
+            <div style={{ width: 0, height: 0, borderTop: '15px solid transparent', borderBottom: '15px solid transparent', borderLeft: '24px solid var(--gold)', marginLeft: 6 }} />
+          </div>
         </div>
 
         {/* Main name */}
         <h1 className="hero-name" style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(72px, 16vw, 200px)',
-          lineHeight: 0.88, letterSpacing: -1,
+          fontSize: 'clamp(50px, 15vw, 180px)',
+          lineHeight: 0.8,
           color: 'var(--white)',
-          marginBottom: 8,
-          whiteSpace: 'nowrap',
+          marginBottom: 20,
+          textShadow: '0 20px 80px rgba(0,0,0,0.8)'
         }}>
-          {name.split('').map((char, i) => (
-            <span key={i} style={{
-              display: 'inline-block',
-              marginRight: char === ' ' ? '0.4em' : '0',
-              opacity: revealed ? 1 : 0,
-              transform: revealed ? 'none' : 'translateY(30px)',
-              transition: `opacity 0.6s ease ${0.4 + i * 0.06}s, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${0.4 + i * 0.06}s`
-            }}>
-              {char}
-            </span>
-          ))}
+          RUSHIKESH<br />
+          <span className="gold-text">JADHAV</span>
         </h1>
+        <p style={{ display: 'none' }}>Rushikesh Jadhav — Cinematic Video Editor in Pune, India specializing in brand films and reels.</p>
+
+        {/* Title */}
+        <h2 style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(24px, 5vw, 48px)',
+          color: 'var(--gold)', letterSpacing: 4, marginBottom: 16,
+          textTransform: 'uppercase',
+          textShadow: '0 4px 20px rgba(200,169,110,0.3)',
+          opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)',
+          transition: 'opacity 0.8s ease 1.2s, transform 0.8s ease 1.2s'
+        }}>
+          Cinematic Video Editor
+        </h2>
 
         {/* Tagline */}
         <div style={{
           fontFamily: 'var(--font-editorial)',
           fontStyle: 'italic',
           fontWeight: 300,
-          fontSize: 'clamp(16px, 3vw, 28px)',
-          color: 'rgba(242,238,232,0.7)',
+          fontSize: 'clamp(16px, 3vw, 24px)',
+          color: 'rgba(242,238,232,0.8)',
           marginBottom: 60,
-          letterSpacing: 2,
+          letterSpacing: 1,
 
-          opacity: tagVisible ? 1 : 0,
-          transform: tagVisible ? 'translateY(0)' : 'translateY(10px)',
+          opacity: tagVisible && revealed ? 1 : 0,
+          transform: tagVisible && revealed ? 'translateY(0)' : 'translateY(10px)',
           transition: 'opacity 0.5s ease, transform 0.5s ease',
           filter: tagVisible ? 'blur(0px)' : 'blur(4px)'
         }}>
@@ -877,37 +944,23 @@ function HeroSection() {
         <div style={{
           display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap',
           opacity: revealed ? 1 : 0, transition: 'opacity 1s ease 1.5s',
+          position: 'relative', zIndex: 10
         }}>
-          <button
-            onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
+          <button 
+            onClick={() => {
+              document.querySelector('#work').scrollIntoView({behavior:'smooth'});
+              if (window.trackEvent) window.trackEvent("view_work_click");
+            }}
             style={{
-              padding: '16px 44px',
               background: 'linear-gradient(135deg, var(--gold), #E8C87A)',
-              border: 'none', borderRadius: 8, cursor: 'none',
-              fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 3, textTransform: 'uppercase',
-              color: '#0A0810', fontWeight: 700,
-              boxShadow: '0 0 40px rgba(200,169,110,0.35)',
+              fontFamily: 'var(--font-mono)', fontSize: 13, letterSpacing: 2, textTransform: 'uppercase',
+              color: 'var(--white)', width: isMobile ? '100%' : 'auto', backdropFilter: 'blur(10px)',
               transition: 'all 0.3s',
             }}
-            onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 60px rgba(200,169,110,0.6)'; e.currentTarget.style.transform = 'scale(1.04)'; }}
-            onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 0 40px rgba(200,169,110,0.35)'; e.currentTarget.style.transform = 'scale(1)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.1)'; e.currentTarget.style.borderColor = 'var(--gold)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(12,12,22,0.8)'; e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)'; }}
           >
-            View Work
-          </button>
-          <button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            style={{
-              padding: '16px 44px',
-              background: 'transparent',
-              border: '1px solid rgba(200,169,110,0.4)', borderRadius: 8, cursor: 'none',
-              fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 3, textTransform: 'uppercase',
-              color: 'var(--gold)',
-              transition: 'all 0.3s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.08)'; e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.boxShadow = '0 0 30px rgba(200,169,110,0.2)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)'; e.currentTarget.style.boxShadow = 'none'; }}
-          >
-            Contact
+            [Let's Work Together]
           </button>
         </div>
       </div>
@@ -916,27 +969,40 @@ function HeroSection() {
       <div style={{
         position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, zIndex: 2,
-        opacity: revealed ? 0.7 : 0, transition: 'opacity 1s ease 2s',
+        opacity: revealed ? 0.7 : 0, transition: 'opacity 1s ease 2s', pointerEvents: 'none'
       }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 4, color: 'var(--gold)', textTransform: 'uppercase' }}>Scroll</div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 4, color: 'var(--white)', textTransform: 'uppercase' }}>Scroll</div>
         <div style={{
           width: 1, height: 50,
-          background: 'linear-gradient(to bottom, var(--gold), transparent)',
+          background: 'linear-gradient(to bottom, var(--white), transparent)',
           animation: 'float 2s ease-in-out infinite',
         }} />
       </div>
 
-      {/* Film frame decorators */}
-      {[['top', 'left'], ['top', 'right'], ['bottom', 'left'], ['bottom', 'right']].map(([v, h], i) => (
-        <div key={i} style={{
-          position: 'absolute', [v]: 32, [h]: 32,
-          width: 40, height: 40, zIndex: 2,
-          borderTop: v === 'top' ? '1px solid rgba(200,169,110,0.3)' : 'none',
-          borderBottom: v === 'bottom' ? '1px solid rgba(200,169,110,0.3)' : 'none',
-          borderLeft: h === 'left' ? '1px solid rgba(200,169,110,0.3)' : 'none',
-          borderRight: h === 'right' ? '1px solid rgba(200,169,110,0.3)' : 'none',
-        }} />
-      ))}
+      {/* Video Lightbox Modal */}
+      {videoModalOpen && (
+        <div style={{
+            position: 'fixed', inset: 0, zIndex: 99999, background: 'rgba(0,0,0,0.95)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: 1, transition: 'opacity 0.3s ease'
+        }}>
+            <button 
+                onClick={() => setVideoModalOpen(false)}
+                aria-label="Close Showreel"
+                style={{
+                    position: 'absolute', top: 30, right: 30, background: 'none', border: 'none',
+                    color: 'white', fontSize: 40, cursor: 'pointer', zIndex: 100000
+                }}
+            >×</button>
+            <div style={{ width: '90%', maxWidth: 1280, aspectRatio: '16/9', background: '#000', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.8)' }}>
+                <video 
+                    src="/assets/videos/showreel.mp4" 
+                    controls autoPlay playsInline
+                    style={{ width: '100%', height: '100%' }}
+                />
+            </div>
+        </div>
+      )}
     </section>
   );
 }

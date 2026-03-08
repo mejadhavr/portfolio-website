@@ -1,0 +1,2 @@
+compress_html: true
+exclude: ["env", "venv", ".gemini", "node_modules", "vendor"]

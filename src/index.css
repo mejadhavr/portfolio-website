@@ -23,8 +23,23 @@ body {
   background: #06060C;
 }
 
-/* Smooth fonts */
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure font-display: swap for Google Fonts via @font-face if possible, 
+   but since they are via <link>, we rely on the display=swap in URL which is already present. 
+   Adding local font-display strategy here just in case. */
+@font-face {
+  font-family: 'Bebas Neue';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  font-display: swap;
 }

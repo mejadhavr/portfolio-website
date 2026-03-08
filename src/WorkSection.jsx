@@ -141,8 +141,8 @@ export default function WorkSection() {
         <div className={`work-section-heading reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 'clamp(40px,7vw,70px)' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>◈ Selected Work</div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(52px,9vw,108px)', lineHeight: 0.88, color: 'var(--white)' }}>
-            THE<br />
-            <span className="gold-text">REEL</span>
+            CINEMATIC<br />
+            PORTFOLIO & <span className="gold-text">BRAND FILMS</span>
           </h2>
         </div>
 

@@ -5,7 +5,7 @@ import { useIsMobile, AuroraBg } from './Shared';
 ───────────────────────────────────────────── */
 const contactSocials = [
   {
-    label: 'YouTube', url: 'https://www.youtube.com/@editsbymejadhavr/playlists', icon: (
+    label: 'YouTube', url: 'https://www.youtube.com/@editsbymejadhavr', icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}><path d="M21.5 7.3a2.7 2.7 0 00-1.9-1.9C18 5 12 5 12 5s-6 0-7.6.4a2.7 2.7 0 00-1.9 1.9C2 8.9 2 12 2 12s0 3.1.5 4.7a2.7 2.7 0 001.9 1.9C6 19 12 19 12 19s6 0 7.6-.4a2.7 2.7 0 001.9-1.9c.5-1.6.5-4.7.5-4.7s0-3.1-.5-4.7zm-11.5 7.7V9l5 3-5 3z" /></svg>
     )
   },
@@ -34,6 +34,7 @@ const contactSocials = [
 export default function ContactSection() {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { setVis(e.isIntersecting); }, { threshold: 0.1 });
@@ -49,137 +50,120 @@ export default function ContactSection() {
     }}>
       <AuroraBg accent="gold" />
       <div style={{ maxWidth: 900, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 70 }}>
+        <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 50 }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>◈ Contact</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(52px,10vw,120px)', lineHeight: 0.88, color: 'var(--white)', marginBottom: 28 }}>
-            LET'S<br />
-            <span className="gold-text">MAKE</span><br />
-            SOMETHING
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,8vw,100px)', lineHeight: 0.88, color: 'var(--white)', marginBottom: 28 }}>
+            LET'S <span className="gold-text">CREATE</span><br />
+            SOMETHING CINEMATIC
           </h2>
-          <p style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontSize: 22, color: 'rgba(242,238,232,0.45)', maxWidth: 500, margin: '0 auto' }}>
-            Have a project in mind? Let's create something that moves people.
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: '#25D366', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 2 }}>
+            <span style={{ display: 'inline-block', width: 8, height: 8, background: '#25D366', borderRadius: '50%', marginRight: 8, boxShadow: '0 0 10px #25D366', animation: 'glow-pulse 2s infinite' }}></span>
+            Currently accepting projects
           </p>
         </div>
 
-        {/* Contact cards */}
-        <div
-          className="contact-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 20,
-            marginBottom: 50,
-            opacity: vis ? 1 : 0,
-            transform: vis ? 'none' : 'translateY(30px)',
-            transition: 'opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s',
-          }}
-        >
+        {/* Contact Form Container instead of just Email/WhatsApp cards */}
+        <div className="contact-grid" style={{
+            display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.5fr', gap: 40, marginBottom: 60,
+            opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(30px)', transition: 'opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s',
+        }}>
+          {/* Left info column */}
+          <div>
+            <a href="mailto:rushikesh@mejadhavr.com" className="glass-card" style={{ display: 'block', padding: 30, marginBottom: 20, textDecoration: 'none', transition: 'all 0.3s' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)', marginBottom: 12 }}>EMAIL</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)', wordBreak: 'break-all' }}>rushikesh@mejadhavr.com</div>
+            </a>
+            <a href="https://wa.me/919309964035" target="_blank" rel="noopener noreferrer" className="glass-card" style={{ display: 'block', padding: 30, textDecoration: 'none', transition: 'all 0.3s' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--cyan)', marginBottom: 12 }}>WHATSAPP</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)' }}>+91 93099 64035</div>
+            </a>
+          </div>
 
-          {/* EMAIL CARD */}
-          <a
-            href="mailto:rushikesh@mejadhavr.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-card"
-            style={{
-              padding: '36px',
-              textDecoration: 'none',
-              display: 'block',
-              cursor: 'none',
-              transition: 'all 0.3s'
-            }}
-          >
+          <div className="glass-card" style={{ padding: isMobile ? '30px 20px' : '30px 40px', background: 'rgba(10,10,15,0.7)' }}>
+            {/* Formspree AJAX Handler */}
+            {(() => {
+                const [status, setStatus] = useState("");
+                const handleSubmit = async (e) => {
+                    e.preventDefault();
+                    if (window.trackEvent) window.trackEvent("contact_form_submit");
+                    const form = e.target;
+                    const data = new FormData(form);
+                    try {
+                        const response = await fetch(form.action, {
+                            method: form.method,
+                            body: data,
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        if (response.ok) {
+                            setStatus("SUCCESS");
+                            form.reset();
+                        } else {
+                            setStatus("ERROR");
+                        }
+                    } catch (error) {
+                        setStatus("ERROR");
+                    }
+                };
 
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 9,
-              letterSpacing: 4,
-              color: 'var(--gold)',
-              marginBottom: 12
-            }}>
-              EMAIL
-            </div>
+                if (status === "SUCCESS") {
+                    return (
+                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                            <div style={{ fontSize: 48, color: '#25D366', marginBottom: 20 }}>✓</div>
+                            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 32, color: 'var(--white)', marginBottom: 12 }}>MESSAGE SENT</h3>
+                            <p style={{ fontFamily: 'var(--font-editorial)', color: 'rgba(242,238,232,0.6)' }}>Thank you for reaching out. I'll get back to you shortly.</p>
+                            <button onClick={() => setStatus("")} style={{ marginTop: 24, background: 'none', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '8px 20px', borderRadius: 4, cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 10 }}>Send Another</button>
+                        </div>
+                    );
+                }
 
-            <div className="email-text" style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 20,
-              color: 'var(--white)',
-              marginBottom: 10,
-              letterSpacing: 0.3,
-              textTransform: 'none',
-              wordBreak: 'normal',
-              whiteSpace: 'nowrap'
-            }}>
-              rushikesh<span style={{ opacity: 0.6 }}>@mejadhavr.com</span>
-            </div>
+                return (
+                    <form action="https://formspree.io/f/mqkenbzo" method="POST" onSubmit={handleSubmit}>
 
-            <div style={{
-              fontFamily: 'var(--font-editorial)',
-              fontSize: 18,
-              letterSpacing: 0.3,
-              color: 'var(--gold)',
-              fontStyle: 'italic'
-            }}>
-              Send a project inquiry →
-            </div>
-
-          </a>
-
-
-          {/* WHATSAPP CARD */}
-          <a
-            href="https://wa.me/919309964035"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-card"
-            style={{
-              padding: '36px',
-              textDecoration: 'none',
-              display: 'block',
-              cursor: 'none',
-              transition: 'all 0.3s'
-            }}
-          >
-
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 9,
-              letterSpacing: 4,
-              color: 'var(--cyan)',
-              marginBottom: 12
-            }}>
-              WHATSAPP
-            </div>
-
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 20,
-              color: 'var(--white)',
-              marginBottom: 10
-            }}>
-              +91 93099 64035
-            </div>
-
-            <div style={{
-              fontFamily: 'var(--font-editorial)',
-              fontSize: 18,
-              letterSpacing: 0.3,
-              color: 'var(--cyan)',
-              fontStyle: 'italic'
-            }}>
-              Chat instantly about your project →
-            </div>
-
-            <div style={{
-              fontFamily: 'var(--font-editorial)',
-              fontSize: 14,
-              color: 'rgba(242,238,232,0.4)',
-              marginTop: 6
-            }}>
-              Typically replies within 1 hour
-            </div>
-
-          </a>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+                <div>
+                  <label htmlFor="name" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Name</label>
+                  <input type="text" id="name" name="name" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
+                </div>
+                <div>
+                  <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Email</label>
+                  <input type="email" id="email" name="email" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+                <div>
+                  <label htmlFor="phone" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>WhatsApp Number</label>
+                  <input type="tel" id="phone" name="phone" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
+                </div>
+                <div>
+                  <label htmlFor="project_type" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Project Type</label>
+                  <select id="project_type" name="project_type" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', appearance: 'none' }}>
+                    <option value="Brand Film" style={{background: '#0a0a0c'}}>Brand Film</option>
+                    <option value="Reel" style={{background: '#0a0a0c'}}>Reel</option>
+                    <option value="Motion Graphics" style={{background: '#0a0a0c'}}>Motion Graphics</option>
+                    <option value="Other" style={{background: '#0a0a0c'}}>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label htmlFor="budget" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Budget Range</label>
+                <select id="budget" name="budget" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', appearance: 'none' }}>
+                  <option value="Under $500" style={{background: '#0a0a0c'}}>Under $500</option>
+                  <option value="$500 - $1000" style={{background: '#0a0a0c'}}>$500 - $1000</option>
+                  <option value="$1000+" style={{background: '#0a0a0c'}}>$1000+</option>
+                </select>
+              </div>
+              <div style={{ marginBottom: 24 }}>
+                <label htmlFor="message" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Message</label>
+                <textarea id="message" name="message" required rows="4" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', resize: 'vertical' }}></textarea>
+              </div>
+              {/* NOTE: Add <!-- REPLACE --> or similar if requested, though we just hardcoded standard formspree form layout as per spec */}
+              <button type="submit" style={{ width: '100%', padding: '16px', background: 'linear-gradient(135deg, var(--gold), #E8C87A)', border: 'none', borderRadius: 8, color: '#000', fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer', transition: 'all 0.3s' }}>
+                Send Inquiry
+              </button>
+            </form>
+                );
+            })()}
+          </div>
 
         </div>
 
@@ -190,6 +174,7 @@ export default function ContactSection() {
         }}>
           {contactSocials.map((s, i) => (
             <a key={i} href={s.url} target="_blank" rel="noopener noreferrer"
+              aria-label={`Visit my ${s.label}`}
               style={{
                 width: 48, height: 48, borderRadius: 12,
                 background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
@@ -260,4 +245,3 @@ export default function ContactSection() {
     </section>
   );
 }
-
