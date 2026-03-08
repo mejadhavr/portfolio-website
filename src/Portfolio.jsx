@@ -652,10 +652,11 @@ function HeroSection() {
     "Editing Where Every Frame Matters"
   ];
 
-  // reveal animation synchronised with loading screen length (3500ms + 800ms)
+  // reveal animation synchronised with loading screen
   useEffect(() => {
-    // previously 2700, now it must cover the new 3.5s sequence
-    const t = setTimeout(() => setRevealed(true), 4400); 
+    // 3500ms line + 800ms fade = 4300ms total. 
+    // Trigger slightly before the fade completely finishes to mask the DOM swap
+    const t = setTimeout(() => setRevealed(true), 4000); 
     return () => clearTimeout(t);
   }, []);
 
@@ -854,7 +855,8 @@ export default function App() {
 
       <div style={{
         opacity: loading ? 0 : 1,
-        transition: 'opacity 0.6s ease',
+        transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1)',
+        willChange: 'opacity'
       }}>
         <Navigation active={activeSection} />
         <HeroSection />
