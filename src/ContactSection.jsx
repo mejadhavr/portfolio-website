@@ -35,32 +35,32 @@ function InquiryForm({ isMobile }) {
     const [status, setStatus] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmitting(true);
         if (window.trackEvent) window.trackEvent("contact_form_submit");
+        
         const form = e.target;
-        const data = new FormData(form);
-        try {
-            const response = await fetch(form.action, {
-                method: form.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-            });
-            if (response.ok) {
-                setStatus("SUCCESS");
-                form.reset();
-            } else {
-                const result = await response.json();
-                console.error("Formspree Error:", result);
-                setStatus("ERROR");
-            }
-        } catch (error) {
-            console.error("Submission Error:", error);
-            setStatus("ERROR");
-        } finally {
-            setSubmitting(false);
-        }
+        const formData = new FormData(form);
+        const name = formData.get("name");
+        const email = formData.get("email");
+        const phone = formData.get("phone");
+        const project = formData.get("project_type");
+        const budget = formData.get("budget");
+        const message = formData.get("message");
+
+        const whatsappMessage = `*New Project Inquiry*%0A%0A` +
+            `*Name:* ${name}%0A` +
+            `*Email:* ${email}%0A` +
+            `*WhatsApp:* ${phone}%0A` +
+            `*Project:* ${project}%0A` +
+            `*Budget:* ${budget}%0A%0A` +
+            `*Message:* ${message}`;
+
+        const whatsappUrl = `https://wa.me/919309964035?text=${whatsappMessage}`;
+        
+        window.open(whatsappUrl, "_blank");
+        setStatus("SUCCESS");
+        form.reset();
     };
 
     if (status === "SUCCESS") {
@@ -75,7 +75,7 @@ function InquiryForm({ isMobile }) {
     }
 
     return (
-        <form action="https://formspree.io/f/mqkenbzo" method="POST" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
                 <div>
                     <label htmlFor="name" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Name</label>
