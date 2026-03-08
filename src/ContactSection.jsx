@@ -44,7 +44,7 @@ export default function ContactSection() {
 
   return (
     <section id="contact" ref={ref} style={{
-      position: 'relative', padding: '120px 40px 80px',
+      position: 'relative', padding: 'clamp(80px, 12vw, 120px) clamp(20px, 5vw, 40px) 80px',
       background: 'linear-gradient(180deg, var(--bg2), #030306)',
       overflow: 'hidden',
     }}>

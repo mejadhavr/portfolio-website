@@ -50,8 +50,12 @@ export default function ChatWidget() {
         }}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          width: 56, height: 56, borderRadius: '50%', background: '#25D366',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)', textDecoration: 'none',
+          width: 56, height: 56, borderRadius: '50%', 
+          background: 'linear-gradient(135deg, #c8a04a 0%, #a07830 100%)',
+          boxShadow: '0 4px 24px rgba(200, 160, 74, 0.35)', 
+          border: '1px solid rgba(200, 160, 74, 0.3)',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          textDecoration: 'none',
           animation: 'glow-pulse 2s infinite'
         }}
       >

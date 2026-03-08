@@ -12,8 +12,73 @@ const VisualSection = lazy(() => import('./VisualSection'));
 const ClientsSection = lazy(() => import('./ClientsSection'));
 const ContactSection = lazy(() => import('./ContactSection'));
 
-
 import ChatWidget from "./ChatWidget";
+
+/* ─────────────────────────────────────────────
+   HERO PARTICLES SYSTEM
+───────────────────────────────────────────── */
+const HeroParticles = memo(() => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    const particles = Array.from({ length: 60 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.3,
+      opacity: Math.random() * 0.5 + 0.1,
+      speedX: (Math.random() - 0.5) * 0.3,
+      speedY: -Math.random() * 0.4 - 0.1,
+    }));
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 160, 80, ${p.opacity})`;
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.y < -5) {
+          p.y = canvas.height + 5;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 1,
+        pointerEvents: 'none',
+        opacity: 0.6
+      }}
+    />
+  );
+});
 
 /* ─────────────────────────────────────────────
    GLOBAL STYLES injected once
@@ -522,7 +587,7 @@ function Navigation({ active }) {
   const navItems = ['Home', 'About', 'Work', 'Services', 'Contact'];
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 3000);
+    const t = setTimeout(() => setVisible(true), 4200);
     return () => clearTimeout(t);
   }, []);
 
@@ -563,17 +628,20 @@ function Navigation({ active }) {
               onMouseLeave={e => { e.currentTarget.style.color = active === item.toLowerCase() ? 'var(--gold)' : 'rgba(242,238,232,0.6)'; e.currentTarget.style.background = 'transparent'; }}
             >{item}</button>
           ))}
-          <a href="mailto:rushikesh@mejadhavr.com" target="_blank" rel="noopener noreferrer" style={{
-            marginLeft: 12, padding: '7px 18px', borderRadius: 8,
-            background: 'linear-gradient(135deg,rgba(200,169,110,0.2),rgba(200,169,110,0.1))',
-            border: '1px solid rgba(200,169,110,0.3)',
-            fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 2,
-            color: 'var(--gold)', textDecoration: 'none', textTransform: 'uppercase',
-            transition: 'all 0.3s',
-          }}
+          <button 
+            onClick={() => document.getElementById("contact").scrollIntoView({ behavior: 'smooth' })}
+            style={{
+              marginLeft: 12, padding: '7px 18px', borderRadius: 8,
+              background: 'linear-gradient(135deg,rgba(200,169,110,0.2),rgba(200,169,110,0.1))',
+              border: '1px solid rgba(200,169,110,0.3)',
+              fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 2,
+              color: 'var(--gold)', textDecoration: 'none', textTransform: 'uppercase',
+              transition: 'all 0.3s',
+              cursor: 'none'
+            }}
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.2)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(200,169,110,0.3)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'linear-gradient(135deg,rgba(200,169,110,0.2),rgba(200,169,110,0.1))'; e.currentTarget.style.boxShadow = 'none'; }}
-          >Hire Me</a>
+          >Hire Me</button>
         </div>
       </nav>
 
@@ -756,8 +824,6 @@ function HeroSection() {
   const [tagVisible, setTagVisible] = useState(true);
   const [revealed, setRevealed] = useState(false);
   const [tagIndex, setTagIndex] = useState(0);
-  const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const [showVideoBg, setShowVideoBg] = useState(false);
   
   const isMobile = useIsMobile();
   const isLowEnd = useIsLowEnd();
@@ -774,11 +840,8 @@ function HeroSection() {
 
   // reveal animation synchronised with loading screen
   useEffect(() => {
-    // 3500ms line + 800ms fade = 4300ms total. 
     const t = setTimeout(() => {
       setRevealed(true);
-      // Defer video background load until after main page load for Core Web Vitals
-      setTimeout(() => setShowVideoBg(true), 1500); 
     }, 4000); 
     return () => clearTimeout(t);
   }, []);
@@ -795,43 +858,36 @@ function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
-  const openShowreel = () => {
-    setVideoModalOpen(true);
-    if(window.trackEvent) window.trackEvent("reel_play");
-  };
 
   return (
     <section id="home" style={{
       position: 'relative', minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       overflow: 'hidden', flexDirection: 'column',
+      background: 'linear-gradient(135deg, #0a0a0f 0%, #0d1a2a 40%, #1a0f05 70%, #0a0a0f 100%)',
     }}>
-      {/* Background Poster (LCP focus) */}
-      <img 
-        src="/assets/images/hero-poster.webp" 
-        alt="Rushikesh Jadhav - Cinematic Video Editor Hero Backdrop"
-        loading="eager"
-        fetchpriority="high"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: -1,
-          opacity: 0.4,
-          filter: 'brightness(0.7) contrast(1.1)',
-        }} 
-      />
-      
-      {/* Deferred Background Video (Optional if needed, but per prompt only opened in modal usually, or plays silently after load) */}
-      {showVideoBg && !isMobile && !isLowEnd && (
-        <video 
-          src="/assets/videos/showreel.mp4" 
-          autoPlay loop muted playsInline
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.15, zIndex: 0 }}
-        />
-      )}
+      {/* Film Grain Overlay */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E")`,
+        opacity: 0.35,
+        pointerEvents: 'none',
+        zIndex: 1,
+      }} />
+
+      {/* Cinematic Depth Gradients */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: `
+          radial-gradient(ellipse at 20% 50%, rgba(10, 40, 60, 0.4) 0%, transparent 60%),
+          radial-gradient(ellipse at 80% 20%, rgba(40, 20, 5, 0.3) 0%, transparent 50%)
+        `,
+        zIndex: 0
+      }} />
+
+      <HeroParticles />
 
       <AuroraBg accent="gold" />
       {/* CSS-only cinematic background for mobile */}
@@ -859,41 +915,30 @@ function HeroSection() {
         {/* Availability Badge & Location */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 24,
-          opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)',
-          transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s',
           flexWrap: 'wrap'
         }}>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 2,
-            color: 'var(--white)', textTransform: 'uppercase', opacity: 0.8
+            color: 'var(--white)', textTransform: 'uppercase', opacity: 0.8,
+            transform: revealed ? 'none' : 'translateY(20px)',
+            opacity: revealed ? 0.8 : 0,
+            transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s'
           }}>
             Pune, India 📍
           </div>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px',
             background: 'rgba(200,169,110,0.1)', border: '1px solid rgba(200,169,110,0.2)',
-            borderRadius: 20, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)'
+            borderRadius: 20, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)',
+            transform: revealed ? 'none' : 'translateY(20px)',
+            opacity: revealed ? 1 : 0,
+            transition: 'opacity 0.8s ease 0.25s, transform 0.8s ease 0.25s'
           }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#25D366', boxShadow: '0 0 8px #25D366', animation: 'glow-pulse 2s infinite' }}></span>
             Available for Projects
           </div>
         </div>
 
-        {/* Circular Play Button for Showreel */}
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          zIndex: 0, // Behind text but above background
-          opacity: revealed ? 0.3 : 0, transition: 'opacity 1s ease 1s', cursor: 'pointer'
-        }} onClick={openShowreel}>
-          <div style={{
-            width: 120, height: 120, borderRadius: '50%', border: '1px solid var(--gold)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: 'rgba(200,169,110,0.05)', backdropFilter: 'blur(5px)',
-            animation: 'glow-pulse 3s infinite'
-          }}>
-            <div style={{ width: 0, height: 0, borderTop: '15px solid transparent', borderBottom: '15px solid transparent', borderLeft: '24px solid var(--gold)', marginLeft: 6 }} />
-          </div>
-        </div>
 
         {/* Main name */}
         <h1 className="hero-name" style={{
@@ -902,12 +947,14 @@ function HeroSection() {
           lineHeight: 0.8,
           color: 'var(--white)',
           marginBottom: 20,
-          textShadow: '0 20px 80px rgba(0,0,0,0.8)'
+          textShadow: '0 20px 80px rgba(0,0,0,0.8)',
+          transform: revealed ? 'none' : 'translateY(30px)',
+          opacity: revealed ? 1 : 0,
+          transition: 'opacity 1s cubic-bezier(0.16,1,0.3,1) 0.5s, transform 1s cubic-bezier(0.16,1,0.3,1) 0.5s'
         }}>
           RUSHIKESH<br />
           <span className="gold-text">JADHAV</span>
         </h1>
-        <p style={{ display: 'none' }}>Rushikesh Jadhav — Cinematic Video Editor in Pune, India specializing in brand films and reels.</p>
 
         {/* Title */}
         <h2 style={{
@@ -944,21 +991,26 @@ function HeroSection() {
         <div style={{
           display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap',
           opacity: revealed ? 1 : 0, transition: 'opacity 1s ease 1.5s',
+          transform: revealed ? 'none' : 'translateY(20px)',
           position: 'relative', zIndex: 10
         }}>
           <button 
             onClick={() => {
-              document.querySelector('#work').scrollIntoView({behavior:'smooth'});
-              if (window.trackEvent) window.trackEvent("view_work_click");
+              document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
+              if (window.trackEvent) window.trackEvent("contact_click");
             }}
             style={{
-              background: 'linear-gradient(135deg, var(--gold), #E8C87A)',
+              padding: '16px 36px',
+              borderRadius: 4,
+              border: '1px solid rgba(200,169,110,0.4)',
+              background: 'rgba(12,12,22,0.8)',
               fontFamily: 'var(--font-mono)', fontSize: 13, letterSpacing: 2, textTransform: 'uppercase',
               color: 'var(--white)', width: isMobile ? '100%' : 'auto', backdropFilter: 'blur(10px)',
               transition: 'all 0.3s',
+              cursor: 'none'
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.1)'; e.currentTarget.style.borderColor = 'var(--gold)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(12,12,22,0.8)'; e.currentTarget.style.borderColor = 'rgba(200,169,110,0.4)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--bg)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(12,12,22,0.8)'; e.currentTarget.style.color = 'var(--white)'; }}
           >
             [Let's Work Together]
           </button>
@@ -979,30 +1031,6 @@ function HeroSection() {
         }} />
       </div>
 
-      {/* Video Lightbox Modal */}
-      {videoModalOpen && (
-        <div style={{
-            position: 'fixed', inset: 0, zIndex: 99999, background: 'rgba(0,0,0,0.95)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            opacity: 1, transition: 'opacity 0.3s ease'
-        }}>
-            <button 
-                onClick={() => setVideoModalOpen(false)}
-                aria-label="Close Showreel"
-                style={{
-                    position: 'absolute', top: 30, right: 30, background: 'none', border: 'none',
-                    color: 'white', fontSize: 40, cursor: 'pointer', zIndex: 100000
-                }}
-            >×</button>
-            <div style={{ width: '90%', maxWidth: 1280, aspectRatio: '16/9', background: '#000', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.8)' }}>
-                <video 
-                    src="/assets/videos/showreel.mp4" 
-                    controls autoPlay playsInline
-                    style={{ width: '100%', height: '100%' }}
-                />
-            </div>
-        </div>
-      )}
     </section>
   );
 }
