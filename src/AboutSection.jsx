@@ -1,0 +1,338 @@
+import React, { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from 'react';
+import { useIsMobile, AuroraBg } from './Shared';
+/* ─────────────────────────────────────────────
+   CINEMATIC VIDEO COMPONENT
+───────────────────────────────────────────── */
+function CinematicVideo() {
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+  const isMobile = useIsMobile();
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setIsPlaying(true);
+    }
+  }, [isMobile]);
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = !video.muted;
+    setMuted(video.muted);
+  };
+
+  const handlePlay = () => {
+    setIsPlaying(true);
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  };
+
+  return (
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      overflow: 'hidden',
+      background: '#08080c'
+    }}>
+
+      {(!isMobile || isPlaying) && (
+        <video
+          ref={videoRef}
+          src="/videos/showreel.mp4"
+          autoPlay={isPlaying}
+          loop
+          muted={muted}
+          playsInline
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+      )}
+
+      {!isPlaying && isMobile && (
+        <div 
+          onClick={handlePlay}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%)',
+            cursor: 'none',
+            zIndex: 3
+          }}
+        >
+          <div style={{
+            width: 60, height: 60, borderRadius: '50%',
+            background: 'rgba(200,169,110,0.2)',
+            border: '1px solid rgba(200,169,110,0.5)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(4px)',
+          }}>
+            <div style={{
+              width: 0, height: 0,
+              borderTop: '8px solid transparent',
+              borderBottom: '8px solid transparent',
+              borderLeft: '14px solid var(--gold)',
+              marginLeft: 4
+            }} />
+          </div>
+          <div style={{ position: 'absolute', bottom: 20, fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)' }}>
+            WATCH REEL
+          </div>
+        </div>
+      )}
+
+      {/* REC indicator */}
+      <div style={{
+        position: 'absolute',
+        top: 10,
+        left: 12,
+        fontFamily: 'var(--font-mono)',
+        fontSize: 10,
+        letterSpacing: 2,
+        color: '#ff4d4d'
+      }}>
+        ● REC
+      </div>
+
+      {/* MUTE BUTTON */}
+      <button
+        onClick={toggleMute}
+        style={{
+          position: 'absolute',
+          bottom: 16,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          borderRadius: 24,
+          border: '1px solid rgba(255,255,255,0.2)',
+          background: 'rgba(0,0,0,0.4)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '8px 16px',
+          fontSize: 14,
+          color: '#fff',
+          cursor: 'none',
+          fontFamily: 'var(--font-mono)',
+          letterSpacing: 2,
+          textTransform: 'uppercase',
+          whiteSpace: 'nowrap',
+          zIndex: 2,
+        }}
+      >
+        {muted ? "🔇" : "🔊"}
+        <span style={{ fontSize: 10 }}>{muted ? "Unmute" : "Mute"}</span>
+      </button>
+
+      {/* Timecode */}
+      <div style={{
+        position: 'absolute',
+        bottom: 12,
+        right: 12,
+        fontFamily: 'var(--font-mono)',
+        fontSize: 10,
+        color: 'rgba(255,255,255,0.6)'
+      }}>
+        01:24:45:12
+      </div>
+
+      {/* cinematic scanlines */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          background: `
+      radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.55)),
+      linear-gradient(to top, rgba(0,0,0,0.45), transparent 40%),
+      linear-gradient(to bottom, rgba(0,0,0,0.45), transparent 40%)
+    `
+        }}
+      />
+    </div>
+  );
+}
+
+
+/* ─────────────────────────────────────────────
+   ABOUT SECTION
+───────────────────────────────────────────── */
+const aboutStats = [
+  { n: '7+', label: 'Years Experience' },
+  { n: '3500+', label: 'Projects Completed' },
+  { n: '150+', label: 'Happy Clients' },
+  { n: '25M+', label: 'Views Generated' },
+];
+
+export default function AboutSection() {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { setVis(e.isIntersecting); }, { threshold: 0.15 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section id="about" ref={ref} style={{
+      position: 'relative', padding: 'clamp(80px,10vw,120px) clamp(20px,5vw,40px)',
+      background: 'linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%)',
+      overflow: 'hidden',
+    }}>
+      <AuroraBg accent="cyan" />
+      <div className="about-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', position: 'relative', zIndex: 1 }}>
+
+        {/* Left */}
+        <div className={`reveal-left ${vis ? 'visible' : ''}`}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 20, textTransform: 'uppercase' }}>
+            ◈ About
+          </div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px,7vw,88px)', lineHeight: 0.9, marginBottom: 28, color: 'var(--white)' }}>
+            THE<br />
+            <span className="gold-text">STORY</span><br />
+            BEHIND<br />THE CUTS
+          </h2>
+          <p style={{ fontFamily: 'var(--font-editorial)', fontSize: 18, lineHeight: 1.9, color: 'rgba(242,238,232,0.65)', marginBottom: 24 }}>
+            I'm <strong style={{ color: 'var(--white)' }}>Rushikesh Jadhav</strong> — a Pune-based cinematic video editor with over 7 years
+            of crafting narratives that move audiences. Every cut tells a story. Every frame breathes life.
+          </p>
+          <p style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontSize: 17, lineHeight: 1.8, color: 'rgba(242,238,232,0.45)', marginBottom: 40 }}>
+            "Editing is not just assembling footage — it's sculpting time, shaping emotion, and manufacturing truth from raw reality."
+          </p>
+
+          {/* Stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            {aboutStats.map((s, i) => (
+              <div key={i} className="glass-card" style={{ padding: '20px 24px' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 42, lineHeight: 1 }} className="gold-text">{s.n}</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--muted)', marginTop: 4, textTransform: 'uppercase' }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right – video */}
+        <div className={`reveal-right ${vis ? 'visible' : ''}`} style={{ position: 'relative' }}>
+
+          {/* Glow behind video */}
+          <div style={{
+            position: 'absolute',
+            inset: -20,
+            background: 'radial-gradient(ellipse, rgba(200,169,110,0.12) 0%, transparent 70%)',
+            filter: 'blur(30px)',
+            borderRadius: 24
+          }} />
+
+          <div className="glass-card glow-border" style={{ padding: 12, borderRadius: 20, position: 'relative' }}>
+
+            {/* Film strip header */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 8,
+              padding: '4px 8px'
+            }}>
+              <div style={{ display: 'flex', gap: 4 }}>
+                {['#FF5F57', '#FEBC2E', '#28C840'].map((c, i) => (
+                  <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />
+                ))}
+              </div>
+
+              <div style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 9,
+                letterSpacing: 3,
+                color: 'var(--muted)'
+              }}>
+                MEJADHAVR · HLO · 2026
+              </div>
+            </div>
+
+
+            {/* VIDEO CONTAINER */}
+            <div
+              style={{
+                background: '#000',
+                borderRadius: 12,
+                overflow: 'hidden',
+                aspectRatio: '1/1',
+                position: 'relative'
+              }}
+            >
+
+              {/* Cinematic Video Player */}
+              <CinematicVideo />
+
+              {/*
+      OLD YOUTUBE EMBED (DISABLED)
+
+      <iframe
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0&modestbranding=1"
+        style={{
+          width:'100%',
+          height:'100%',
+          border:'none'
+        }}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Mejadhavr Portfolio Reel"
+      />
+      */}
+
+            </div>
+
+
+            {/* Bottom meta bar */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '8px 4px 4px'
+            }}>
+              <div style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 9,
+                color: 'var(--gold)',
+                letterSpacing: 2
+              }}>
+                ▶ Let's Create
+              </div>
+
+              <div style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 9,
+                color: 'var(--muted)',
+                letterSpacing: 2
+              }}>
+                2024
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      {/* Horizontal rule */}
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: '80px auto 0',
+          height: 1,
+          background: 'linear-gradient(to right, transparent, var(--gold), transparent)',
+          opacity: 0.2
+        }}
+      />
+    </section>
+  );
+}
+
