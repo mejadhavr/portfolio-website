@@ -247,6 +247,10 @@ font-family: 'Space Mono', monospace;
 @media (max-width: 768px) {
   body { overflow-x: hidden; }
 
+  /* Disable heavy effects on mobile */
+  .grain-overlay, .aurora-bg { display: none !important; }
+  .glass-card { backdrop-filter: blur(4px) !important; background: rgba(12, 12, 22, 0.85) !important; }
+
   /* ── NAV: hide laptop pill, show hamburger at top-right ── */
   .nav-desktop { display: none !important; }
   .nav-hamburger {
@@ -390,6 +394,20 @@ function CustomCursor() {
       }} />
     </>
   );
+}
+
+/* ─────────────────────────────────────────────
+   MOBILE HOOK
+───────────────────────────────────────────── */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth <= 768 : false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+  return isMobile;
 }
 
 /* ─────────────────────────────────────────────
@@ -736,7 +754,7 @@ function AuroraBg({ accent = 'gold' }) {
   const c1 = accent === 'cyan' ? 'rgba(0,201,255,0.12)' : 'rgba(200,169,110,0.1)';
   const c2 = accent === 'cyan' ? 'rgba(0,245,255,0.08)' : 'rgba(240,213,160,0.07)';
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+    <div className="aurora-bg" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
       <div style={{
         position: 'absolute', width: '80%', height: '80%', top: '-20%', left: '-10%',
         background: `radial-gradient(ellipse at center, ${c1}, transparent 70%)`,
@@ -791,7 +809,7 @@ function Navigation({ active }) {
           border: '1px solid rgba(200,169,110,0.2)',
           boxShadow: '0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)',
         }}>
-          <img src="/images/logo.png" alt="Mejadhavr Logo" style={{ height: 28, width: 'auto', marginRight: 12 }} />
+          <img src="/images/logo.png" alt="Mejadhavr Logo" loading="lazy" style={{ height: 28, width: 'auto', marginRight: 12 }} />
           {navItems.map((item) => (
             <button key={item} onClick={() => scrollTo(item)} style={{
               background: 'none', border: 'none', cursor: 'none',
@@ -911,6 +929,7 @@ function HeroSection() {
   const [tagVisible, setTagVisible] = useState(true);
   const [revealed, setRevealed] = useState(false);
   const [tagIndex, setTagIndex] = useState(0);
+  const isMobile = useIsMobile();
 
   const name = "Rushikesh Jadhav";
 
@@ -953,7 +972,7 @@ function HeroSection() {
       overflow: 'hidden', flexDirection: 'column',
     }}>
       <AuroraBg accent="gold" />
-      <HeroCanvas />
+      {!isMobile && <HeroCanvas />}
 
       {/* Light leak top */}
       <div style={{
@@ -1549,6 +1568,7 @@ function ProjectCard({ project: p, index: i }) {
   const [hovered, setHovered] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef(null);
+  const isMobile = useIsMobile();
 
   const onMouseMove = (e) => {
     // Disable tilt if it's a flip card to prevent transform conflicts
@@ -1614,7 +1634,7 @@ function ProjectCard({ project: p, index: i }) {
         }}>
 
           {/* Optional Video Background */}
-          {p.videoUrl && (
+          {!isMobile && p.videoUrl && (
             <div className="card-video-bg" style={{
               position: 'absolute',
               inset: 40,
@@ -2053,6 +2073,7 @@ function ServiceCard({ service: s, delay, vis }) {
 function VisualSection() {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { setVis(e.isIntersecting); }, { threshold: 0.1 });
@@ -2066,7 +2087,7 @@ function VisualSection() {
       background: 'linear-gradient(180deg, var(--bg2), var(--bg))',
       overflow: 'hidden',
     }}>
-      <FilmScene />
+      {!isMobile && <FilmScene />}
       <div style={{
         position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexDirection: 'column', zIndex: 2,
@@ -2153,6 +2174,7 @@ const MagneticClientBox = memo(function MagneticClientBox({ client, tx, ty, dela
       <img 
         src={`/clients/${client.toLowerCase().replace(/[^a-z0-9]/g, '-')}.png`} 
         alt={client}
+        loading="lazy"
         style={{ height: 24, maxWidth: 120, objectFit: 'contain' }}
         onError={(e) => {
           e.currentTarget.style.display = 'none';
