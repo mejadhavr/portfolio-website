@@ -75,9 +75,17 @@ export default function FilmScene() {
     }, { threshold: 0 });
     observer.observe(el);
 
-    const animate = () => {
+    let lastTime = 0;
+    const fpsInterval = 1000 / 30; // 30 FPS
+
+    const animate = (timestamp) => {
       frame = requestAnimationFrame(animate);
+
       if (!isVisible) return; // Pause GPU rendering completely when scrolled past
+
+      const elapsed = timestamp - lastTime;
+      if (elapsed < fpsInterval) return;
+      lastTime = timestamp - (elapsed % fpsInterval);
       
       const t = Date.now() * 0.001;
       strips.forEach((s, i) => {
@@ -89,7 +97,7 @@ export default function FilmScene() {
       camera.position.y = scrollY * 0.001;
       renderer.render(scene, camera);
     };
-    animate();
+    animate(performance.now());
 
     const onResize = () => {
       const nw = el.clientWidth, nh = el.clientHeight;

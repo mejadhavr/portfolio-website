@@ -15,7 +15,7 @@ export function AuroraBg({ accent = 'gold' }) {
   const c1 = accent === 'cyan' ? 'rgba(0,201,255,0.12)' : 'rgba(200,169,110,0.1)';
   const c2 = accent === 'cyan' ? 'rgba(0,245,255,0.08)' : 'rgba(240,213,160,0.07)';
   return (
-    <div className="aurora-bg" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+    <div className="aurora-bg" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', transform: 'translateZ(0)', willChange: 'transform' }}>
       <div style={{
         position: 'absolute', width: '80%', height: '80%', top: '-20%', left: '-10%',
         background: `radial-gradient(ellipse at center, ${c1}, transparent 70%)`,
