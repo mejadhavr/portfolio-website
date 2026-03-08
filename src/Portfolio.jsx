@@ -808,7 +808,7 @@ function HeroSection() {
     }}>
       {/* Background Poster (LCP focus) */}
       <img 
-        src="/images/hero-poster.webp" 
+        src="/assets/images/hero-poster.webp" 
         alt="Rushikesh Jadhav - Cinematic Video Editor Hero Backdrop"
         loading="eager"
         fetchpriority="high"

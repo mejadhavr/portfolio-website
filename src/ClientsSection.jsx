@@ -131,24 +131,7 @@ export default function ClientsSection() {
           ))}
         </div>
 
-        {/* Testimonial Cards */}
-        <div className="testimonial-grid" style={{
-            display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20,
-            opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(40px)', transition: 'all 0.9s ease 0.7s'
-        }}>
-          {testimonials.map((t, i) => (
-            <div key={i} className="glass-card" style={{ padding: 30, position: 'relative' }}>
-              <div style={{ position: 'absolute', top: 20, left: 20, fontSize: 40, color: 'var(--gold)', opacity: 0.2, fontFamily: 'serif' }}>"</div>
-              <p style={{ fontFamily: 'var(--font-editorial)', fontSize: 16, lineHeight: 1.8, color: 'rgba(242,238,232,0.8)', marginBottom: 24, position: 'relative' }}>
-                {t.quote}
-              </p>
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 16 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, color: 'var(--white)' }}>{t.author}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2, color: 'var(--gold)', textTransform: 'uppercase', marginTop: 4 }}>{t.role}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Testimonials removed per user request */}
       </div>
     </section>
   );
