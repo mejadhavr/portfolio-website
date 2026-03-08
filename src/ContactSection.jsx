@@ -51,9 +51,12 @@ function InquiryForm({ isMobile }) {
                 setStatus("SUCCESS");
                 form.reset();
             } else {
+                const result = await response.json();
+                console.error("Formspree Error:", result);
                 setStatus("ERROR");
             }
         } catch (error) {
+            console.error("Submission Error:", error);
             setStatus("ERROR");
         } finally {
             setSubmitting(false);

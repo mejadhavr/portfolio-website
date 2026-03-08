@@ -1,15 +1,15 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Portfolio from "./Portfolio";
 import EventPortfolio from "./EventPortfolio";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Portfolio />} />
         <Route path="/event-portfolio" element={<EventPortfolio />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
