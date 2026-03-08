@@ -46,7 +46,11 @@ body {
   color: var(--white);
   font-family: var(--font-editorial);
   overflow-x: hidden;
-  cursor: none;
+}
+
+/* Only hide cursor on pointer (mouse) devices — never on touch */
+@media (pointer: fine) {
+  body { cursor: none; }
 }
 
 ::-webkit-scrollbar { width: 3px; }
@@ -352,6 +356,31 @@ font-family: 'Space Mono', monospace;
   /* Project Cards on Mobile: remove 40px video frame inset so video fills the whole card */
   .card-video-bg { inset: 0 !important; border-radius: 16px !important; }
 }
+
+/* ── ACCESSIBILITY: Keyboard focus ring ── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── ACCESSIBILITY: Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .grain-overlay { animation: none !important; }
+  .gold-text, .cyan-text { animation: none !important; }
+  .reveal-section, .reveal-left, .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
 `;
 
 
@@ -521,7 +550,9 @@ function Navigation({ active }) {
         }}>
           <img src="/images/logo.png" alt="Mejadhavr Logo" width="80" height="28" loading="lazy" style={{ height: 28, width: 'auto', marginRight: 12 }} />
           {navItems.map((item) => (
-            <button key={item} onClick={() => scrollTo(item)} style={{
+            <button key={item} onClick={() => scrollTo(item)}
+              aria-label={`Navigate to ${item} section`}
+              style={{
               background: 'none', border: 'none', cursor: 'none',
               fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 2,
               color: active === item.toLowerCase() ? 'var(--gold)' : 'rgba(242,238,232,0.6)',
@@ -549,6 +580,8 @@ function Navigation({ active }) {
       {/* Mobile Hamburger — sibling to nav, NOT inside it, so fixed positioning works */}
       <button
         className="nav-hamburger"
+        aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-expanded={menuOpen}
         onClick={() => setMenuOpen(o => !o)}
         style={{
           display: 'none', // shown via CSS @media

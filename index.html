@@ -6,56 +6,85 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Title -->
-  <title>Rushikesh Jadhav | Cinematic Video Editor</title>
-
-  <!-- SEO -->
-  <meta name="description" content="Rushikesh Jadhav is a professional cinematic video editor with 7+ years of experience in documentary editing, commercial videos, and visual storytelling." />
-
-  <!-- Author -->
+  <!-- Title & SEO -->
+  <title>Rushikesh Jadhav | Cinematic Video Editor — Pune, India</title>
+  <meta name="description" content="Rushikesh Jadhav is a professional cinematic video editor based in Pune, India with 7+ years of experience in documentary editing, commercial films, brand storytelling, and visual storytelling." />
+  <meta name="keywords" content="video editor, cinematic video editor, Pune video editor, documentary editor, commercial video, brand film, Rushikesh Jadhav, mejadhavr" />
   <meta name="author" content="Rushikesh Jadhav" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://mejadhavr.com/" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Favicon -->
-  <link rel="icon" href="/favicon.png" />
-
-  <!-- Social Media Preview -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Rushikesh Jadhav | Cinematic Video Editor" />
-  <meta property="og:description" content="Professional video editor specializing in cinematic storytelling, documentaries, and commercial editing." />
-  <meta property="og:image" content="/preview.jpg" />
+  <meta property="og:description" content="Professional video editor specializing in cinematic storytelling, documentaries, and commercial editing. 7+ years · 3500+ projects · 25M+ views." />
+  <meta property="og:image" content="https://mejadhavr.com/preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mejadhavr.com/" />
+  <meta property="og:site_name" content="Mejadhavr Portfolio" />
 
-  <!-- Twitter Preview -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Rushikesh Jadhav | Cinematic Video Editor">
-  <meta name="twitter:description" content="Cinematic video editor portfolio">
-  <meta name="twitter:image" content="/preview.jpg">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rushikesh Jadhav | Cinematic Video Editor" />
+  <meta name="twitter:description" content="Cinematic video editor portfolio — 7+ years, 3500+ projects, 25M+ views." />
+  <meta name="twitter:image" content="https://mejadhavr.com/preview.jpg" />
 
   <!-- Theme color -->
-  <meta name="theme-color" content="#06060C">
+  <meta name="theme-color" content="#06060C" />
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-630NQ5T72L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
 
-  gtag('config', 'G-630NQ5T72L');
-</script>
+  <!-- Fonts: preconnect first, then async stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Use media="print" + onload trick to make fonts non-render-blocking -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" />
+  </noscript>
 
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Rushikesh Jadhav",
+    "alternateName": "mejadhavr",
+    "url": "https://mejadhavr.com",
+    "jobTitle": "Cinematic Video Editor",
+    "description": "Professional cinematic video editor with 7+ years of experience in documentary editing, commercial films, and brand storytelling.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Pune",
+      "addressCountry": "IN"
+    },
+    "sameAs": [
+      "https://www.youtube.com/@mejadhavr"
+    ]
+  }
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-630NQ5T72L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-630NQ5T72L', { 'send_page_view': true });
+  </script>
 
 </head>
 
 <body>
-
   <div id="root"></div>
-
   <script type="module" src="/src/main.jsx"></script>
-
 </body>
 </html>
