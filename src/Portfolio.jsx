@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy
 import * as THREE from "three";
 
 const HeroCanvas = lazy(() => import("./HeroCanvas"));
-import { useIsMobile, AuroraBg } from './Shared';
+import { useIsMobile, useIsLowEnd, AuroraBg } from './Shared';
 import LazySection from './LazySection';
 
 const AboutSection = lazy(() => import('./AboutSection'));
@@ -15,11 +15,10 @@ const ContactSection = lazy(() => import('./ContactSection'));
 
 import ChatWidget from "./ChatWidget";
 
-/* ─────────────────────────────────────────────
+/* ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
    GLOBAL STYLES injected once
-───────────────────────────────────────────── */
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 const GLOBAL_CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -54,7 +53,7 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
 
-/* ── GRAIN ── */
+/* ΓöÇΓöÇ GRAIN ΓöÇΓöÇ */
 @keyframes grain {
   0%,100%{transform:translate(0,0)}
   10%{transform:translate(-2%,-3%)}
@@ -78,7 +77,7 @@ body {
   mix-blend-mode: overlay;
 }
 
-/* ── AURORA ── */
+/* ΓöÇΓöÇ AURORA ΓöÇΓöÇ */
 @keyframes aurora1 {
   0%,100%{transform:translate(-20%,-20%) rotate(0deg) scale(1);}
   50%{transform:translate(10%,10%) rotate(180deg) scale(1.2);}
@@ -92,7 +91,7 @@ body {
   50%{transform:translate(-15%,15%) rotate(225deg) scale(1.15);}
 }
 
-/* ── LOADING ── */
+/* ΓöÇΓöÇ LOADING ΓöÇΓöÇ */
 @keyframes frameFlicker {
   0%,100%{opacity:1} 50%{opacity:0.85}
 }
@@ -249,7 +248,7 @@ font-family: 'Space Mono', monospace;
   animation: glow-pulse 3s ease-in-out infinite;
 }
 
-/* ── RESPONSIVE ── */
+/* ΓöÇΓöÇ RESPONSIVE ΓöÇΓöÇ */
 
 /* Tablet */
 @media (max-width: 1024px) {
@@ -264,7 +263,7 @@ font-family: 'Space Mono', monospace;
   .grain-overlay, .aurora-bg { display: none !important; }
   .glass-card { backdrop-filter: none !important; background: rgba(12, 12, 22, 0.95) !important; }
 
-  /* ── NAV: hide laptop pill, show hamburger at top-right ── */
+  /* ΓöÇΓöÇ NAV: hide laptop pill, show hamburger at top-right ΓöÇΓöÇ */
   .nav-desktop { display: none !important; }
   .nav-hamburger {
     display: flex !important;
@@ -275,37 +274,37 @@ font-family: 'Space Mono', monospace;
     transform: none !important;
   }
 
-  /* ── HERO NAME: smaller so Rushikesh Jadhav stays one line ── */
+  /* ΓöÇΓöÇ HERO NAME: smaller so Rushikesh Jadhav stays one line ΓöÇΓöÇ */
   .hero-name { font-size: clamp(38px, 11vw, 68px) !important; }
 
-  /* ── About: single column ── */
+  /* ΓöÇΓöÇ About: single column ΓöÇΓöÇ */
   .about-grid {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
 
-  /* ── Services ── */
+  /* ΓöÇΓöÇ Services ΓöÇΓöÇ */
   .services-grid { grid-template-columns: 1fr !important; }
 
-  /* ── Contact cards ── */
+  /* ΓöÇΓöÇ Contact cards ΓöÇΓöÇ */
   .contact-grid { grid-template-columns: 1fr !important; }
 
-  /* ── Tighten horizontal padding ── */
+  /* ΓöÇΓöÇ Tighten horizontal padding ΓöÇΓöÇ */
   #about, #work, #services, #contact {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
 
-  /* ── Prevent heading overflow ── */
+  /* ΓöÇΓöÇ Prevent heading overflow ΓöÇΓöÇ */
   h2, h3 { word-break: break-word; }
 
-  /* ── Email text ── */
+  /* ΓöÇΓöÇ Email text ΓöÇΓöÇ */
   .email-text { font-size: 14px !important; white-space: normal !important; word-break: break-all !important; }
 
-  /* ── Format ticker ── */
+  /* ΓöÇΓöÇ Format ticker ΓöÇΓöÇ */
   .format-track > div { font-size: 14px !important; }
 
-  /* ── Glass cards in bento: ensure enough min-width ── */
+  /* ΓöÇΓöÇ Glass cards in bento: ensure enough min-width ΓöÇΓöÇ */
   .work-grid { grid-template-columns: 1fr !important; }
 }
 
@@ -316,7 +315,7 @@ font-family: 'Space Mono', monospace;
   .format-track > div { font-size: 12px !important; }
 }
 
-/* ── PROJECT CARDS (REEL) ── */
+/* ΓöÇΓöÇ PROJECT CARDS (REEL) ΓöÇΓöÇ */
 @media (max-width: 768px) {
   .mobile-only-break { display: block; content: ""; margin-top: 4px; }
   .footer-copyright { font-size: 8px !important; letter-spacing: 2px !important; }
@@ -330,7 +329,7 @@ font-family: 'Space Mono', monospace;
   .card-back-label { font-size: 8px !important; margin-bottom: 6px !important; }
   .card-tag { font-size: 8px !important; padding: 3px 7px !important; top: 8px !important; right: 8px !important; }
 
-  /* Partners heading — fix so it stops shrinking below 40px and matches standard headings */
+  /* Partners heading ΓÇö fix so it stops shrinking below 40px and matches standard headings */
   .partners-title { font-size: clamp(40px, 8vw, 44px) !important; line-height: 1 !important; }
   .partners-center { padding: 60px 40px !important; }
 
@@ -356,9 +355,9 @@ font-family: 'Space Mono', monospace;
 `;
 
 
-/* ─────────────────────────────────────────────
+/* ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
    CUSTOM CURSOR
-───────────────────────────────────────────── */
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 function CustomCursor() {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
@@ -409,9 +408,9 @@ function CustomCursor() {
   );
 }
 
-/* ─────────────────────────────────────────────
-   LOADING SCREEN – film leader countdown
-───────────────────────────────────────────── */
+/* ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+   LOADING SCREEN ΓÇô film leader countdown
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 function LoadingScreen({ onDone }) {
   const [count, setCount] = useState(5);
   const [phase, setPhase] = useState('count');
@@ -470,7 +469,7 @@ function LoadingScreen({ onDone }) {
             color: 'rgba(255,255,255,0.3)', marginBottom: 60,
             textTransform: 'uppercase',
           }}>
-            MEJADHAVR · {new Date().getFullYear()} · PRODUCTION
+            MEJADHAVR ┬╖ {new Date().getFullYear()} ┬╖ PRODUCTION
           </div>
           <div key={count} style={{
             fontFamily: 'var(--font-display)', fontSize: 'clamp(120px,25vw,220px)',
@@ -494,9 +493,9 @@ function LoadingScreen({ onDone }) {
 
 
 
-/* ─────────────────────────────────────────────
+/* ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
    NAVIGATION
-───────────────────────────────────────────── */
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 function Navigation({ active }) {
   const [visible, setVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -514,7 +513,7 @@ function Navigation({ active }) {
 
   return (
     <>
-      {/* Desktop Nav Pill — centered, no transform issues */}
+      {/* Desktop Nav Pill ΓÇö centered, no transform issues */}
       <nav className="nav-desktop" style={{
         position: 'fixed', top: 24, left: '50%', transform: 'translateX(-50%)',
         zIndex: 9000,
@@ -556,7 +555,7 @@ function Navigation({ active }) {
         </div>
       </nav>
 
-      {/* Mobile Hamburger — sibling to nav, NOT inside it, so fixed positioning works */}
+      {/* Mobile Hamburger ΓÇö sibling to nav, NOT inside it, so fixed positioning works */}
       <button
         className="nav-hamburger"
         onClick={() => setMenuOpen(o => !o)}
@@ -587,7 +586,7 @@ function Navigation({ active }) {
         ))}
       </button>
 
-      {/* Mobile Bottom-Sheet — sibling to nav, truly fixed */}
+      {/* Mobile Bottom-Sheet ΓÇö sibling to nav, truly fixed */}
       {menuOpen && (
         <>
           <div onClick={() => setMenuOpen(false)} style={{
@@ -621,7 +620,7 @@ function Navigation({ active }) {
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: isActive ? 'var(--gold)' : 'rgba(242,238,232,0.2)', width: 20, textAlign: 'right', flexShrink: 0 }}>0{idx+1}</span>
                   <span style={{ width: 1, height: 26, flexShrink: 0, background: isActive ? 'rgba(200,169,110,0.5)' : 'rgba(255,255,255,0.1)' }} />
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: 21, letterSpacing: 2, color: isActive ? 'var(--gold)' : 'rgba(242,238,232,0.85)', textTransform: 'uppercase', flex: 1, textAlign: 'left' }}>{item}</span>
-                  <span style={{ fontSize: 14, color: isActive ? 'var(--gold)' : 'rgba(242,238,232,0.2)' }}>→</span>
+                  <span style={{ fontSize: 14, color: isActive ? 'var(--gold)' : 'rgba(242,238,232,0.2)' }}>ΓåÆ</span>
                 </button>
               );
             })}
@@ -633,7 +632,7 @@ function Navigation({ active }) {
                 border: '1px solid rgba(200,169,110,0.35)',
                 fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 3,
                 color: 'var(--gold)', textDecoration: 'none', textTransform: 'uppercase',
-              }}>Hire Me →</a>
+              }}>Hire Me ΓåÆ</a>
             </div>
           </div>
         </>
@@ -641,15 +640,16 @@ function Navigation({ active }) {
     </>
   );
 }
-/* ─────────────────────────────────────────────
+/* ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
    HERO SECTION
-───────────────────────────────────────────── */
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 function HeroSection() {
 
   const [tagVisible, setTagVisible] = useState(true);
   const [revealed, setRevealed] = useState(false);
   const [tagIndex, setTagIndex] = useState(0);
   const isMobile = useIsMobile();
+  const isLowEnd = useIsLowEnd();
 
   const name = "Rushikesh Jadhav";
 
@@ -692,7 +692,7 @@ function HeroSection() {
       overflow: 'hidden', flexDirection: 'column',
     }}>
       <AuroraBg accent="gold" />
-      {!isMobile && (
+      {(!isMobile && !isLowEnd) && (
         <Suspense fallback={null}>
           <HeroCanvas />
         </Suspense>
@@ -718,7 +718,7 @@ function HeroSection() {
           opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)',
           transition: 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s',
         }}>
-          ◈ Professional Video Editor · 7+ Years ◈
+          Γùê Professional Video Editor ┬╖ 7+ Years Γùê
         </div>
 
         {/* Main name */}
@@ -829,9 +829,9 @@ function HeroSection() {
   );
 }
 
-/* ─────────────────────────────────────────────
+/* ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
    MAIN APP
-───────────────────────────────────────────── */
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');

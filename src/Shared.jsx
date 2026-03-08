@@ -11,6 +11,23 @@ export function useIsMobile() {
   return isMobile;
 }
 
+export function useIsLowEnd() {
+  const [isLowEnd, setIsLowEnd] = useState(false);
+  useEffect(() => {
+    if (typeof navigator !== 'undefined') {
+       // Identify computers with 4 or fewer logical cores (like older i3s or basic laptops)
+       if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
+         setIsLowEnd(true);
+       }
+       // Fallback to RAM check if concurrency isn't available
+       else if (navigator.deviceMemory && navigator.deviceMemory <= 4) {
+         setIsLowEnd(true);
+       }
+    }
+  }, []);
+  return isLowEnd;
+}
+
 export function AuroraBg({ accent = 'gold' }) {
   const c1 = accent === 'cyan' ? 'rgba(0,201,255,0.12)' : 'rgba(200,169,110,0.1)';
   const c2 = accent === 'cyan' ? 'rgba(0,245,255,0.08)' : 'rgba(240,213,160,0.07)';
