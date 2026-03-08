@@ -167,7 +167,7 @@ function CinematicVideo() {
 /* ─────────────────────────────────────────────
    STATISTICS TICKER
 ───────────────────────────────────────────── */
-function NumberTicker({ endValue, duration = 2000, start = false }) {
+function NumberTicker({ endValue, duration = 3500, start = false }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -180,11 +180,13 @@ function NumberTicker({ endValue, duration = 2000, start = false }) {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
       
-      const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const easeProgress = 1 - Math.pow(1 - progress, 4); // easeOutQuart
       setCount(Math.floor(easeProgress * endValue));
 
       if (progress < 1) {
         frameId = window.requestAnimationFrame(step);
+      } else {
+        setCount(endValue); // safety clamp
       }
     };
     

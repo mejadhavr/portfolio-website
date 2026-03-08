@@ -236,6 +236,7 @@ function ProjectCard({ project: p, index: i }) {
           width: '100%', height: '100%',
           borderRadius: 16, cursor: isMobile ? 'pointer' : 'none',
           transformStyle: 'preserve-3d',
+          WebkitTransformStyle: 'preserve-3d',
           transform: isFlipCard
             ? (isCurrentlyFlipped ? 'rotateY(180deg)' : 'rotateY(0)')
             : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.025)` : 'rotateX(0) rotateY(0) scale(1)'),
@@ -254,7 +255,8 @@ function ProjectCard({ project: p, index: i }) {
           overflow: 'hidden',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
-          transform: 'rotateY(0deg)',
+          transform: 'rotateY(0deg) translateZ(1px)',
+          WebkitTransform: 'rotateY(0deg) translateZ(1px)',
           zIndex: 2,
         }}>
 
@@ -362,13 +364,14 @@ function ProjectCard({ project: p, index: i }) {
         {/* ================= BACK FACE (CASE STUDY) ================= */}
         {isFlipCard && (
           <div className="card-back" style={{
-            position: 'absolute', inset: 0, padding: 32,
+            position: 'absolute', inset: 0, padding: 'clamp(20px, 5vw, 32px)',
             background: 'var(--bg2)',
             border: `1px solid ${p.accent}55`,
             borderRadius: 16, overflow: 'hidden',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
+            transform: 'rotateY(180deg) translateZ(1px)',
+            WebkitTransform: 'rotateY(180deg) translateZ(1px)',
             display: 'flex', flexDirection: 'column',
             zIndex: 1,
             pointerEvents: isCurrentlyFlipped ? 'auto' : 'none'
@@ -377,7 +380,7 @@ function ProjectCard({ project: p, index: i }) {
               <button 
                 onClick={handleGoBack}
                 style={{
-                  position: 'absolute', top: 16, right: 16, background: 'rgba(255,255,255,0.05)', border: 'none',
+                  position: 'absolute', top: 12, right: 12, background: 'rgba(255,255,255,0.05)', border: 'none',
                   fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2, color: 'rgba(255,255,255,0.8)',
                   textTransform: 'uppercase', zIndex: 10, padding: '6px 10px', borderRadius: 20,
                   backdropFilter: 'blur(10px)', cursor: 'pointer'
@@ -387,16 +390,16 @@ function ProjectCard({ project: p, index: i }) {
               </button>
             )}
             
-            <div className="card-back-label" style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 4, color: p.accent, marginBottom: 16, textTransform: 'uppercase' }}>
+            <div className="card-back-label" style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 4, color: p.accent, marginBottom: 12, textTransform: 'uppercase' }}>
               ◈ Case Study
             </div>
-            <h3 className="card-back-title" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 6vw, 32px)', color: 'var(--white)', marginBottom: 20, lineHeight: 1 }}>
+            <h3 className="card-back-title" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 5vw, 24px)', color: 'var(--white)', marginBottom: 16, lineHeight: 1.1 }}>
               {p.title}
             </h3>
 
             <div className="card-back-body" style={{
-              fontFamily: 'var(--font-editorial)', fontSize: 'clamp(14px, 3.5vw, 16px)', color: 'rgba(242,238,232,0.7)',
-              lineHeight: 1.6, overflowY: 'auto', flex: 1, paddingRight: 8
+              fontFamily: 'var(--font-editorial)', fontSize: 'clamp(12px, 3.5vw, 15px)', color: 'rgba(242,238,232,0.7)',
+              lineHeight: 1.5, overflowY: 'auto', flex: 1, paddingRight: 8
             }}>
               {p.caseStudy}
             </div>
