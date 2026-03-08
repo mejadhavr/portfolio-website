@@ -324,11 +324,12 @@ function ProjectCard({ project: p }) {
           <div
             style={{
               position: 'absolute', inset: 0,
-              // Tighter padding on mobile
-              padding: isMobile ? '44px 20px 20px' : '28px 28px 24px',
+              padding: isMobile ? '44px 20px 20px' : '24px 24px 20px',
               background: 'var(--bg2)',
               border: `1px solid ${p.accent}55`,
               borderRadius: 16,
+              // Must be hidden so 3D backface doesn't bleed, but
+              // we handle internal scroll in the credits body
               overflow: 'hidden',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
@@ -339,7 +340,7 @@ function ProjectCard({ project: p }) {
               pointerEvents: isCurrentlyFlipped ? 'auto' : 'none',
             }}
           >
-            {/* Go Back button */}
+            {/* Go Back button — mobile only */}
             {isMobile && (
               <button
                 onClick={handleGoBack}
@@ -356,36 +357,54 @@ function ProjectCard({ project: p }) {
             )}
 
             {/* Label */}
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 4, color: p.accent, marginBottom: 10, textTransform: 'uppercase' }}>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 4,
+              color: p.accent, marginBottom: 8, textTransform: 'uppercase',
+              flexShrink: 0,
+            }}>
               ◈ Case Study
             </div>
 
             {/* Title */}
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: isMobile ? 'clamp(18px,6vw,22px)' : 'clamp(20px,3vw,26px)', color: 'var(--white)', marginBottom: 16, lineHeight: 1.1 }}>
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: isMobile ? 'clamp(18px,6vw,22px)' : 'clamp(18px,2.5vw,24px)',
+              color: 'var(--white)', marginBottom: 12, lineHeight: 1.1,
+              flexShrink: 0,
+            }}>
               {p.title}
             </div>
 
-            {/* Credits table — much tighter, no excess space */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {/* Credits table — scrollable on desktop so it never clips the button */}
+            <div style={{
+              flex: 1,
+              display: 'flex', flexDirection: 'column', gap: isMobile ? 10 : 8,
+              overflowY: 'auto',
+              paddingRight: 4,
+              // subtle scrollbar that matches the design theme
+              scrollbarWidth: 'thin',
+              scrollbarColor: `${p.accent}44 transparent`,
+            }}>
               {Array.isArray(p.caseStudy) && p.caseStudy.map((row, idx) => (
                 <div key={idx} style={{ display: 'flex', gap: 10 }}>
                   <div style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: isMobile ? 'clamp(9px,2.5vw,11px)' : 11,
+                    fontSize: isMobile ? 'clamp(9px,2.5vw,11px)' : 10,
                     letterSpacing: 1,
                     color: p.accent,
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap',
-                    minWidth: isMobile ? 90 : 110,
-                    paddingTop: 1,
+                    minWidth: isMobile ? 90 : 100,
+                    paddingTop: 2,
+                    flexShrink: 0,
                   }}>
                     {row.label}
                   </div>
                   <div style={{
                     fontFamily: 'var(--font-editorial)',
-                    fontSize: isMobile ? 'clamp(12px,3.5vw,14px)' : 14,
-                    color: 'rgba(242,238,232,0.8)',
-                    lineHeight: 1.4,
+                    fontSize: isMobile ? 'clamp(12px,3.5vw,14px)' : 13,
+                    color: 'rgba(242,238,232,0.82)',
+                    lineHeight: 1.45,
                   }}>
                     {row.value}
                   </div>
@@ -393,8 +412,11 @@ function ProjectCard({ project: p }) {
               ))}
             </div>
 
-            {/* Watch Full Film link */}
-            <div style={{ paddingTop: 14, borderTop: `1px solid ${p.accent}22`, marginTop: 14 }}>
+            {/* Watch Full Film — pinned to bottom, always visible */}
+            <div style={{
+              paddingTop: 12, borderTop: `1px solid ${p.accent}22`,
+              marginTop: 12, flexShrink: 0,
+            }}>
               {p.url ? (
                 <a
                   href={p.url}
@@ -406,13 +428,16 @@ function ProjectCard({ project: p }) {
                     color: p.accent, textTransform: 'uppercase', textDecoration: 'none',
                     padding: '8px 14px', background: `${p.accent}18`,
                     borderRadius: 6, border: `1px solid ${p.accent}44`,
+                    transition: 'background 0.25s, box-shadow 0.25s',
                   }}
+                  onMouseEnter={e => { e.currentTarget.style.background = `${p.accent}30`; e.currentTarget.style.boxShadow = `0 0 16px ${p.accent}33`; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = `${p.accent}18`; e.currentTarget.style.boxShadow = 'none'; }}
                 >
                   Watch Full Film <span style={{ fontSize: 13 }}>↗</span>
                 </a>
               ) : (
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: p.accent, textTransform: 'uppercase' }}>
-                  Watch Full Film ↗
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: p.accent, textTransform: 'uppercase', opacity: 0.5 }}>
+                  Film Coming Soon
                 </div>
               )}
             </div>
