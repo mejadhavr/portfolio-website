@@ -179,14 +179,13 @@ export default function WorkSection() {
 
 function ProjectCard({ project: p, index: i }) {
   const [hovered, setHovered] = useState(false);
+  const [flippedMobile, setFlippedMobile] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef(null);
   const isMobile = useIsMobile();
 
   const onMouseMove = (e) => {
-    // Disable tilt if it's a flip card to prevent transform conflicts
     if (p.caseStudy) return;
-
     const rect = cardRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -14;
@@ -194,19 +193,33 @@ function ProjectCard({ project: p, index: i }) {
   };
 
   const colSpan = p.span === 'col-span-2' ? 'span 2' : 'span 1';
-
-  const CardWrapper = p.url ? 'a' : 'div';
-  const wrapperProps = p.url ? { href: p.url, target: '_blank', rel: 'noopener noreferrer' } : {};
-
   const isFlipCard = !!p.caseStudy;
+  const isCurrentlyFlipped = isMobile ? flippedMobile : hovered;
+
+  const handleCardClick = (e) => {
+    if (isMobile && isFlipCard && !flippedMobile) {
+      e.preventDefault();
+      setFlippedMobile(true);
+    }
+  };
+
+  const handleGoBack = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setFlippedMobile(false);
+  };
+
+  const CardWrapper = (p.url && !isFlipCard) ? 'a' : 'div';
+  const wrapperProps = (p.url && !isFlipCard) ? { href: p.url, target: '_blank', rel: 'noopener noreferrer' } : {};
 
   return (
     <div
       className={isFlipCard ? "project-card-aspect" : ""}
       ref={cardRef}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => { setHovered(false); setTilt({ x: 0, y: 0 }); }}
-      onMouseMove={onMouseMove}
+      onMouseEnter={() => !isMobile && setHovered(true)}
+      onMouseLeave={() => { !isMobile && setHovered(false); setTilt({ x: 0, y: 0 }); }}
+      onMouseMove={!isMobile ? onMouseMove : undefined}
+      onClick={handleCardClick}
       style={{
         gridColumn: colSpan,
         perspective: isFlipCard ? '1200px' : '800px',
@@ -221,10 +234,10 @@ function ProjectCard({ project: p, index: i }) {
           position: isFlipCard ? 'absolute' : 'relative',
           inset: isFlipCard ? 0 : 'auto',
           width: '100%', height: '100%',
-          borderRadius: 16, cursor: 'none',
+          borderRadius: 16, cursor: isMobile ? 'pointer' : 'none',
           transformStyle: 'preserve-3d',
           transform: isFlipCard
-            ? (hovered ? 'rotateY(180deg)' : 'rotateY(0)')
+            ? (isCurrentlyFlipped ? 'rotateY(180deg)' : 'rotateY(0)')
             : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.025)` : 'rotateX(0) rotateY(0) scale(1)'),
           transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1)',
           boxShadow: hovered && !isFlipCard ? `0 30px 80px rgba(0,0,0,0.7), 0 0 40px ${p.accent}22` : '0 8px 32px rgba(0,0,0,0.5)',
@@ -241,12 +254,10 @@ function ProjectCard({ project: p, index: i }) {
           overflow: 'hidden',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
-          // Ensure front face is above in 3D space so it shows first
           transform: 'rotateY(0deg)',
           zIndex: 2,
         }}>
 
-          {/* Optional Video Background */}
           {!isMobile && p.videoUrl && (
             <div className="card-video-bg" style={{
               position: 'absolute',
@@ -273,7 +284,6 @@ function ProjectCard({ project: p, index: i }) {
             </div>
           )}
 
-          {/* Decorative inner elements */}
           {!p.videoUrl && (
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{
@@ -287,7 +297,6 @@ function ProjectCard({ project: p, index: i }) {
             </div>
           )}
 
-          {/* Film strip sprocket holes decoration */}
           {!p.videoUrl && (
             <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 20, display: 'flex', flexDirection: 'column', gap: 8, padding: '8px 5px', opacity: 0.3 }}>
               {[...Array(6)].map((_, k) => (
@@ -296,16 +305,12 @@ function ProjectCard({ project: p, index: i }) {
             </div>
           )}
 
-          {/* Front Overlay */}
           <div className="card-front-overlay" style={{
             position: 'absolute', inset: 0, padding: 20,
             background: p.videoUrl ? 'linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 45%, transparent 100%)' : 'linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 80%)',
             display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
             zIndex: 1
           }}>
-            {/* Note: In standard cards, the overlay details appear ONLY on hover. 
-                 But for flip cards, hover flips it. So for flip cards, we always show details on front, or just the title. */}
-
             <div style={{
               opacity: (hovered && !isFlipCard) || isFlipCard ? 1 : 0,
               transition: 'opacity 0.4s',
@@ -317,7 +322,6 @@ function ProjectCard({ project: p, index: i }) {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 12, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 12 }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--muted)' }}>{p.client}</div>
 
-                {/* Know More Arrow (Flips card if case study, or links out) */}
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 6,
                   fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: p.accent,
@@ -332,7 +336,6 @@ function ProjectCard({ project: p, index: i }) {
             </div>
           </div>
 
-          {/* Tag label */}
           <div className="card-tag" style={{
             position: 'absolute', top: 16, right: 16,
             padding: '5px 12px', borderRadius: 20,
@@ -344,7 +347,6 @@ function ProjectCard({ project: p, index: i }) {
             {p.tags[0]}
           </div>
 
-          {/* Bottom title (default state when not hovered and not a flip card) */}
           {!isFlipCard && (
             <div style={{
               position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px 24px',
@@ -368,7 +370,22 @@ function ProjectCard({ project: p, index: i }) {
             transform: 'rotateY(180deg)',
             display: 'flex', flexDirection: 'column',
             zIndex: 1,
+            pointerEvents: isCurrentlyFlipped ? 'auto' : 'none'
           }}>
+            {isMobile && (
+              <button 
+                onClick={handleGoBack}
+                style={{
+                  position: 'absolute', top: 16, right: 16, background: 'rgba(255,255,255,0.05)', border: 'none',
+                  fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2, color: 'rgba(255,255,255,0.8)',
+                  textTransform: 'uppercase', zIndex: 10, padding: '6px 10px', borderRadius: 20,
+                  backdropFilter: 'blur(10px)', cursor: 'pointer'
+                }}
+              >
+                Go Back ↺
+              </button>
+            )}
+            
             <div className="card-back-label" style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 4, color: p.accent, marginBottom: 16, textTransform: 'uppercase' }}>
               ◈ Case Study
             </div>
@@ -384,13 +401,24 @@ function ProjectCard({ project: p, index: i }) {
             </div>
 
             <div style={{ marginTop: 'auto', paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: p.accent,
-                textTransform: 'uppercase',
-              }}>
-                Watch Full Film <span style={{ fontSize: 14 }}>↗</span>
-              </div>
+              {p.url ? (
+                <a href={p.url} target="_blank" rel="noopener noreferrer" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: p.accent,
+                  textTransform: 'uppercase', textDecoration: 'none',
+                  padding: '8px 12px', background: `${p.accent}22`, borderRadius: '4px', border: `1px solid ${p.accent}55`
+                }}>
+                  Watch Full Film <span style={{ fontSize: 14 }}>↗</span>
+                </a>
+              ) : (
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: p.accent,
+                  textTransform: 'uppercase',
+                }}>
+                  Watch Full Film <span style={{ fontSize: 14 }}>↗</span>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -399,4 +427,3 @@ function ProjectCard({ project: p, index: i }) {
     </div>
   );
 }
-
