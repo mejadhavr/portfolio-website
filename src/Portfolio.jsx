@@ -652,9 +652,10 @@ function HeroSection() {
     "Editing Where Every Frame Matters"
   ];
 
-  // reveal animation
+  // reveal animation synchronised with loading screen length (3500ms + 800ms)
   useEffect(() => {
-    const t = setTimeout(() => setRevealed(true), 2700);
+    // previously 2700, now it must cover the new 3.5s sequence
+    const t = setTimeout(() => setRevealed(true), 4400); 
     return () => clearTimeout(t);
   }, []);
 
