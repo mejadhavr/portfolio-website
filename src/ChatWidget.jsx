@@ -176,7 +176,7 @@ export default function ChatWidget() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ position: 'relative' }}>
-              <img src="/images/logo.png" alt="Avatar" width="44" height="44" loading="lazy" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', background: '#000', border: '1px solid rgba(200,169,110,0.3)' }} />
+              <img src="/images/logo.webp" alt="Avatar" width="44" height="44" loading="lazy" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', background: '#000', border: '1px solid rgba(200,169,110,0.3)' }} />
               <div className="online-gold-dot" style={{ position: 'absolute', bottom: 2, right: 0, width: 8, height: 8, background: 'var(--gold)', borderRadius: '50%', border: '2px solid #0a0a0c' }}></div>
             </div>
             <div>
@@ -210,7 +210,7 @@ export default function ChatWidget() {
               {/* Bot Avatar (only show for AI) */}
               {m.role === 'ai' && (
                 <div style={{ flexShrink: 0 }}>
-                  <img src="/images/logo.png" alt="AI" width="28" height="28" loading="lazy" style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)' }} />
+                  <img src="/images/logo.webp" alt="AI" width="28" height="28" loading="lazy" style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)' }} />
                 </div>
               )}
 
@@ -233,7 +233,7 @@ export default function ChatWidget() {
           {isTyping && (
              <div style={{ display: 'flex', gap: 12, alignSelf: 'flex-start', maxWidth: '85%' }}>
                 <div style={{ flexShrink: 0 }}>
-                  <img src="/images/logo.png" alt="AI" width="28" height="28" loading="lazy" style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', opacity: 0.5 }} />
+                  <img src="/images/logo.webp" alt="AI" width="28" height="28" loading="lazy" style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', opacity: 0.5 }} />
                 </div>
                 <div style={{
                   background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)',

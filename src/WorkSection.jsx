@@ -34,7 +34,7 @@ const workProjects = [
     accent: '#00C9FF',
     gradient: 'linear-gradient(135deg,#001a1f,#00354a)',
     url: 'https://youtu.be/QziZuMJMAPA',
-    videoUrl: 'showreel',
+    videoUrl: 'testi',
     caseStudy: [
       { label: 'Client', value: 'Prasun Spaces' },
       { label: 'Project', value: 'Prasun Adara' },
@@ -53,7 +53,7 @@ const workProjects = [
     accent: '#C8A96E',
     gradient: 'linear-gradient(135deg,#0f0f0f,#1a1a2e)',
     url: 'https://youtu.be/GkAIIonllbo',
-    videoUrl: 'showreel',
+    videoUrl: 'ph',
     caseStudy: [
       { label: 'Client', value: 'Phillips Machine Tools India Pvt. Ltd.' },
       { label: 'Produced by', value: 'Unplug Infinity Media Pvt. Ltd.' },
@@ -90,7 +90,7 @@ const workProjects = [
     accent: '#C8A96E',
     gradient: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)',
     url: 'https://youtu.be/mcc0GLpVFhY',
-    videoUrl: 'showreel',
+    videoUrl: 'idex',
     caseStudy: [
       { label: 'Client', value: 'Idex India, Mumbai' },
       { label: 'Produced by', value: 'Unplug Infinity Media Pvt. Ltd.' },
@@ -161,6 +161,48 @@ export default function WorkSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* IntersectionObserver-driven video: autoplays when card enters viewport,
+   pauses when it leaves. Works on mobile without requiring a tap. */
+function CardVideo({ src, isMobile }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    obs.observe(video);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      loop
+      muted
+      playsInline
+      autoPlay
+      preload="none"
+      style={{
+        width: '100%', height: '100%',
+        objectFit: 'cover',
+        opacity: isMobile ? 0.55 : 0.62,
+      }}
+    >
+      <source src={`/videos/${src}.webm`} type="video/webm" />
+      <source src={`/videos/${src}.mp4`} type="video/mp4" />
+    </video>
   );
 }
 
@@ -260,12 +302,17 @@ function ProjectCard({ project: p }) {
             minHeight: useMobileFlipLayout ? 280 : undefined,
           }}
         >
-          {!isMobile && p.videoUrl && (
-            <div style={{ position: 'absolute', inset: 40, borderRadius: 8, overflow: 'hidden', zIndex: 0 }}>
-              <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }}>
-                <source src={`/videos/${p.videoUrl}.webm`} type="video/webm" />
-                <source src={`/videos/${p.videoUrl}.mp4`} type="video/mp4" />
-              </video>
+          {p.videoUrl && (
+            <div style={{
+              position: 'absolute',
+              // Desktop: slight inset for depth effect
+              // Mobile: fill edge-to-edge (card is already small)
+              inset: isMobile ? 0 : 40,
+              borderRadius: isMobile ? 16 : 8,
+              overflow: 'hidden',
+              zIndex: 0,
+            }}>
+              <CardVideo src={p.videoUrl} isMobile={isMobile} />
             </div>
           )}
 

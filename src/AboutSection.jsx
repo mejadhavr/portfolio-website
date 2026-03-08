@@ -7,28 +7,12 @@ import { useIsMobile, AuroraBg } from './Shared';
 function CinematicVideo() {
   const videoRef = useRef(null);
   const [muted, setMuted] = useState(true);
-  const isMobile = useIsMobile();
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  useEffect(() => {
-    if (!isMobile) {
-      setIsPlaying(true);
-    }
-  }, [isMobile]);
 
   const toggleMute = () => {
     const video = videoRef.current;
     if (!video) return;
-
     video.muted = !video.muted;
     setMuted(video.muted);
-  };
-
-  const handlePlay = () => {
-    setIsPlaying(true);
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
   };
 
   return (
@@ -40,56 +24,20 @@ function CinematicVideo() {
       background: '#08080c'
     }}>
 
-      {(!isMobile || isPlaying) && (
-        <video
-          ref={videoRef}
-          src="/videos/showreel.mp4"
-          autoPlay={isPlaying}
-          loop
-          muted={muted}
-          playsInline
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover'
-          }}
-        />
-      )}
-
-      {!isPlaying && isMobile && (
-        <div 
-          onClick={handlePlay}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%)',
-            cursor: 'none',
-            zIndex: 3
-          }}
-        >
-          <div style={{
-            width: 60, height: 60, borderRadius: '50%',
-            background: 'rgba(200,169,110,0.2)',
-            border: '1px solid rgba(200,169,110,0.5)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            backdropFilter: 'blur(4px)',
-          }}>
-            <div style={{
-              width: 0, height: 0,
-              borderTop: '8px solid transparent',
-              borderBottom: '8px solid transparent',
-              borderLeft: '14px solid var(--gold)',
-              marginLeft: 4
-            }} />
-          </div>
-          <div style={{ position: 'absolute', bottom: 20, fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)' }}>
-            WATCH REEL
-          </div>
-        </div>
-      )}
+      <video
+        ref={videoRef}
+        src="/videos/showreel.mp4"
+        autoPlay
+        loop
+        muted={muted}
+        playsInline
+        preload="none"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        }}
+      />
 
       {/* REC indicator */}
       <div style={{
