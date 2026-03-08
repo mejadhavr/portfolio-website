@@ -337,12 +337,13 @@ function ProjectCard({ project: p, index: i }) {
           </div>
 
           <div className="card-tag" style={{
-            position: 'absolute', top: 16, right: 16,
+            position: 'absolute', top: '16px', right: '16px',
             padding: '5px 12px', borderRadius: 20,
             background: `${p.accent}18`, border: `1px solid ${p.accent}33`,
-            fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2,
+            fontFamily: 'var(--font-mono)', fontSize: 'clamp(7px, 2vw, 9px)', letterSpacing: 2,
             color: p.accent, textTransform: 'uppercase',
-            zIndex: 2
+            zIndex: 2,
+            whiteSpace: 'nowrap'
           }}>
             {p.tags[0]}
           </div>
@@ -353,7 +354,7 @@ function ProjectCard({ project: p, index: i }) {
               background: 'linear-gradient(0deg, rgba(0,0,0,0.8), transparent)',
               opacity: hovered ? 0 : 1, transition: 'opacity 0.3s',
             }}>
-              <div className="card-bottom-title" style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--white)' }}>{p.title}</div>
+              <div className="card-bottom-title" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(16px, 4vw, 22px)', color: 'var(--white)' }}>{p.title}</div>
             </div>
           )}
         </div>

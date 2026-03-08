@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from 'react';
 import { useIsMobile, AuroraBg } from './Shared';
+
 /* ─────────────────────────────────────────────
    CINEMATIC VIDEO COMPONENT
 ───────────────────────────────────────────── */
@@ -164,15 +165,47 @@ function CinematicVideo() {
 
 
 /* ─────────────────────────────────────────────
-   ABOUT SECTION
+   STATISTICS TICKER
 ───────────────────────────────────────────── */
+function NumberTicker({ endValue, duration = 2000, start = false }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!start) return;
+
+    let startTimestamp = null;
+    let frameId;
+    
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      
+      const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setCount(Math.floor(easeProgress * endValue));
+
+      if (progress < 1) {
+        frameId = window.requestAnimationFrame(step);
+      }
+    };
+    
+    frameId = window.requestAnimationFrame(step);
+    
+    return () => window.cancelAnimationFrame(frameId);
+  }, [endValue, duration, start]);
+
+  return <span>{count}</span>;
+}
+
 const aboutStats = [
-  { n: '7+', label: 'Years Experience' },
-  { n: '3500+', label: 'Projects Completed' },
-  { n: '150+', label: 'Happy Clients' },
-  { n: '25M+', label: 'Views Generated' },
+  { n: 7, suffix: '+', label: 'Years Experience' },
+  { n: 3500, suffix: '+', label: 'Projects Completed' },
+  { n: 150, suffix: '+', label: 'Happy Clients' },
+  { n: 25, suffix: 'M+', label: 'Views Generated' },
 ];
 
+/* ─────────────────────────────────────────────
+   ABOUT SECTION
+───────────────────────────────────────────── */
 export default function AboutSection() {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
@@ -211,11 +244,15 @@ export default function AboutSection() {
           </p>
 
           {/* Stats */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {aboutStats.map((s, i) => (
-              <div key={i} className="glass-card" style={{ padding: '20px 24px' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 42, lineHeight: 1 }} className="gold-text">{s.n}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--muted)', marginTop: 4, textTransform: 'uppercase' }}>{s.label}</div>
+              <div key={i} className="glass-card" style={{ padding: 'clamp(12px, 3vw, 24px)' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 6vw, 42px)', lineHeight: 1 }} className="gold-text">
+                  <NumberTicker endValue={s.n} duration={2500} start={vis} />{s.suffix}
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(8px, 1.5vw, 10px)', letterSpacing: 2, color: 'var(--muted)', marginTop: 8, textTransform: 'uppercase' }}>
+                  {s.label}
+                </div>
               </div>
             ))}
           </div>
@@ -274,22 +311,6 @@ export default function AboutSection() {
               {/* Cinematic Video Player */}
               <CinematicVideo />
 
-              {/*
-      OLD YOUTUBE EMBED (DISABLED)
-
-      <iframe
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0&modestbranding=1"
-        style={{
-          width:'100%',
-          height:'100%',
-          border:'none'
-        }}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        title="Mejadhavr Portfolio Reel"
-      />
-      */}
-
             </div>
 
 
@@ -335,4 +356,3 @@ export default function AboutSection() {
     </section>
   );
 }
-
