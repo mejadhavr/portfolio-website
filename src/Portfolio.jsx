@@ -665,6 +665,90 @@ function Navigation({ active }) {
   );
 }
 /* ─────────────────────────────────────────────
+   MOBILE HERO BACKGROUND (CSS-only, no WebGL)
+───────────────────────────────────────────── */
+function MobileHeroBg() {
+  return (
+    <div aria-hidden="true" style={{
+      position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none',
+      zIndex: 0,
+    }}>
+      {/* Deep cinematic base gradient */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'radial-gradient(ellipse 120% 80% at 50% 0%, rgba(200,169,110,0.12) 0%, transparent 60%), radial-gradient(ellipse 80% 60% at 80% 100%, rgba(0,201,255,0.07) 0%, transparent 55%), linear-gradient(180deg, #06060C 0%, #0A0A14 50%, #06060C 100%)',
+      }} />
+
+      {/* Gold orb — top left */}
+      <div style={{
+        position: 'absolute',
+        width: '70vw', height: '70vw',
+        top: '-15vw', left: '-20vw',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(200,169,110,0.22) 0%, rgba(200,169,110,0.06) 50%, transparent 70%)',
+        animation: 'mobileOrb1 20s ease-in-out infinite',
+        willChange: 'transform',
+      }} />
+
+      {/* Cyan orb — bottom right */}
+      <div style={{
+        position: 'absolute',
+        width: '60vw', height: '60vw',
+        bottom: '-10vw', right: '-15vw',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(0,201,255,0.18) 0%, rgba(0,201,255,0.05) 50%, transparent 70%)',
+        animation: 'mobileOrb2 25s ease-in-out infinite',
+        willChange: 'transform',
+      }} />
+
+      {/* Faint purple orb — mid left */}
+      <div style={{
+        position: 'absolute',
+        width: '50vw', height: '50vw',
+        top: '35%', left: '-10vw',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(138,43,226,0.1) 0%, transparent 70%)',
+        animation: 'mobileOrb3 30s ease-in-out infinite',
+        willChange: 'transform',
+      }} />
+
+      {/* Light beam 1 — diagonal gold */}
+      <div style={{
+        position: 'absolute',
+        top: '-20%', left: '30%',
+        width: '1px', height: '140%',
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(200,169,110,0.25) 30%, rgba(200,169,110,0.1) 60%, transparent 100%)',
+        transformOrigin: 'top center',
+        animation: 'mobileBeam 12s ease-in-out infinite',
+      }} />
+
+      {/* Light beam 2 — diagonal cyan */}
+      <div style={{
+        position: 'absolute',
+        top: '-10%', right: '25%',
+        width: '1px', height: '130%',
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,201,255,0.2) 35%, rgba(0,201,255,0.07) 65%, transparent 100%)',
+        transformOrigin: 'top center',
+        animation: 'mobileBeam2 16s ease-in-out infinite',
+      }} />
+
+      {/* Horizontal scan line glow */}
+      <div style={{
+        position: 'absolute', top: '38%', left: 0, right: 0, height: 1,
+        background: 'linear-gradient(90deg, transparent 0%, rgba(200,169,110,0.15) 30%, rgba(200,169,110,0.3) 50%, rgba(200,169,110,0.15) 70%, transparent 100%)',
+        opacity: 0.5,
+      }} />
+
+      {/* Vignette — dark edges, cinematic */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%)',
+      }} />
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
    HERO SECTION
 ───────────────────────────────────────────── */
 function HeroSection() {
@@ -718,6 +802,8 @@ function HeroSection() {
       overflow: 'hidden', flexDirection: 'column',
     }}>
       <AuroraBg accent="gold" />
+      {/* CSS-only cinematic background for mobile */}
+      {isMobile && <MobileHeroBg />}
       {(!isMobile && !isLowEnd) && (
         <Suspense fallback={null}>
           <HeroCanvas />
