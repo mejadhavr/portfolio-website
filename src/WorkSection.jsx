@@ -389,12 +389,12 @@ function ProjectCard({ project: p, index: i }) {
             <div className="card-back-label" style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 4, color: p.accent, marginBottom: 16, textTransform: 'uppercase' }}>
               ◈ Case Study
             </div>
-            <h3 className="card-back-title" style={{ fontFamily: 'var(--font-display)', fontSize: 32, color: 'var(--white)', marginBottom: 20, lineHeight: 1 }}>
+            <h3 className="card-back-title" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 6vw, 32px)', color: 'var(--white)', marginBottom: 20, lineHeight: 1 }}>
               {p.title}
             </h3>
 
             <div className="card-back-body" style={{
-              fontFamily: 'var(--font-editorial)', fontSize: 16, color: 'rgba(242,238,232,0.7)',
+              fontFamily: 'var(--font-editorial)', fontSize: 'clamp(14px, 3.5vw, 16px)', color: 'rgba(242,238,232,0.7)',
               lineHeight: 1.6, overflowY: 'auto', flex: 1, paddingRight: 8
             }}>
               {p.caseStudy}

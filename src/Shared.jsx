@@ -29,6 +29,7 @@ export function useIsLowEnd() {
 }
 
 export function AuroraBg({ accent = 'gold' }) {
+  const isLowEnd = useIsLowEnd();
   const c1 = accent === 'cyan' ? 'rgba(0,201,255,0.12)' : 'rgba(200,169,110,0.1)';
   const c2 = accent === 'cyan' ? 'rgba(0,245,255,0.08)' : 'rgba(240,213,160,0.07)';
   return (
@@ -36,17 +37,17 @@ export function AuroraBg({ accent = 'gold' }) {
       <div style={{
         position: 'absolute', width: '80%', height: '80%', top: '-20%', left: '-10%',
         background: `radial-gradient(ellipse at center, ${c1}, transparent 70%)`,
-        filter: 'blur(60px)', animation: 'aurora1 18s ease-in-out infinite',
+        filter: isLowEnd ? 'blur(20px)' : 'blur(60px)', animation: 'aurora1 18s ease-in-out infinite',
       }} />
       <div style={{
         position: 'absolute', width: '60%', height: '70%', top: '20%', right: '-15%',
         background: `radial-gradient(ellipse at center, ${c2}, transparent 70%)`,
-        filter: 'blur(80px)', animation: 'aurora2 22s ease-in-out infinite',
+        filter: isLowEnd ? 'blur(30px)' : 'blur(80px)', animation: 'aurora2 22s ease-in-out infinite',
       }} />
       <div style={{
         position: 'absolute', width: '50%', height: '50%', bottom: '-10%', left: '30%',
         background: `radial-gradient(ellipse at center, rgba(138,43,226,0.06), transparent 70%)`,
-        filter: 'blur(70px)', animation: 'aurora3 15s ease-in-out infinite',
+        filter: isLowEnd ? 'blur(25px)' : 'blur(70px)', animation: 'aurora3 15s ease-in-out infinite',
       }} />
     </div>
   );
