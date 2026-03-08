@@ -866,12 +866,12 @@ export default function App() {
       }}>
         <Navigation active={activeSection} />
         <HeroSection />
-        <LazySection><Suspense fallback={null}><AboutSection /></Suspense></LazySection>
-        <LazySection><Suspense fallback={null}><WorkSection /></Suspense></LazySection>
-        <LazySection><Suspense fallback={null}><ServicesSection /></Suspense></LazySection>
-        <LazySection><Suspense fallback={null}><ClientsSection /></Suspense></LazySection>
-        <LazySection><Suspense fallback={null}><VisualSection /></Suspense></LazySection>
-        <LazySection><Suspense fallback={null}><ContactSection /></Suspense></LazySection>
+        <LazySection id="about"><Suspense fallback={null}><AboutSection /></Suspense></LazySection>
+        <LazySection id="work"><Suspense fallback={null}><WorkSection /></Suspense></LazySection>
+        <LazySection id="services"><Suspense fallback={null}><ServicesSection /></Suspense></LazySection>
+        <LazySection id="clients"><Suspense fallback={null}><ClientsSection /></Suspense></LazySection>
+        <LazySection id="visual"><Suspense fallback={null}><VisualSection /></Suspense></LazySection>
+        <LazySection id="contact"><Suspense fallback={null}><ContactSection /></Suspense></LazySection>
       </div>
       <ChatWidget />
     </>

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-export default function LazySection({ children, minHeight = "100vh" }) {
+export default function LazySection({ children, id, minHeight = "100vh" }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -23,7 +23,7 @@ export default function LazySection({ children, minHeight = "100vh" }) {
   }, []);
 
   return (
-    <div ref={ref} style={{ minHeight }}>
+    <div id={id} ref={ref} style={{ minHeight }}>
       {isVisible ? children : null}
     </div>
   );
