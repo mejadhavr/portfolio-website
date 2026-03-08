@@ -375,32 +375,34 @@ function ProjectCard({ project: p }) {
               {p.title}
             </div>
 
-            {/* Credits table — scrollable on desktop so it never clips the button */}
+            {/* Credits — CSS Grid for perfect two-column alignment on every row */}
             <div style={{
               flex: 1,
-              display: 'flex', flexDirection: 'column', gap: isMobile ? 10 : 8,
+              display: 'grid',
+              gridTemplateColumns: 'max-content 1fr',
+              columnGap: 14,
+              rowGap: isMobile ? 9 : 7,
+              alignContent: 'start',
               overflowY: 'auto',
               paddingRight: 4,
-              // subtle scrollbar that matches the design theme
               scrollbarWidth: 'thin',
               scrollbarColor: `${p.accent}44 transparent`,
             }}>
               {Array.isArray(p.caseStudy) && p.caseStudy.map((row, idx) => (
-                <div key={idx} style={{ display: 'flex', gap: 10 }}>
-                  <div style={{
+                <>
+                  <div key={`l-${idx}`} style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: isMobile ? 'clamp(9px,2.5vw,11px)' : 10,
                     letterSpacing: 1,
                     color: p.accent,
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap',
-                    minWidth: isMobile ? 90 : 100,
                     paddingTop: 2,
-                    flexShrink: 0,
+                    lineHeight: 1.4,
                   }}>
                     {row.label}
                   </div>
-                  <div style={{
+                  <div key={`v-${idx}`} style={{
                     fontFamily: 'var(--font-editorial)',
                     fontSize: isMobile ? 'clamp(12px,3.5vw,14px)' : 13,
                     color: 'rgba(242,238,232,0.82)',
@@ -408,7 +410,7 @@ function ProjectCard({ project: p }) {
                   }}>
                     {row.value}
                   </div>
-                </div>
+                </>
               ))}
             </div>
 
