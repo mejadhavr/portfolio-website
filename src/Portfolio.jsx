@@ -1,5 +1,8 @@
-import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from "react";
 import * as THREE from "three";
+
+const HeroCanvas = lazy(() => import("./HeroCanvas"));
+const FilmScene = lazy(() => import("./FilmScene"));
 import ChatWidget from "./ChatWidget";
 
 /* ─────────────────────────────────────────────
@@ -249,7 +252,7 @@ font-family: 'Space Mono', monospace;
 
   /* Disable heavy effects on mobile */
   .grain-overlay, .aurora-bg { display: none !important; }
-  .glass-card { backdrop-filter: blur(4px) !important; background: rgba(12, 12, 22, 0.85) !important; }
+  .glass-card { backdrop-filter: none !important; background: rgba(12, 12, 22, 0.95) !important; }
 
   /* ── NAV: hide laptop pill, show hamburger at top-right ── */
   .nav-desktop { display: none !important; }
@@ -493,259 +496,7 @@ function LoadingScreen({ onDone }) {
   );
 }
 
-/* ─────────────────────────────────────────────
-   THREE.JS HERO CANVAS – aperture + particles
-───────────────────────────────────────────── */
-function HeroCanvas() {
-  const mountRef = useRef(null);
 
-  useEffect(() => {
-    const el = mountRef.current;
-    if (!el) return;
-    const w = el.clientWidth, h = el.clientHeight;
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(w, h);
-    renderer.setClearColor(0x000000, 0);
-    el.appendChild(renderer.domElement);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 100);
-    camera.position.z = 5;
-
-    // Aperture ring outer
-    const ringGeo = new THREE.TorusGeometry(1.8, 0.025, 16, 120);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xC8A96E, transparent: true, opacity: 0.5 });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    scene.add(ring);
-
-    // Aperture ring inner
-    const ring2Geo = new THREE.TorusGeometry(1.4, 0.015, 16, 120);
-    const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x00C9FF, transparent: true, opacity: 0.3 });
-    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-    scene.add(ring2);
-
-    // Aperture blades
-    const bladeGroup = new THREE.Group();
-    scene.add(bladeGroup);
-    const bladeCount = 9;
-    for (let i = 0; i < bladeCount; i++) {
-      const shape = new THREE.Shape();
-      shape.moveTo(0, 0);
-      shape.quadraticCurveTo(0.15, 0.7, 0, 1.35);
-      shape.quadraticCurveTo(-0.15, 0.7, 0, 0);
-      const geo = new THREE.ShapeGeometry(shape);
-      const mat = new THREE.MeshBasicMaterial({
-        color: i % 2 === 0 ? 0xC8A96E : 0x00C9FF,
-        transparent: true, opacity: 0.12, side: THREE.DoubleSide,
-      });
-      const blade = new THREE.Mesh(geo, mat);
-      blade.rotation.z = (i / bladeCount) * Math.PI * 2;
-      blade.position.set(0, 0, 0);
-      bladeGroup.add(blade);
-    }
-
-    // Particle dust
-    const partCount = 200;
-    const positions = new Float32Array(partCount * 3);
-    for (let i = 0; i < partCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 10;
-    }
-    const partGeo = new THREE.BufferGeometry();
-    partGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const partMat = new THREE.PointsMaterial({
-      color: 0xC8A96E, size: 0.02, transparent: true, opacity: 0.4,
-    });
-    const particles = new THREE.Points(partGeo, partMat);
-    scene.add(particles);
-
-    // Cross-hair lines
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xC8A96E, transparent: true, opacity: 0.15 });
-    const hGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-2.5, 0, 0), new THREE.Vector3(2.5, 0, 0)]);
-    const vGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, -2.5, 0), new THREE.Vector3(0, 2.5, 0)]);
-    scene.add(new THREE.Line(hGeo, lineMat));
-    scene.add(new THREE.Line(vGeo, lineMat));
-
-    // Corner brackets
-    const bMat = new THREE.LineBasicMaterial({ color: 0x00C9FF, transparent: true, opacity: 0.3 });
-    const brackets = [
-      [[-2.2, 2.2], [-1.9, 2.2], [-2.2, 2.2], [-2.2, 1.9]],
-      [[2.2, 2.2], [1.9, 2.2], [2.2, 2.2], [2.2, 1.9]],
-      [[-2.2, -2.2], [-1.9, -2.2], [-2.2, -2.2], [-2.2, -1.9]],
-      [[2.2, -2.2], [1.9, -2.2], [2.2, -2.2], [2.2, -1.9]],
-    ];
-    brackets.forEach(pts => {
-      const bGeo = new THREE.BufferGeometry().setFromPoints(
-        pts.map(p => new THREE.Vector3(p[0], p[1], 0))
-      );
-      scene.add(new THREE.Line(bGeo, bMat));
-    });
-
-    let mouseX = 0, mouseY = 0;
-    const onMouse = (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    window.addEventListener('mousemove', onMouse);
-
-    let isVisible = true;
-    const observer = new IntersectionObserver(([e]) => {
-      isVisible = e.isIntersecting;
-    }, { threshold: 0 });
-    observer.observe(el);
-
-    let frame;
-    const animate = () => {
-      frame = requestAnimationFrame(animate);
-      if (!isVisible) return; // Pause GPU rendering completely when scrolled past
-      
-      const t = Date.now() * 0.001;
-      bladeGroup.rotation.z = t * 0.12;
-      ring.rotation.z = t * 0.08;
-      ring2.rotation.z = -t * 0.06;
-      particles.rotation.y = t * 0.02;
-      particles.rotation.x = t * 0.01;
-      camera.position.x += (mouseX * 0.3 - camera.position.x) * 0.04;
-      camera.position.y += (-mouseY * 0.3 - camera.position.y) * 0.04;
-      camera.lookAt(scene.position);
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    const onResize = () => {
-      const nw = el.clientWidth, nh = el.clientHeight;
-      camera.aspect = nw / nh;
-      camera.updateProjectionMatrix();
-      renderer.setSize(nw, nh);
-    };
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(frame);
-      window.removeEventListener('mousemove', onMouse);
-      window.removeEventListener('resize', onResize);
-      renderer.dispose();
-      el.removeChild(renderer.domElement);
-    };
-  }, []);
-
-  return <div ref={mountRef} style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none' }} />;
-}
-
-/* ─────────────────────────────────────────────
-   THREE.JS FILM SCENE – visual experience
-───────────────────────────────────────────── */
-function FilmScene() {
-  const mountRef = useRef(null);
-
-  useEffect(() => {
-    const el = mountRef.current;
-    if (!el) return;
-    const w = el.clientWidth, h = el.clientHeight;
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(w, h);
-    renderer.setClearColor(0, 0);
-    el.appendChild(renderer.domElement);
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
-    camera.position.z = 6;
-
-    // Film strip segments
-    const strips = [];
-    for (let j = 0; j < 4; j++) {
-      const group = new THREE.Group();
-      const stripGeo = new THREE.PlaneGeometry(0.6, 3.2);
-      const stripMat = new THREE.MeshBasicMaterial({ color: 0x1A1A2E, transparent: true, opacity: 0.7, side: THREE.DoubleSide });
-      group.add(new THREE.Mesh(stripGeo, stripMat));
-      const edgeMat = new THREE.LineBasicMaterial({ color: 0xC8A96E, transparent: true, opacity: 0.5 });
-      const edgeGeo = new THREE.EdgesGeometry(stripGeo);
-      group.add(new THREE.LineSegments(edgeGeo, edgeMat));
-      // Sprocket holes
-      for (let i = 0; i < 5; i++) {
-        const hGeo = new THREE.PlaneGeometry(0.08, 0.12);
-        const hMat = new THREE.MeshBasicMaterial({ color: 0x06060C });
-        const lh = new THREE.Mesh(hGeo, hMat);
-        lh.position.set(-0.23, -1.3 + i * 0.58, 0.01);
-        group.add(lh);
-        const rh = lh.clone();
-        rh.position.set(0.23, -1.3 + i * 0.58, 0.01);
-        group.add(rh);
-      }
-      group.position.set(-3.5 + j * 2.2, (Math.random() - 0.5) * 2, -j * 0.5);
-      group.rotation.z = (Math.random() - 0.5) * 0.4;
-      group.userData = { vy: 0.003 + Math.random() * 0.004, vr: (Math.random() - 0.5) * 0.003 };
-      scene.add(group);
-      strips.push(group);
-    }
-
-    // Light beams
-    for (let i = 0; i < 3; i++) {
-      const beamGeo = new THREE.CylinderGeometry(0.01, 0.4, 5, 8, 1, true);
-      const beamMat = new THREE.MeshBasicMaterial({ color: i === 1 ? 0x00C9FF : 0xC8A96E, transparent: true, opacity: 0.04, side: THREE.DoubleSide });
-      const beam = new THREE.Mesh(beamGeo, beamMat);
-      beam.position.set(-2 + i * 2, 2, 0);
-      beam.rotation.z = (Math.random() - 0.5) * 0.3;
-      scene.add(beam);
-    }
-
-    // Floating circles/aperture accent
-    const circGeo = new THREE.TorusGeometry(0.8, 0.01, 8, 64);
-    const circMat = new THREE.MeshBasicMaterial({ color: 0x00C9FF, transparent: true, opacity: 0.25 });
-    const circ = new THREE.Mesh(circGeo, circMat);
-    circ.position.set(2.5, 0.5, 0);
-    scene.add(circ);
-
-    let frame;
-    let scrollY = 0;
-    
-    // Use passive listener to prevent scroll jank
-    const onScroll = () => { scrollY = window.scrollY; };
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    let isVisible = false;
-    const observer = new IntersectionObserver(([e]) => {
-      isVisible = e.isIntersecting;
-    }, { threshold: 0 });
-    observer.observe(el);
-
-    const animate = () => {
-      frame = requestAnimationFrame(animate);
-      if (!isVisible) return; // Pause GPU rendering completely when scrolled past
-      
-      const t = Date.now() * 0.001;
-      strips.forEach((s, i) => {
-        s.position.y += s.userData.vy;
-        s.rotation.z += s.userData.vr;
-        if (s.position.y > 4) s.position.y = -4;
-      });
-      circ.rotation.z = t * 0.2;
-      camera.position.y = scrollY * 0.001;
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    const onResize = () => {
-      const nw = el.clientWidth, nh = el.clientHeight;
-      camera.aspect = nw / nh;
-      camera.updateProjectionMatrix();
-      renderer.setSize(nw, nh);
-    };
-    window.addEventListener('resize', onResize);
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onResize);
-      renderer.dispose();
-      el.removeChild(renderer.domElement);
-    };
-  }, []);
-
-  return <div ref={mountRef} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />;
-}
 
 /* ─────────────────────────────────────────────
    AURORA BACKGROUND
@@ -972,7 +723,11 @@ function HeroSection() {
       overflow: 'hidden', flexDirection: 'column',
     }}>
       <AuroraBg accent="gold" />
-      {!isMobile && <HeroCanvas />}
+      {!isMobile && (
+        <Suspense fallback={null}>
+          <HeroCanvas />
+        </Suspense>
+      )}
 
       {/* Light leak top */}
       <div style={{
@@ -1111,6 +866,14 @@ function HeroSection() {
 function CinematicVideo() {
   const videoRef = useRef(null);
   const [muted, setMuted] = useState(true);
+  const isMobile = useIsMobile();
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setIsPlaying(true);
+    }
+  }, [isMobile]);
 
   const toggleMute = () => {
     const video = videoRef.current;
@@ -1120,27 +883,72 @@ function CinematicVideo() {
     setMuted(video.muted);
   };
 
+  const handlePlay = () => {
+    setIsPlaying(true);
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  };
+
   return (
     <div style={{
       position: 'relative',
       width: '100%',
       height: '100%',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      background: '#08080c'
     }}>
 
-      <video
-        ref={videoRef}
-        src="/videos/showreel.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover'
-        }}
-      />
+      {(!isMobile || isPlaying) && (
+        <video
+          ref={videoRef}
+          src="/videos/showreel.mp4"
+          autoPlay={isPlaying}
+          loop
+          muted={muted}
+          playsInline
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+      )}
+
+      {!isPlaying && isMobile && (
+        <div 
+          onClick={handlePlay}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%)',
+            cursor: 'none',
+            zIndex: 3
+          }}
+        >
+          <div style={{
+            width: 60, height: 60, borderRadius: '50%',
+            background: 'rgba(200,169,110,0.2)',
+            border: '1px solid rgba(200,169,110,0.5)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(4px)',
+          }}>
+            <div style={{
+              width: 0, height: 0,
+              borderTop: '8px solid transparent',
+              borderBottom: '8px solid transparent',
+              borderLeft: '14px solid var(--gold)',
+              marginLeft: 4
+            }} />
+          </div>
+          <div style={{ position: 'absolute', bottom: 20, fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)' }}>
+            WATCH REEL
+          </div>
+        </div>
+      )}
 
       {/* REC indicator */}
       <div style={{
@@ -2087,7 +1895,11 @@ function VisualSection() {
       background: 'linear-gradient(180deg, var(--bg2), var(--bg))',
       overflow: 'hidden',
     }}>
-      {!isMobile && <FilmScene />}
+      {!isMobile && (
+        <Suspense fallback={null}>
+          <FilmScene />
+        </Suspense>
+      )}
       <div style={{
         position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexDirection: 'column', zIndex: 2,
