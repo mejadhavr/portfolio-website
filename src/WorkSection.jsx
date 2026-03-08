@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useIsMobile, AuroraBg } from './Shared';
-
-/* ─────────────────────────────────────────────
-   PORTFOLIO / WORK SECTION
-───────────────────────────────────────────── */
 const workProjects = [
   {
     title: 'Brand Manifesto',
@@ -158,6 +155,26 @@ export default function WorkSection() {
           {workProjects.map((p, i) => (
             <ProjectCard key={i} project={p} index={i} />
           ))}
+        </div>
+
+        {/* View Event Highlights CTA */}
+        <div style={{ 
+          marginTop: 60, textAlign: 'center', 
+          opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(20px)', 
+          transition: 'all 0.8s ease 0.6s' 
+        }}>
+          <Link to="/event-portfolio" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 12,
+            padding: '16px 32px', borderRadius: 8,
+            background: 'rgba(200,169,110,0.1)', border: '1px solid rgba(200,169,110,0.3)',
+            fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase',
+            color: 'var(--gold)', textDecoration: 'none', transition: 'all 0.3s'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = '#000'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.1)'; e.currentTarget.style.color = 'var(--gold)'; }}
+          >
+            Explore Event Highlights Portfolio <span>→</span>
+          </Link>
         </div>
       </div>
     </section>
