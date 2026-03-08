@@ -31,6 +31,110 @@ const contactSocials = [
   },
 ];
 
+function InquiryForm({ isMobile }) {
+    const [status, setStatus] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        if (window.trackEvent) window.trackEvent("contact_form_submit");
+        const form = e.target;
+        const data = new FormData(form);
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
+            if (response.ok) {
+                setStatus("SUCCESS");
+                form.reset();
+            } else {
+                setStatus("ERROR");
+            }
+        } catch (error) {
+            setStatus("ERROR");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    if (status === "SUCCESS") {
+        return (
+            <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                <div style={{ fontSize: 48, color: '#25D366', marginBottom: 20 }}>✓</div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 32, color: 'var(--white)', marginBottom: 12 }}>MESSAGE SENT</h3>
+                <p style={{ fontFamily: 'var(--font-editorial)', color: 'rgba(242,238,232,0.6)' }}>Thank you for reaching out. I'll get back to you shortly.</p>
+                <button onClick={() => setStatus("")} style={{ marginTop: 24, background: 'none', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '8px 20px', borderRadius: 4, cursor: 'none', fontFamily: 'var(--font-mono)', fontSize: 10 }}>Send Another</button>
+            </div>
+        );
+    }
+
+    return (
+        <form action="https://formspree.io/f/mqkenbzo" method="POST" onSubmit={handleSubmit}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+                <div>
+                    <label htmlFor="name" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Name</label>
+                    <input type="text" id="name" name="name" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
+                </div>
+                <div>
+                    <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Email</label>
+                    <input type="email" id="email" name="email" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
+                </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+                <div>
+                    <label htmlFor="phone" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>WhatsApp Number</label>
+                    <input type="tel" id="phone" name="phone" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
+                </div>
+                <div>
+                    <label htmlFor="project_type" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Project Type</label>
+                    <select id="project_type" name="project_type" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', appearance: 'none', cursor: 'none' }}>
+                        <option value="Brand Film" style={{background: '#0a0a0c'}}>Brand Film</option>
+                        <option value="Reel" style={{background: '#0a0a0c'}}>Reel</option>
+                        <option value="Motion Graphics" style={{background: '#0a0a0c'}}>Motion Graphics</option>
+                        <option value="Other" style={{background: '#0a0a0c'}}>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div style={{ marginBottom: 20 }}>
+                <label htmlFor="budget" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Budget Range</label>
+                <select id="budget" name="budget" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', appearance: 'none', cursor: 'none' }}>
+                    <option value="Under $500" style={{background: '#0a0a0c'}}>Under $500</option>
+                    <option value="$500 - $1000" style={{background: '#0a0a0c'}}>$500 - $1000</option>
+                    <option value="$1000+" style={{background: '#0a0a0c'}}>$1000+</option>
+                </select>
+            </div>
+            <div style={{ marginBottom: 24 }}>
+                <label htmlFor="message" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Message</label>
+                <textarea id="message" name="message" required rows="4" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', resize: 'vertical' }}></textarea>
+            </div>
+            
+            {status === "ERROR" && (
+                <p style={{ color: '#ff4d4d', fontFamily: 'var(--font-mono)', fontSize: 12, marginBottom: 20, textAlign: 'center' }}>
+                    Oops! Something went wrong. Please try again or email directly.
+                </p>
+            )}
+
+            <button type="submit" disabled={submitting} style={{ 
+                width: '100%', padding: '16px', 
+                background: submitting ? 'rgba(200,169,110,0.4)' : 'linear-gradient(135deg, var(--gold), #E8C87A)', 
+                border: 'none', borderRadius: 8, 
+                color: submitting ? 'rgba(0,0,0,0.5)' : '#000', 
+                fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 2, 
+                textTransform: 'uppercase', fontWeight: 700, 
+                cursor: submitting ? 'not-allowed' : 'none', 
+                transition: 'all 0.3s',
+                opacity: submitting ? 0.7 : 1
+            }}>
+                {submitting ? 'Sending...' : 'Send Inquiry'}
+            </button>
+        </form>
+    );
+}
+
+
 export default function ContactSection() {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
@@ -80,89 +184,7 @@ export default function ContactSection() {
           </div>
 
           <div className="glass-card" style={{ padding: isMobile ? '30px 20px' : '30px 40px', background: 'rgba(10,10,15,0.7)' }}>
-            {/* Formspree AJAX Handler */}
-            {(() => {
-                const [status, setStatus] = useState("");
-                const handleSubmit = async (e) => {
-                    e.preventDefault();
-                    if (window.trackEvent) window.trackEvent("contact_form_submit");
-                    const form = e.target;
-                    const data = new FormData(form);
-                    try {
-                        const response = await fetch(form.action, {
-                            method: form.method,
-                            body: data,
-                            headers: { 'Accept': 'application/json' }
-                        });
-                        if (response.ok) {
-                            setStatus("SUCCESS");
-                            form.reset();
-                        } else {
-                            setStatus("ERROR");
-                        }
-                    } catch (error) {
-                        setStatus("ERROR");
-                    }
-                };
-
-                if (status === "SUCCESS") {
-                    return (
-                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
-                            <div style={{ fontSize: 48, color: '#25D366', marginBottom: 20 }}>✓</div>
-                            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 32, color: 'var(--white)', marginBottom: 12 }}>MESSAGE SENT</h3>
-                            <p style={{ fontFamily: 'var(--font-editorial)', color: 'rgba(242,238,232,0.6)' }}>Thank you for reaching out. I'll get back to you shortly.</p>
-                            <button onClick={() => setStatus("")} style={{ marginTop: 24, background: 'none', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '8px 20px', borderRadius: 4, cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 10 }}>Send Another</button>
-                        </div>
-                    );
-                }
-
-                return (
-                    <form action="https://formspree.io/f/mqkenbzo" method="POST" onSubmit={handleSubmit}>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
-                <div>
-                  <label htmlFor="name" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Name</label>
-                  <input type="text" id="name" name="name" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
-                </div>
-                <div>
-                  <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Email</label>
-                  <input type="email" id="email" name="email" required style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
-                <div>
-                  <label htmlFor="phone" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>WhatsApp Number</label>
-                  <input type="tel" id="phone" name="phone" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none' }} />
-                </div>
-                <div>
-                  <label htmlFor="project_type" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Project Type</label>
-                  <select id="project_type" name="project_type" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', appearance: 'none' }}>
-                    <option value="Brand Film" style={{background: '#0a0a0c'}}>Brand Film</option>
-                    <option value="Reel" style={{background: '#0a0a0c'}}>Reel</option>
-                    <option value="Motion Graphics" style={{background: '#0a0a0c'}}>Motion Graphics</option>
-                    <option value="Other" style={{background: '#0a0a0c'}}>Other</option>
-                  </select>
-                </div>
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <label htmlFor="budget" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Budget Range</label>
-                <select id="budget" name="budget" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', appearance: 'none' }}>
-                  <option value="Under $500" style={{background: '#0a0a0c'}}>Under $500</option>
-                  <option value="$500 - $1000" style={{background: '#0a0a0c'}}>$500 - $1000</option>
-                  <option value="$1000+" style={{background: '#0a0a0c'}}>$1000+</option>
-                </select>
-              </div>
-              <div style={{ marginBottom: 24 }}>
-                <label htmlFor="message" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase' }}>Message</label>
-                <textarea id="message" name="message" required rows="4" style={{ width: '100%', padding: '12px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'var(--white)', fontFamily: 'var(--font-editorial)', fontSize: 16, outline: 'none', resize: 'vertical' }}></textarea>
-              </div>
-              {/* NOTE: Add <!-- REPLACE --> or similar if requested, though we just hardcoded standard formspree form layout as per spec */}
-              <button type="submit" style={{ width: '100%', padding: '16px', background: 'linear-gradient(135deg, var(--gold), #E8C87A)', border: 'none', borderRadius: 8, color: '#000', fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, cursor: 'pointer', transition: 'all 0.3s' }}>
-                Send Inquiry
-              </button>
-            </form>
-                );
-            })()}
+            <InquiryForm isMobile={isMobile} />
           </div>
 
         </div>
