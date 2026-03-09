@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from "react";
 
 
-const HeroCanvas = lazy(() => import("./HeroCanvas"));
+const HeroCanvas = lazy(() => import('./' + 'HeroCanvas'));
 import { useIsMobile, useIsLowEnd, AuroraBg } from './Shared';
 import LazySection from './LazySection';
 
-const AboutSection = lazy(() => import('./AboutSection'));
-const WorkSection = lazy(() => import('./WorkSection'));
-const ServicesSection = lazy(() => import('./ServicesSection'));
-const VisualSection = lazy(() => import('./VisualSection'));
-const ClientsSection = lazy(() => import('./ClientsSection'));
-const ContactSection = lazy(() => import('./ContactSection'));
+const AboutSection = lazy(() => import('./' + 'AboutSection'));
+const WorkSection = lazy(() => import('./' + 'WorkSection'));
+const ServicesSection = lazy(() => import('./' + 'ServicesSection'));
+const VisualSection = lazy(() => import('./' + 'VisualSection'));
+const ClientsSection = lazy(() => import('./' + 'ClientsSection'));
+const ContactSection = lazy(() => import('./' + 'ContactSection'));
 
 
 
@@ -608,7 +608,6 @@ export default function App() {
 
   return (
     <>
-      <div className="grain-overlay" />
       <CustomCursor />
 
       {loading && <LoadingScreen onDone={handleLoadDone} />}
