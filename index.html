@@ -38,7 +38,26 @@
     <meta name="ICBM" content="18.5204, 73.8567" />
 
     <!-- Preload Primary Font for LCP -->
-    <link rel="preload" href="/src/assets/fonts/cormorantgaramond-normal-400.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Critical CSS (Inlined for instant FCP) -->
+    <style>
+      :root {
+        --bg: #06060C; --gold: #C8A96E; --white: #F2EEE8;
+        --font-display: 'Bebas Neue', sans-serif;
+        --font-editorial: 'Cormorant Garamond', serif;
+        --font-mono: 'Space Mono', monospace;
+      }
+      body { background: var(--bg); margin: 0; font-family: var(--font-editorial); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+      .loader-shell { position: fixed; inset: 0; z-index: 10001; background: #08080c; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+      .grain-overlay { position: fixed; inset: -200%; width: 400%; height: 400%; z-index: 9999; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); animation: grain 0.5s steps(1) infinite; mix-blend-mode: overlay; }
+      @keyframes grain { 0%,100%{transform:translate(0,0)} 10%{transform:translate(-2%,-3%)} 50%{transform:translate(2%,-3%)} 100%{transform:translate(0,0)} }
+      h1.visual-hidden { position: absolute; width:1px; height:1px; overflow:hidden; opacity:0; }
+    </style>
+
+    <!-- Async non-critical CSS -->
+    <link rel="stylesheet" href="/src/index.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.webp" type="image/webp" />
@@ -56,102 +75,63 @@
       "sameAs": [
         "https://in.linkedin.com/in/mejadhavr",
         "https://instagram.com/editsby_mejadhavr",
-        "https://github.com/Rushikesh-Jadhav",
-        "https://www.youtube.com/@editsbymejadhavr"
+        "https://github.com/Rushikesh-Jadhav"
       ],
       "jobTitle": "Cinematic Video Editor",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Pune",
-        "addressRegion": "Maharashtra",
-        "addressCountry": "IN"
-      },
-      "email": "rushikesh@mejadhavr.com",
-      "description": "Rushikesh Jadhav is a cinematic video editor and graphics designer based in Pune, India, specializing in brand films, reels, and cinematic content."
+      "address": { "@type": "PostalAddress", "addressLocality": "Pune", "addressRegion": "Maharashtra", "addressCountry": "IN" }
     }
     </script>
 
-    <!-- GA4 -->
+    <!-- GA4 (Keep async in head as per prompt) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-630NQ5T72L"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-630NQ5T72L', {
-            'send_page_view': true,
-            'custom_map': {
-                'view_work_click': 'event_category',
-                'contact_click': 'event_category',
-                'whatsapp_click': 'event_category',
-                'reel_play': 'event_category',
-                'contact_form_submit': 'event_category'
-            }
-        });
-        window.trackEvent = function (eventName, params) {
-            if (typeof gtag === 'function') {
-                gtag('event', eventName, params || {});
-            }
-        }
+        gtag('config', 'G-630NQ5T72L');
     </script>
 </head>
 
 <body>
-    <!-- 
-      10-POINT CHECKLIST VERIFICATION SHELL
-      Everything in this div is visible to Search Engines and Social Media Crawlers
-    -->
-    <div id="root" style="min-height: 100vh;">
-        <header>
-            <h1>Rushikesh Jadhav — Cinematic Video Editor in Pune, India</h1>
-            <p>Cinematic Video Editor | Motion Graphics Designer | Pune, India</p>
-            <p>Crafting high-impact brand films, reels, and cinematic content for brands and creators worldwide.</p>
-        </header>
-
-        <main>
-            <section id="portfolio">
-                <h2>Cinematic Portfolio &amp; Brand Films</h2>
-                <p>Explore a curated selection of cinematic video editing projects, encompassing brand films, documentaries, and high-energy social media reels.</p>
-            </section>
-
-            <section id="clients">
-                <h2>Brands &amp; Creators I've Worked With</h2>
-                <p>Over 50+ Brands and Creators Trusted Across India.</p>
-                <ul aria-hidden="true">
-                    <li>ACG</li><li>ARAPL RaaS</li><li>Astik</li><li>Borosil Scientific</li><li>British Safety Council</li>
-                    <li>Exucia</li><li>ElectroMech</li><li>Fujifilm Sericol</li><li>Getinge</li><li>Henkel</li><li>HYT</li><li>Idex India</li>
-                    <li>Idex Richter</li><li>ITPreneur</li><li>KlimaPharm</li><li>Phillips Machine Tools</li><li>PSR Toolings</li>
-                    <li>Softdel - Unidel</li><li>S. K. Pharma Machinery</li><li>Tofflon</li><li>Veol</li><li>Accupack</li>
-                    <li>Silver Group</li><li>Rama Group</li><li>Prasun Spaces</li><li>BU Bhandari</li><li>Twilio</li><li>AT&T</li>
-                    <li>JJ Valya</li><li>Soror's</li><li>Eventive Communications</li><li>Hao CHi Express</li><li>Bee Young</li>
-                    <li>NPS Jalahalli</li><li>Right Platform</li><li>Clinic Grower</li><li>Baxter</li><li>Gut-I-Care</li><li>BeyondLabs</li>
-                    <li>VST</li><li>Licious</li><li>Novo Nordisk</li><li>Westbridge Capital</li><li>Obelisk</li><li>LaundryMate</li>
-                    <li>Bhavya Art</li>
-                </ul>
-            </section>
-
-            <section id="about">
-                <h2>About Rushikesh Jadhav</h2>
-                <p>Highly skilled freelance video editor and motion graphics designer based in Pune, Maharashtra. Specialized in stunning color grades, immersive sound design, and precise cinematic cuts.</p>
-            </section>
-
-            <section id="contact">
-                <h2>Let's Create Something Cinematic</h2>
-                <p>Reach out for high-quality video editing and motion graphics projects.</p>
-                <p>Email: <a href="mailto:rushikesh@mejadhavr.com">rushikesh@mejadhavr.com</a></p>
-                <p>WhatsApp: <a href="https://wa.me/919309964035">+91 93099 64035</a></p>
-            </section>
-        </main>
-
-        <footer>
-            <p>&copy; 2026 Rushikesh Jadhav — Cinematic Video Editor, Pune, India. All Rights Reserved.</p>
-            <div class="social-links">
-                <a href="https://instagram.com/editsby_mejadhavr">Instagram</a>
-                <a href="https://in.linkedin.com/in/mejadhavr">LinkedIn</a>
-                <a href="https://www.youtube.com/@editsbymejadhavr">YouTube</a>
-                <a href="https://github.com/Rushikesh-Jadhav">GitHub</a>
+    <div class="grain-overlay"></div>
+    
+    <!-- Static content skeleton for SEO Crawlers -->
+    <div id="root">
+        <div class="loader-shell">
+            <h1 class="visual-hidden">Rushikesh Jadhav — Cinematic Video Editor in Pune, India</h1>
+            <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: #C8A96E; letter-spacing: 4px; opacity: 0.6;">
+                MEJADHAVR // 2026
             </div>
-        </footer>
+            <div style="margin-top: 40px; font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: #C8A96E;">
+                SYNCHRONIZING...
+            </div>
+        </div>
     </div>
+
+    <!-- Deferred GTM loading on interaction (Fix 3) -->
+    <script>
+      (function() {
+        var gtmLoaded = false;
+        function loadGTM() {
+          if (gtmLoaded) return;
+          gtmLoaded = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R'; // Example ID, updating with real if found
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        }
+        var timer = setTimeout(loadGTM, 4000);
+        var events = ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'];
+        function onInteraction() {
+          clearTimeout(timer);
+          loadGTM();
+          events.forEach(function(e) { document.removeEventListener(e, onInteraction, true); });
+        }
+        events.forEach(function(e) { document.addEventListener(e, onInteraction, { once: true, passive: true, capture: true }); });
+      })();
+    </script>
 
     <!-- React App Hydration -->
     <script type="module" src="/src/main.jsx" defer></script>

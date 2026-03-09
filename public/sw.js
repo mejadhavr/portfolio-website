@@ -1,15 +1,12 @@
-const CACHE_NAME = 'mejadhavr-v1';
+const CACHE_NAME = 'mejadhavr-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/assets/fonts/bebasneue.ttf',
-  '/assets/fonts/cormorantgaramond-italic-300.ttf',
-  '/assets/fonts/cormorantgaramond-italic-400.ttf',
-  '/assets/fonts/cormorantgaramond-normal-300.ttf',
-  '/assets/fonts/cormorantgaramond-normal-400.ttf',
-  '/assets/fonts/cormorantgaramond-normal-600.ttf',
-  '/assets/fonts/spacemono-normal-400.ttf',
-  '/assets/fonts/spacemono-normal-700.ttf',
+  '/src/assets/fonts/bebas-neue-400.woff2',
+  '/src/assets/fonts/cormorant-garamond-italic.woff2',
+  '/src/assets/fonts/cormorant-garamond-normal.woff2',
+  '/src/assets/fonts/space-mono-400.woff2',
+  '/src/assets/fonts/space-mono-700.woff2',
 ];
 
 self.addEventListener('install', event => {

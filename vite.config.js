@@ -10,10 +10,13 @@ export default defineConfig({
     minify: 'esbuild',
     rollupOptions: {
       output: {
-        manualChunks: {
-          'three-core': ['three'],
-          'three-drei': ['@react-three/drei'],
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('three')) return 'vendor-three';
+            if (id.includes('framer-motion')) return 'vendor-motion';
+            if (id.includes('react')) return 'vendor-framework';
+            return 'vendor-utils';
+          }
         },
       },
     },
