@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 
 const Portfolio = lazy(() => import("./Portfolio"));
