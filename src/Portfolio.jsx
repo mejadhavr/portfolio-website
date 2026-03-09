@@ -626,7 +626,7 @@ export default function App() {
         <LazySection id="visual"><Suspense fallback={null}><VisualSection /></Suspense></LazySection>
         <LazySection id="contact"><Suspense fallback={null}><ContactSection /></Suspense></LazySection>
       </div>
-      <ChatWidget />
+
     </>
   );
 }
