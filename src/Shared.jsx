@@ -85,7 +85,7 @@ export function ContactDock() {
          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
       >
-        <img src="/logo.webp" alt="MJ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <img src="/images/logo.webp" alt="MJ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </a>
 
       {links.map(link => (

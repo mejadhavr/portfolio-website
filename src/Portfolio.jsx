@@ -330,7 +330,7 @@ function Navigation({ active }) {
       }}>
         {/* Mobile Brand Mark - using logo if exists, else fallback */}
         <div style={{ marginBottom: 20, width: 64, height: 64 }}>
-           <img src="/logo.webp" alt="MJ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+           <img src="/images/logo.webp" alt="MJ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
 
         {navItems.map(item => (
