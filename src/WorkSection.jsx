@@ -131,7 +131,7 @@ export default function WorkSection() {
       padding: 'clamp(80px,10vw,120px) clamp(16px,5vw,40px)',
       background: 'var(--bg2)',
       overflow: 'hidden',
-      minHeight: '100vh',
+      minHeight: '100dvh',
     }}>
       <AuroraBg accent="gold" />
       <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
@@ -143,7 +143,27 @@ export default function WorkSection() {
           </h2>
         </div>
 
-        {/* Bento Grid */}
+        {/* Selected Clients Section */}
+      <div style={{ 
+        maxWidth: 1200, margin: '0 auto 80px', padding: '0 20px',
+        borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 60
+      }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 4, color: 'var(--gold)', marginBottom: 32, textTransform: 'uppercase', textAlign: 'center', opacity: 0.6 }}>
+          Selected Clients & Collaborators
+        </div>
+        <div style={{ 
+          display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 'clamp(20px, 5vw, 60px)',
+          fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 4vw, 32px)', color: 'var(--white)',
+          opacity: 0.8, textAlign: 'center'
+        }}>
+          <div>PRASUN SPACES</div>
+          <div>PHILLIPS MACHINE TOOLS</div>
+          <div>UNPLUG INFINITY MEDIA</div>
+          <div>GREYSCALE FILMS</div>
+        </div>
+      </div>
+
+      {/* Bento Grid */}
         <div className="work-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
@@ -153,7 +173,7 @@ export default function WorkSection() {
           transition: 'opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s',
         }}>
           {workProjects.map((p, i) => (
-            <ProjectCard key={i} project={p} index={i} />
+            <MemoizedProjectCard key={i} project={p} index={i} />
           ))}
         </div>
 
@@ -279,14 +299,15 @@ function ProjectCard({ project: p }) {
         gridColumn: colSpan,
         perspective: isFlipCard ? '1200px' : '800px',
         position: 'relative',
-        // Mobile flip cards: no padding trick → natural height
-        paddingBottom: (!useMobileFlipLayout && isFlipCard) ? p.aspect : 0,
+        // Modern aspect-ratio instead of padding-bottom trick
+        aspectRatio: (!useMobileFlipLayout && isFlipCard) ? p.aspect.replace('%', '') / 100 : undefined,
         // Min-height on mobile so card feels substantial
         minHeight: useMobileFlipLayout ? 320 : undefined,
       }}
     >
       <CardWrapper
         {...wrapperProps}
+        className={!isFlipCard ? 'project-card-premium' : ''}
         style={{
           display: 'block',
           textDecoration: 'none',
@@ -300,7 +321,7 @@ function ProjectCard({ project: p }) {
           WebkitTransformStyle: 'preserve-3d',
           transform: isFlipCard
             ? (isCurrentlyFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)')
-            : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.025)` : 'rotateX(0) rotateY(0) scale(1)'),
+            : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.03)` : 'rotateX(0) rotateY(0) scale(1)'),
           transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1)',
           boxShadow: hovered && !isFlipCard ? `0 30px 80px rgba(0,0,0,0.7), 0 0 40px ${p.accent}22` : '0 8px 32px rgba(0,0,0,0.5)',
         }}
@@ -311,7 +332,7 @@ function ProjectCard({ project: p }) {
           style={{
             position: isFlipCard ? 'absolute' : 'relative',
             inset: 0,
-            paddingBottom: isFlipCard ? 0 : p.aspect,
+            aspectRatio: isFlipCard ? undefined : p.aspect.replace('%', '') / 100,
             background: p.gradient,
             border: `1px solid ${hovered ? p.accent + '44' : 'rgba(255,255,255,0.05)'}`,
             borderRadius: 16,
@@ -519,3 +540,5 @@ function ProjectCard({ project: p }) {
     </div>
   );
 }
+
+const MemoizedProjectCard = React.memo(ProjectCard);

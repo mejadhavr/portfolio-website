@@ -5,9 +5,20 @@ const Portfolio = lazy(() => import("./Portfolio"));
 const EventPortfolio = lazy(() => import("./EventPortfolio"));
 
 
+import { useLocation } from "react-router-dom";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 function App() {
   return (
     <HashRouter>
+      <ScrollToTop />
       <Suspense fallback={<div className="loader-shell" />}>
         <Routes>
           <Route path="/" element={<Portfolio />} />

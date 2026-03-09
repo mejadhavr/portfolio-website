@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-export default function LazySection({ children, id, minHeight = "100vh" }) {
+export default function LazySection({ children, id, minHeight = "100dvh" }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 

@@ -141,7 +141,15 @@ function InquiryForm({ isMobile }) {
 export default function ContactSection() {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
+  const [copied, setCopied] = useState(false);
   const isMobile = useIsMobile();
+
+  const copyEmail = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText("rushikesh@mejadhavr.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { setVis(e.isIntersecting); }, { threshold: 0.1 });
@@ -176,10 +184,22 @@ export default function ContactSection() {
         }}>
           {/* Left info column */}
           <div>
-            <a href="mailto:rushikesh@mejadhavr.com" className="glass-card" style={{ display: 'block', padding: 30, marginBottom: 20, textDecoration: 'none', transition: 'all 0.3s' }}>
+            <div className="glass-card" style={{ position: 'relative', display: 'block', padding: 30, marginBottom: 20, transition: 'all 0.3s' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)', marginBottom: 12 }}>EMAIL</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)', wordBreak: 'break-all' }}>rushikesh@mejadhavr.com</div>
-            </a>
+              <button 
+                onClick={copyEmail}
+                style={{
+                  position: 'absolute', top: 20, right: 20,
+                  background: 'none', border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'rgba(255,255,255,0.4)', padding: '4px 10px', borderRadius: 4,
+                  fontFamily: 'var(--font-mono)', fontSize: 8, cursor: 'none',
+                  transition: 'all 0.3s'
+                }}
+              >
+                {copied ? 'COPIED' : 'COPY'}
+              </button>
+            </div>
             <a href="https://wa.me/919309964035" target="_blank" rel="noopener noreferrer" className="glass-card" style={{ display: 'block', padding: 30, textDecoration: 'none', transition: 'all 0.3s' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--cyan)', marginBottom: 12 }}>WHATSAPP</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)' }}>+91 93099 64035</div>

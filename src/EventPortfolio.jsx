@@ -87,9 +87,15 @@ function YouTubeEmbed({ id }) {
 
   return (
     <div style={{
-      position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden',
-      borderRadius: 16, background: '#000', border: '1px solid rgba(255,255,255,0.1)',
-      boxShadow: '0 10px 30px rgba(0,0,0,0.5)', transition: 'transform 0.4s ease',
+      position: 'relative', 
+      aspectRatio: '16 / 9',
+      width: '100%',
+      overflow: 'hidden',
+      borderRadius: 16, 
+      background: '#000', 
+      border: '1px solid rgba(255,255,255,0.1)',
+      boxShadow: '0 10px 30px rgba(0,0,0,0.5)', 
+      transition: 'transform 0.4s ease',
     }}
       onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.02)'; }}
       onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
