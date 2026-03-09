@@ -148,9 +148,49 @@ export default function EventPortfolio() {
           {videos.map((id, i) => (<YouTubeEmbed key={i} id={id} />))}
         </div>
 
-        {/* Reusing existing footer/disclaimer ... */}
+        {/* Disclaimer Section */}
+        <div style={{
+          marginTop: 80, padding: '30px 40px', borderRadius: 16,
+          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+          opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)', transition: 'all 1s ease 0.6s'
+        }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 30 }}>
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 12, letterSpacing: 2 }}>◈ COLLABORATION CREDIT</div>
+              <p style={{ fontSize: 13, color: 'rgba(242,238,232,0.5)', lineHeight: 1.6, margin: 0 }}>
+                The cinematic works featured above may have been edited directly by me or while working as part of a creative team at 
+                <strong> Unplug Infinity</strong>, <strong>Prismscale</strong>, <strong>iTant</strong>, or <strong>Greyscale</strong>.
+              </p>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--cyan)', marginBottom: 12, letterSpacing: 2 }}>◈ CONFIDENTIALITY NOTICE</div>
+              <p style={{ fontSize: 13, color: 'rgba(242,238,232,0.5)', lineHeight: 1.6, margin: 0 }}>
+                These videos may contain confidential or proprietary content. They are intended for portfolio viewing only and must 
+                not be shared, downloaded, or distributed without explicit authorization.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer info */}
         <footer style={{ marginTop: 120, textAlign: 'center', paddingTop: 60, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'rgba(242,238,232,0.3)' }}>Curated Cinematic Experience · 2026</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'rgba(242,238,232,0.3)', marginBottom: 20 }}>
+            Curated Cinematic Experience · {new Date().getFullYear()}
+          </div>
+          <button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            style={{
+              background: 'none', border: '1px solid rgba(255,255,255,0.1)', 
+              color: 'rgba(242,238,232,0.4)', padding: '10px 24px', borderRadius: 30,
+              fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2, 
+              textTransform: 'uppercase', cursor: 'pointer',
+              transition: 'all 0.4s ease'
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = 'var(--white)'; e.currentTarget.style.borderColor = 'var(--gold)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(242,238,232,0.4)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+          >
+            ↑ TOP
+          </button>
         </footer>
       </main>
     </div>
