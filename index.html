@@ -88,14 +88,6 @@
     }
     </script>
 
-    <!-- GA4 (Keep async in head as per prompt) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-630NQ5T72L"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-630NQ5T72L');
-    </script>
 </head>
 
 <body>
@@ -118,24 +110,34 @@
         </div>
     </div>
 
-    <!-- GTM deferred (Fix 2) -->
+    <!-- Deferred Analytics Loader (GA4 + GTM) -->
     <script>
     (function(){
       var loaded=false;
-      function loadGTM(){
+      function loadAnalytics(){
         if(loaded)return;
         loaded=true;
+        
+        // Load GTM
         window.dataLayer=window.dataLayer||[];
         window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-        var d=document,s=d.createElement('script');
-        s.async=true;
-        s.src='https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R';
-        d.head.appendChild(s);
+        var d=document, s1=d.createElement('script');
+        s1.async=true; s1.src='https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R';
+        d.head.appendChild(s1);
+
+        // Load GA4
+        var s2=d.createElement('script');
+        s2.async=true; s2.src='https://www.googletagmanager.com/gtag/js?id=G-630NQ5T72L';
+        d.head.appendChild(s2);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-630NQ5T72L');
       }
-      var t=setTimeout(loadGTM,4000);
+      var t=setTimeout(loadAnalytics,4000);
       ['click','scroll','keydown','touchstart','mousemove'].forEach(function(e){
         document.addEventListener(e,function f(){
-          clearTimeout(t);loadGTM();
+          clearTimeout(t); loadAnalytics();
           document.removeEventListener(e,f,true);
         },{once:true,passive:true,capture:true});
       });

@@ -185,6 +185,7 @@ export default function WorkSection() {
    pauses when it leaves. Works on mobile without requiring a tap. */
 function CardVideo({ src, isMobile }) {
   const videoRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -209,12 +210,14 @@ function CardVideo({ src, isMobile }) {
       loop
       muted
       playsInline
-      autoPlay
       preload="none"
+      onCanPlay={() => setIsLoaded(true)}
+      poster={`/videos/posters/${src}.webp`}
       style={{
         width: '100%', height: '100%',
         objectFit: 'cover',
-        opacity: isMobile ? 0.55 : 0.62,
+        opacity: isLoaded ? (isMobile ? 0.55 : 0.62) : 0,
+        transition: 'opacity 1s ease',
       }}
     >
       <source src={`/videos/${src}.webm`} type="video/webm" />

@@ -42,17 +42,19 @@ export default function HeroCanvas() {
       const bladeGroup = new THREE.Group();
       scene.add(bladeGroup);
       const bladeCount = 9;
+
+      // PRE-INSTANTIATE GEOMETRY AND MATERIALS (Action 1)
+      const shape = new THREE.Shape();
+      shape.moveTo(0, 0);
+      shape.quadraticCurveTo(0.15, 0.7, 0, 1.35);
+      shape.quadraticCurveTo(-0.15, 0.7, 0, 0);
+      const geo = new THREE.ShapeGeometry(shape);
+      
+      const goldMat = new THREE.MeshBasicMaterial({ color: 0xC8A96E, transparent: true, opacity: 0.12, side: THREE.DoubleSide });
+      const cyanMat = new THREE.MeshBasicMaterial({ color: 0x00C9FF, transparent: true, opacity: 0.12, side: THREE.DoubleSide });
+
       for (let i = 0; i < bladeCount; i++) {
-        const shape = new THREE.Shape();
-        shape.moveTo(0, 0);
-        shape.quadraticCurveTo(0.15, 0.7, 0, 1.35);
-        shape.quadraticCurveTo(-0.15, 0.7, 0, 0);
-        const geo = new THREE.ShapeGeometry(shape);
-        const mat = new THREE.MeshBasicMaterial({
-          color: i % 2 === 0 ? 0xC8A96E : 0x00C9FF,
-          transparent: true, opacity: 0.12, side: THREE.DoubleSide,
-        });
-        const blade = new THREE.Mesh(geo, mat);
+        const blade = new THREE.Mesh(geo, i % 2 === 0 ? goldMat : cyanMat);
         blade.rotation.z = (i / bladeCount) * Math.PI * 2;
         blade.position.set(0, 0, 0);
         bladeGroup.add(blade);
@@ -122,6 +124,7 @@ export default function HeroCanvas() {
         const t = Date.now() * 0.001;
         bladeGroup.rotation.z = t * 0.12;
         ring.rotation.z = t * 0.08;
+        ring.rotation.z = t * 0.08;
         ring2.rotation.z = -t * 0.06;
         particles.rotation.y = t * 0.02;
         particles.rotation.x = t * 0.01;
@@ -146,6 +149,19 @@ export default function HeroCanvas() {
         if (frame) cancelAnimationFrame(frame);
         window.removeEventListener('mousemove', onMouse);
         window.removeEventListener('resize', onResize);
+        
+        // RECURSIVE DISPOSAL TO FIX MEMORY LEAK (Action 2)
+        scene.traverse((object) => {
+          if (object.geometry) object.geometry.dispose();
+          if (object.material) {
+            if (Array.isArray(object.material)) {
+              object.material.forEach(mat => mat.dispose());
+            } else {
+              object.material.dispose();
+            }
+          }
+        });
+
         if (renderer) {
           renderer.dispose();
           if (el.contains(renderer.domElement)) {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from "react";
-import * as THREE from "three";
+
 
 const HeroCanvas = lazy(() => import("./HeroCanvas"));
 import { useIsMobile, useIsLowEnd, AuroraBg } from './Shared';
@@ -12,7 +12,7 @@ const VisualSection = lazy(() => import('./VisualSection'));
 const ClientsSection = lazy(() => import('./ClientsSection'));
 const ContactSection = lazy(() => import('./ContactSection'));
 
-import ChatWidget from "./ChatWidget";
+
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM
