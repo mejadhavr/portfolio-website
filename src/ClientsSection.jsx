@@ -94,12 +94,6 @@ export default function ClientsSection() {
         <MarqueeRow names={baseClientsData.slice(30)} dir={-1} speed={45} />
       </div>
 
-      <style>{`
-        @keyframes marqueeScroll {
-          from { transform: translateX(0); }
-          to { transform: translateX(-33.33%); }
-        }
-      `}</style>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 2, padding: '0 40px' }}>
         <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 80 }}>
