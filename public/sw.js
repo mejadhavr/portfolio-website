@@ -8,9 +8,9 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME).then(cache => cache.addAll([
       '/',
       '/index.html',
-      '/src/assets/fonts/bebas-neue-400.woff2',
-      '/src/assets/fonts/cormorant-garamond-normal.woff2',
-      '/src/assets/fonts/space-mono-400.woff2',
+      '/assets/fonts/bebas-neue-400.woff2',
+      '/assets/fonts/cormorant-garamond-normal.woff2',
+      '/assets/fonts/space-mono-400.woff2',
     ]))
   );
 });

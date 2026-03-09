@@ -37,7 +37,7 @@ function CinematicVideo() {
       <video
         ref={videoRef}
         src={videoSrc}
-        autoPlay
+        autoPlay={!!videoSrc}
         loop
         muted={muted}
         playsInline

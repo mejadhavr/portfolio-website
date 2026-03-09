@@ -7,23 +7,13 @@ export default defineConfig({
   base: '/',
   build: {
     target: ['chrome90', 'firefox88', 'safari14', 'edge90'],
-    minify: 'esbuild',
+    sourcemap: false,
     rollupOptions: {
       output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name?.endsWith('.css')) return 'assets/styles.[hash].css';
-          return 'assets/[name].[hash][extname]';
-        },
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('three')) return 'vendor-three';
-            if (id.includes('framer-motion')) return 'vendor-motion';
-            if (id.includes('react')) return 'vendor-framework';
-            return 'vendor-utils';
-          }
-        },
-      },
-    },
-    chunkSizeWarningLimit: 900,
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+      }
+    }
   },
 })
