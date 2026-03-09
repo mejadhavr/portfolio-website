@@ -241,6 +241,7 @@ export default function ContactSection() {
 
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Back to Top"
             style={{
               background: 'none', border: '1px solid rgba(255,255,255,0.1)', 
               color: 'rgba(242,238,232,0.6)', padding: '10px 24px', borderRadius: 30,

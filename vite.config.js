@@ -10,14 +10,13 @@ export default defineConfig({
     minify: 'esbuild',
     rollupOptions: {
       output: {
-        // Split Three.js into its own chunk so main bundle stays lean
         manualChunks: {
-          'three': ['three'],
-          'react-vendor': ['react', 'react-dom'],
+          'three-core': ['three'],
+          'three-drei': ['@react-three/drei'],
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
         },
       },
     },
-    // Raise the chunk-size warning threshold since Three.js is expected to be large
     chunkSizeWarningLimit: 900,
   },
 })

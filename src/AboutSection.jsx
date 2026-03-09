@@ -55,6 +55,7 @@ function CinematicVideo() {
       {/* MUTE BUTTON */}
       <button
         onClick={toggleMute}
+        aria-label={muted ? "Unmute video" : "Mute video"}
         style={{
           position: 'absolute',
           bottom: 16,

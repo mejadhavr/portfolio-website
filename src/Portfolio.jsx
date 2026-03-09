@@ -285,6 +285,8 @@ function Navigation({ active }) {
       <button 
         className="nav-hamburger"
         onClick={() => setIsOpen(!isOpen)}
+        aria-label="Open navigation menu"
+        aria-expanded={isOpen}
         style={{
           display: 'none', /* CSS handles display:flex on mobile */
           width: 44, height: 44, borderRadius: '50%', background: 'var(--bg)',

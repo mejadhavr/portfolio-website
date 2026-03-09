@@ -55,20 +55,62 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
 
-/* Ensure font-display: swap for Google Fonts via @font-face if possible, 
-   but since they are via <link>, we rely on the display=swap in URL which is already present. 
-   Adding local font-display strategy here just in case. */
+/* ── FONTS (Self-Hosted) ── */
 @font-face {
   font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url('./assets/fonts/bebasneue.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 300;
   font-display: swap;
+  src: url('./assets/fonts/cormorantgaramond-italic-300.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/cormorantgaramond-italic-400.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./assets/fonts/cormorantgaramond-normal-300.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/cormorantgaramond-normal-400.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/cormorantgaramond-normal-600.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url('./assets/fonts/spacemono-normal-400.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/spacemono-normal-700.ttf') format('truetype');
 }
 
 /* ── GRAIN ── */
