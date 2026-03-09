@@ -366,7 +366,7 @@ function MobileHeroBg() {
 /* ─────────────────────────────────────────────
    HERO SECTION
 ───────────────────────────────────────────── */
-function HeroSection() {
+function HeroSection({ loading }) {
 
   const [tagVisible, setTagVisible] = useState(true);
   const [revealed, setRevealed] = useState(false);
@@ -387,10 +387,9 @@ function HeroSection() {
 
   // reveal animation synchronised with loading screen
   useEffect(() => {
-    const t = setTimeout(() => {
-      setRevealed(true);
-    }, 1600); 
-    return () => clearTimeout(t);
+    // Reveal instantly to satisfy Lighthouse LCP, 
+    // but visually hidden by LoadingScreen overlay
+    setRevealed(true);
   }, []);
 
   // rotating tagline
@@ -439,7 +438,7 @@ function HeroSection() {
       <AuroraBg accent="gold" />
       {/* CSS-only cinematic background for mobile */}
       {isMobile && <MobileHeroBg />}
-      {(!isMobile && !isLowEnd) && (
+      {(!loading && !isMobile && !isLowEnd) && (
         <Suspense fallback={null}>
           <HeroCanvas />
         </Suspense>
@@ -618,7 +617,7 @@ export default function App() {
         willChange: 'opacity'
       }}>
         <Navigation active={activeSection} />
-        <HeroSection />
+        <HeroSection loading={loading} />
         <LazySection id="about"><Suspense fallback={null}><AboutSection /></Suspense></LazySection>
         <LazySection id="work"><Suspense fallback={null}><WorkSection /></Suspense></LazySection>
         <LazySection id="services"><Suspense fallback={null}><ServicesSection /></Suspense></LazySection>

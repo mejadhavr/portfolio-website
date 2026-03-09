@@ -110,7 +110,7 @@
         </div>
     </div>
 
-    <!-- Deferred Analytics Loader (GA4 + GTM) -->
+    <!-- Deferred Analytics Loader (GTM) -->
     <script>
     (function(){
       var loaded=false;
@@ -122,17 +122,8 @@
         window.dataLayer=window.dataLayer||[];
         window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
         var d=document, s1=d.createElement('script');
-        s1.async=true; s1.src='https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R';
+        s1.async=true; s1.src='https://www.googletagmanager.com/gtm.js?id=GTM-KLNRPTXC';
         d.head.appendChild(s1);
-
-        // Load GA4
-        var s2=d.createElement('script');
-        s2.async=true; s2.src='https://www.googletagmanager.com/gtag/js?id=G-630NQ5T72L';
-        d.head.appendChild(s2);
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-630NQ5T72L');
       }
       var t=setTimeout(loadAnalytics,4000);
       ['click','scroll','keydown','touchstart','mousemove'].forEach(function(e){
