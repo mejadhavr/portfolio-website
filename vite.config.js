@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [react()],
   base: '/',
   build: {
-    target: ['chrome90', 'firefox88', 'safari14', 'edge90'],
     sourcemap: false,
+    target: ['chrome90', 'firefox88', 'safari14', 'edge90'],
     rollupOptions: {
       output: {
         assetFileNames: 'assets/[name]-[hash][extname]',

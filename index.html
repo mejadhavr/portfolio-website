@@ -118,30 +118,25 @@
         </div>
     </div>
 
-    <!-- GTM deferred (Fix 3) -->
+    <!-- GTM deferred (Fix 2) -->
     <script>
     (function(){
-      if(window.__gtmLoaded)return;
       var loaded=false;
-      function load(){
+      function loadGTM(){
         if(loaded)return;
         loaded=true;
-        window.__gtmLoaded=true;
-        var dl='dataLayer';
-        window[dl]=window[dl]||[];
-        window[dl].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-        var f=document.getElementsByTagName('script')[0];
-        var j=document.createElement('script');
-        j.async=true;
-        j.src='https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R';
-        f.parentNode.insertBefore(j,f);
+        window.dataLayer=window.dataLayer||[];
+        window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+        var d=document,s=d.createElement('script');
+        s.async=true;
+        s.src='https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R';
+        d.head.appendChild(s);
       }
-      var t=setTimeout(load,4000);
-      ['click','scroll','keydown','mousemove','touchstart'].forEach(function(e){
-        document.addEventListener(e,function h(){
-          clearTimeout(t);
-          load();
-          document.removeEventListener(e,h,true);
+      var t=setTimeout(loadGTM,4000);
+      ['click','scroll','keydown','touchstart','mousemove'].forEach(function(e){
+        document.addEventListener(e,function f(){
+          clearTimeout(t);loadGTM();
+          document.removeEventListener(e,f,true);
         },{once:true,passive:true,capture:true});
       });
     })();

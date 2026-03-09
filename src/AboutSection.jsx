@@ -36,7 +36,6 @@ function CinematicVideo() {
 
       <video
         ref={videoRef}
-        src={videoSrc}
         autoPlay={!!videoSrc}
         loop
         muted={muted}
@@ -50,7 +49,9 @@ function CinematicVideo() {
           opacity: videoSrc ? 1 : 0,
           transition: 'opacity 1s ease'
         }}
-      />
+      >
+        {videoSrc && <source src={videoSrc} type="video/mp4" />}
+      </video>
 
       {/* REC indicator */}
       <div style={{
