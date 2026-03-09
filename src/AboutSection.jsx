@@ -136,10 +136,13 @@ function CinematicVideo() {
    STATISTICS TICKER
 ───────────────────────────────────────────── */
 function NumberTicker({ endValue, duration = 3500, start = false }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(endValue); // Initial state for SEO/UI
 
   useEffect(() => {
     if (!start) return;
+
+    // Reset to 0 when starting animation
+    setCount(0);
 
     let startTimestamp = null;
     let frameId;
