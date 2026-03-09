@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#06060C" />
 
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://formspree.io" />
+
     <title>Rushikesh Jadhav | Cinematic Video Editor — Pune, India</title>
 
     <meta name="description" content="Rushikesh Jadhav is a cinematic video editor and graphics designer based in Pune, India. Crafting brand films, reels, and cinematic content for brands and creators worldwide." />
@@ -53,6 +57,8 @@
       .grain-overlay { position: fixed; inset: -200%; width: 400%; height: 400%; z-index: 9999; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); animation: grain 0.5s steps(1) infinite; mix-blend-mode: overlay; }
       @keyframes grain { 0%,100%{transform:translate(0,0)} 10%{transform:translate(-2%,-3%)} 50%{transform:translate(2%,-3%)} 100%{transform:translate(0,0)} }
       h1.visual-hidden { position: absolute; width:1px; height:1px; overflow:hidden; opacity:0; }
+      .hero-container { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 40px; position: relative; }
+      .hero-name { font-family: var(--font-display); font-size: clamp(48px, 12vw, 120px); line-height: 0.85; text-align: center; }
     </style>
 
     <!-- Async non-critical CSS -->
@@ -108,28 +114,28 @@
         </div>
     </div>
 
-    <!-- Deferred GTM loading on interaction (Fix 3) -->
+    <!-- Deferred GTM loading (Fix 5) -->
     <script>
       (function() {
-        var gtmLoaded = false;
+        var loaded = false;
         function loadGTM() {
-          if (gtmLoaded) return;
-          gtmLoaded = true;
+          if (loaded) return;
+          loaded = true;
           var s = document.createElement('script');
           s.async = true;
-          s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R'; // Example ID, updating with real if found
+          s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-P8393S6R';
           document.head.appendChild(s);
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
         }
-        var timer = setTimeout(loadGTM, 4000);
-        var events = ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'];
-        function onInteraction() {
-          clearTimeout(timer);
-          loadGTM();
-          events.forEach(function(e) { document.removeEventListener(e, onInteraction, true); });
-        }
-        events.forEach(function(e) { document.addEventListener(e, onInteraction, { once: true, passive: true, capture: true }); });
+        var t = setTimeout(loadGTM, 3500);
+        ['mousedown', 'keydown', 'scroll', 'touchstart', 'click'].forEach(function(e) {
+          document.addEventListener(e, function h() {
+            clearTimeout(t);
+            loadGTM();
+            document.removeEventListener(e, h, true);
+          }, { once: true, passive: true, capture: true });
+        });
       })();
     </script>
 

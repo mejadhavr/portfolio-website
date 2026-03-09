@@ -235,7 +235,10 @@ function ProjectCard({ project: p }) {
     const rect = cardRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -14;
-    setTilt({ x, y });
+    
+    requestAnimationFrame(() => {
+      setTilt({ x, y });
+    });
   };
 
   const colSpan = p.span === 'col-span-2' ? 'span 2' : 'span 1';

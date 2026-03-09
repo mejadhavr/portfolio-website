@@ -17,12 +17,16 @@ initApp();
 // Defer non-critical work
 const deferWork = () => {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW fail:', err));
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.error('SW failed:', err));
+    });
   }
 };
 
 if ('requestIdleCallback' in window) {
   requestIdleCallback(deferWork);
 } else {
-  setTimeout(deferWork, 1500);
+  setTimeout(deferWork, 2500);
 }

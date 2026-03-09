@@ -7,6 +7,16 @@ import { useIsMobile, AuroraBg } from './Shared';
 function CinematicVideo() {
   const videoRef = useRef(null);
   const [muted, setMuted] = useState(true);
+  const [videoSrc, setVideoSrc] = useState('');
+
+  useEffect(() => {
+    // Only set the video source after the page has loaded + small delay
+    const timer = setTimeout(() => {
+      setVideoSrc('/videos/showreel.mp4');
+    }, 2500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const toggleMute = () => {
     const video = videoRef.current;
@@ -26,16 +36,19 @@ function CinematicVideo() {
 
       <video
         ref={videoRef}
-        src="/videos/showreel.mp4"
+        src={videoSrc}
         autoPlay
         loop
         muted={muted}
         playsInline
         preload="none"
+        poster="/assets/images/hero-poster.webp"
         style={{
           width: '100%',
           height: '100%',
-          objectFit: 'cover'
+          objectFit: 'cover',
+          opacity: videoSrc ? 1 : 0,
+          transition: 'opacity 1s ease'
         }}
       />
 

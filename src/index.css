@@ -66,13 +66,6 @@ body {
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: italic;
-  font-weight: 300;
-  font-display: swap;
-  src: url('./assets/fonts/cormorant-garamond-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: italic;
   font-weight: 400;
   font-display: swap;
   src: url('./assets/fonts/cormorant-garamond-italic.woff2') format('woff2');
@@ -80,21 +73,7 @@ body {
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('./assets/fonts/cormorant-garamond-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
   font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/cormorant-garamond-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 600;
   font-display: swap;
   src: url('./assets/fonts/cormorant-garamond-normal.woff2') format('woff2');
 }
@@ -192,8 +171,22 @@ body {
   to{clip-path:inset(0 0% 0 0);opacity:1;}
 }
 @keyframes glow-pulse {
-  0%,100%{box-shadow:0 0 20px rgba(200,169,110,0.3),0 0 60px rgba(200,169,110,0.1);}
-  50%{box-shadow:0 0 40px rgba(200,169,110,0.6),0 0 100px rgba(200,169,110,0.2);}
+  0%,100%{opacity: 0.35;}
+  50%{opacity: 0.85;}
+}
+.glow-border {
+  position: relative;
+}
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  box-shadow: 0 0 30px rgba(200,169,110,0.4), 0 0 60px rgba(200,169,110,0.15);
+  animation: glow-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+  will-change: opacity;
 }
 @keyframes spin-slow { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 @keyframes spin-reverse { from{transform:rotate(0deg);} to{transform:rotate(-360deg);} }
@@ -213,8 +206,8 @@ body {
   100% { transform: translate3d(var(--tx), var(--ty), 500px); opacity: 0; }
 }
 @keyframes shimmer {
-  0%{background-position:-200% center;}
-  100%{background-position:200% center;}
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
 }
 @keyframes scanline {
   0%{transform: translateY(-5%);} 100%{transform: translateY(105%);}
@@ -223,17 +216,17 @@ body {
   from{--n:0;} to{}
 }
 @keyframes borderRotate {
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 @keyframes scrollFormats {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-.format-track, .marquee-row, .hero-particle-canvas {
-  will-change: transform;
+.format-track, .marquee-row, .hero-particle-canvas, .gold-text, .cyan-text, .glass-card {
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 @keyframes slideUp {
   from { transform: translateY(100%); opacity: 0; }
@@ -283,21 +276,25 @@ font-family: 'Space Mono', monospace;
 }
 .reveal-right.visible { opacity:1; transform:translateX(0); }
 
-.gold-text {
-  background: linear-gradient(135deg, #C8A96E 0%, #F0D5A0 40%, #C8A96E 70%, #E8C87A 100%);
-  background-size: 200% auto;
+.gold-text, .cyan-text {
+  position: relative;
+  display: inline-block;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 4s linear infinite;
+  overflow: hidden;
 }
-.cyan-text {
-  background: linear-gradient(135deg, #00C9FF, #00F5FF, #00C9FF);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
+
+.gold-text { background-image: linear-gradient(135deg, #C8A96E 0%, #F0D5A0 40%, #C8A96E 70%, #E8C87A 100%); }
+.cyan-text { background-image: linear-gradient(135deg, #00C9FF, #00F5FF, #00C9FF); }
+
+.gold-text::after, .cyan-text::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 3s infinite;
+  pointer-events: none;
 }
 
 .glass-card {

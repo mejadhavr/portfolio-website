@@ -94,14 +94,18 @@ function CustomCursor() {
     if (isMobile) return;
 
     const onMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
       const target = e.target;
-      setIsPointer(window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON');
+      const isPointerElement = window.getComputedStyle(target).cursor === 'pointer' || target.tagName === 'A' || target.tagName === 'BUTTON';
+      
+      requestAnimationFrame(() => {
+        setPosition({ x: e.clientX, y: e.clientY });
+        setIsVisible(true);
+        setIsPointer(isPointerElement);
+      });
     };
-    const onMouseDown = () => setIsClicking(true);
-    const onMouseUp = () => setIsClicking(false);
-    const onMouseLeave = () => setIsVisible(false);
+    const onMouseDown = () => requestAnimationFrame(() => setIsClicking(true));
+    const onMouseUp = () => requestAnimationFrame(() => setIsClicking(false));
+    const onMouseLeave = () => requestAnimationFrame(() => setIsVisible(false));
 
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mousedown', onMouseDown);

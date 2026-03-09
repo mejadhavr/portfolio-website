@@ -6,10 +6,14 @@ export default defineConfig({
   plugins: [react()],
   base: '/',
   build: {
-    target: 'esnext',
+    target: ['chrome90', 'firefox88', 'safari14', 'edge90'],
     minify: 'esbuild',
     rollupOptions: {
       output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith('.css')) return 'assets/styles.[hash].css';
+          return 'assets/[name].[hash][extname]';
+        },
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('three')) return 'vendor-three';
