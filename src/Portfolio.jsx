@@ -433,15 +433,17 @@ function HeroSection({ loading }) {
         zIndex: 0
       }} />
 
-      <HeroParticles />
-
-      <AuroraBg accent="gold" />
-      {/* CSS-only cinematic background for mobile */}
-      {isMobile && <MobileHeroBg />}
-      {(!loading && !isMobile && !isLowEnd) && (
-        <Suspense fallback={null}>
-          <HeroCanvas />
-        </Suspense>
+      {!loading && (
+        <>
+          <HeroParticles />
+          <AuroraBg accent="gold" />
+          {isMobile && <MobileHeroBg />}
+          {(!isMobile && !isLowEnd) && (
+            <Suspense fallback={null}>
+              <HeroCanvas />
+            </Suspense>
+          )}
+        </>
       )}
 
       {/* Light leak top */}
@@ -618,12 +620,17 @@ export default function App() {
       }}>
         <Navigation active={activeSection} />
         <HeroSection loading={loading} />
-        <LazySection id="about"><Suspense fallback={null}><AboutSection /></Suspense></LazySection>
-        <LazySection id="work"><Suspense fallback={null}><WorkSection /></Suspense></LazySection>
-        <LazySection id="services"><Suspense fallback={null}><ServicesSection /></Suspense></LazySection>
-        <LazySection id="clients"><Suspense fallback={null}><ClientsSection /></Suspense></LazySection>
-        <LazySection id="visual"><Suspense fallback={null}><VisualSection /></Suspense></LazySection>
-        <LazySection id="contact"><Suspense fallback={null}><ContactSection /></Suspense></LazySection>
+        
+        {!loading && (
+          <>
+            <LazySection id="about"><Suspense fallback={null}><AboutSection /></Suspense></LazySection>
+            <LazySection id="work"><Suspense fallback={null}><WorkSection /></Suspense></LazySection>
+            <LazySection id="services"><Suspense fallback={null}><ServicesSection /></Suspense></LazySection>
+            <LazySection id="clients"><Suspense fallback={null}><ClientsSection /></Suspense></LazySection>
+            <LazySection id="visual"><Suspense fallback={null}><VisualSection /></Suspense></LazySection>
+            <LazySection id="contact"><Suspense fallback={null}><ContactSection /></Suspense></LazySection>
+          </>
+        )}
       </div>
 
     </>
