@@ -50,7 +50,12 @@ function CinematicVideo() {
           transition: 'opacity 1s ease'
         }}
       >
-        {videoSrc && <source src={videoSrc} type="video/mp4" />}
+        {videoSrc && (
+          <>
+            <source src="/videos/showreel.webm" type="video/webm" />
+            <source src="/videos/showreel.mp4" type="video/mp4" />
+          </>
+        )}
       </video>
 
       {/* REC indicator */}
