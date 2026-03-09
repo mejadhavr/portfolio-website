@@ -143,25 +143,6 @@ export default function WorkSection() {
           </h2>
         </div>
 
-        {/* Selected Clients Section */}
-      <div style={{ 
-        maxWidth: 1200, margin: '0 auto 80px', padding: '0 20px',
-        borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 60
-      }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 4, color: 'var(--gold)', marginBottom: 32, textTransform: 'uppercase', textAlign: 'center', opacity: 0.6 }}>
-          Selected Clients & Collaborators
-        </div>
-        <div style={{ 
-          display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 'clamp(20px, 5vw, 60px)',
-          fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 4vw, 32px)', color: 'var(--white)',
-          opacity: 0.8, textAlign: 'center'
-        }}>
-          <div>PRASUN SPACES</div>
-          <div>PHILLIPS MACHINE TOOLS</div>
-          <div>UNPLUG INFINITY MEDIA</div>
-          <div>GREYSCALE FILMS</div>
-        </div>
-      </div>
 
       {/* Bento Grid */}
         <div className="work-grid" style={{
@@ -307,7 +288,7 @@ function ProjectCard({ project: p }) {
     >
       <CardWrapper
         {...wrapperProps}
-        className={!isFlipCard ? 'project-card-premium' : ''}
+        className={!isFlipCard ? '' : ''}
         style={{
           display: 'block',
           textDecoration: 'none',
@@ -321,7 +302,7 @@ function ProjectCard({ project: p }) {
           WebkitTransformStyle: 'preserve-3d',
           transform: isFlipCard
             ? (isCurrentlyFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)')
-            : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.03)` : 'rotateX(0) rotateY(0) scale(1)'),
+            : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.025)` : 'rotateX(0) rotateY(0) scale(1)'),
           transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1)',
           boxShadow: hovered && !isFlipCard ? `0 30px 80px rgba(0,0,0,0.7), 0 0 40px ${p.accent}22` : '0 8px 32px rgba(0,0,0,0.5)',
         }}

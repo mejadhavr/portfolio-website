@@ -71,8 +71,23 @@ export function ContactDock() {
   return (
     <div className="contact-dock" style={{
       position: 'fixed', bottom: 32, right: 32, zIndex: 999,
-      display: 'flex', flexDirection: 'column', gap: 12
+      display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center'
     }}>
+      {/* Brand Icon at top of dock */}
+      <a href="#home" onClick={(e) => { e.preventDefault(); document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }); }}
+         style={{
+           width: 44, height: 44, borderRadius: '50%', background: 'rgba(200, 169, 110, 0.1)',
+           backdropFilter: 'blur(8px)', border: '1px solid var(--gold)',
+           display: 'flex', alignItems: 'center', justifyContent: 'center',
+           marginBottom: 4, transition: 'all 0.3s ease', cursor: 'none',
+           overflow: 'hidden'
+         }}
+         onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
+         onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+      >
+        <img src="/logo.webp" alt="MJ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      </a>
+
       {links.map(link => (
         <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer"
            aria-label={link.label}

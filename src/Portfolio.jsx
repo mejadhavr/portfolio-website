@@ -322,16 +322,16 @@ function Navigation({ active }) {
       {/* Mobile Menu Overlay */}
       <div style={{
         position: 'fixed', inset: 0, background: 'var(--bg)', zIndex: 10001,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 40,
-        padding: 40, transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'min(30px, 5vh)',
+        padding: 20, transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none',
-        transform: isOpen ? 'none' : 'translateY(20px)'
+        transform: isOpen ? 'none' : 'translateY(20px)',
+        overflowY: 'auto'
       }}>
-        {/* Mobile Brand Mark */}
-        <div style={{ 
-          fontFamily: 'var(--font-display)', fontSize: 32, color: 'var(--gold)', 
-          letterSpacing: 4, marginBottom: 20 
-        }}>MJ</div>
+        {/* Mobile Brand Mark - using logo if exists, else fallback */}
+        <div style={{ marginBottom: 20, width: 64, height: 64 }}>
+           <img src="/logo.webp" alt="MJ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
 
         {navItems.map(item => (
           <button
@@ -339,9 +339,10 @@ function Navigation({ active }) {
             onClick={() => scrollToSection(item.id)}
             style={{
               background: 'none', border: 'none',
-              fontFamily: 'var(--font-display)', fontSize: 48,
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 8vw, 42px)',
               color: active === item.id ? 'var(--gold)' : 'var(--white)',
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
+              letterSpacing: 2
             }}
           >
             {item.label}
