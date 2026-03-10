@@ -210,11 +210,11 @@ function ProjectCard({ project: p }) {
         gridColumn: colSpan,
         borderRadius: 16, overflow: 'hidden', position: 'relative', cursor: 'none',
         transform: hovered ? `perspective(800px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.025)` : 'perspective(800px) rotateX(0) rotateY(0) scale(1)',
-        transition: hovered ? 'transform 0.1s ease' : 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+        transition: hovered ? 'transform 0.1s ease' : 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
         boxShadow: hovered ? `0 30px 80px rgba(0,0,0,0.7), 0 0 40px ${p.accent}22` : '0 8px 32px rgba(0,0,0,0.5)',
       }}
     >
-      {/* Background */}
+      {/* Background (Master logic) */}
       <div style={{
         position: 'relative', paddingBottom: p.aspect,
         background: p.gradient,
@@ -223,28 +223,36 @@ function ProjectCard({ project: p }) {
         transition: 'border-color 0.3s',
         overflow: 'hidden',
       }}>
-        {/* Video or Decorative Background */}
-        {p.videoUrl ? (
+        {/* Optional Video Background (Workspace addition, but structure matches master) */}
+        {p.videoUrl && (
           <div style={{
-            position: 'absolute', inset: 0, // Master used inset:0 often or decorative elements
+            position: 'absolute', inset: 0,
             borderRadius: 16, overflow: 'hidden', zIndex: 0
           }}>
-            <CardVideo src={p.videoUrl} />
-          </div>
-        ) : (
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{
-              width: 60, height: 60, borderRadius: '50%',
-              border: `1px solid ${p.accent}33`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              opacity: hovered ? 0 : 0.5, transition: 'opacity 0.3s',
-            }}>
-              <div style={{ width: 24, height: 24, borderRadius: '50%', border: `1px solid ${p.accent}55` }} />
-            </div>
+            <CardVideo src={p.videoUrl} isMobile={false} />
           </div>
         )}
 
-        {/* Overlay on hover (The Master's logic) */}
+        {/* Decorative inner elements (Master) */}
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 0 }}>
+          <div style={{
+            width: 60, height: 60, borderRadius: '50%',
+            border: `1px solid ${p.accent}33`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: hovered ? 0 : 0.5, transition: 'opacity 0.3s',
+          }}>
+            <div style={{ width: 24, height: 24, borderRadius: '50%', border: `1px solid ${p.accent}55` }} />
+          </div>
+        </div>
+
+        {/* Film strip sprocket holes decoration (Master - Always on) */}
+        <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 20, display: 'flex', flexDirection: 'column', gap: 8, padding: '8px 5px', opacity: 0.3, zIndex: 1 }}>
+          {[...Array(6)].map((_, k) => (
+            <div key={k} style={{ width: 10, height: 8, borderRadius: 2, border: `1px solid ${p.accent}` }} />
+          ))}
+        </div>
+
+        {/* Overlay on hover (Master) */}
         <div style={{
           position: 'absolute', inset: 0, padding: 24,
           background: `linear-gradient(135deg, ${p.accent}11, rgba(0,0,0,0.8))`,
@@ -252,46 +260,30 @@ function ProjectCard({ project: p }) {
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
           zIndex: 2,
         }}>
-          {/* Film strip sprocket holes decoration */}
-          <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 20, display: 'flex', flexDirection: 'column', gap: 8, padding: '8px 5px', opacity: 0.3 }}>
-            {[...Array(6)].map((_, k) => (
-              <div key={k} style={{ width: 10, height: 8, borderRadius: 2, border: `1px solid ${p.accent}` }} />
-            ))}
-          </div>
-
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 3, color: p.accent, marginBottom: 8 }}>
             {p.tags.join(' · ')}
           </div>
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--white)', lineHeight: 1.1, marginBottom: 8 }}>{p.title}</div>
           <div style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontSize: 14, color: 'rgba(242,238,232,0.6)', marginBottom: 12 }}>{p.desc}</div>
-
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--muted)' }}>
-            {p.client}
-          </div>
-
-          {p.url && (
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--gold)', marginTop: 12 }}>
-              WATCH FULL FILM →
-            </div>
-          )}
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--muted)' }}>{p.client}</div>
         </div>
 
-        {/* Tag label */}
+        {/* Tag label (Master - Top Right) */}
         <div style={{
           position: 'absolute', top: 16, right: 16,
           padding: '5px 12px', borderRadius: 20,
           background: `${p.accent}18`, border: `1px solid ${p.accent}33`,
           fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2,
-          color: p.accent, textTransform: 'uppercase', zIndex: 1
+          color: p.accent, textTransform: 'uppercase', zIndex: 3
         }}>
           {p.tags[0]}
         </div>
 
-        {/* Bottom title (default state) */}
+        {/* Bottom title (Master - Always on when not hovered) */}
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px 24px',
-          background: 'linear-gradient(0deg, rgba(0,0,0,0.7), transparent)',
-          opacity: hovered ? 0 : 1, transition: 'opacity 0.3s', zIndex: 1
+          background: 'linear-gradient(0deg, rgba(0,0,0,0.8), transparent)',
+          opacity: hovered ? 0 : 1, transition: 'opacity 0.3s', zIndex: 3
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--white)' }}>{p.title}</div>
         </div>
