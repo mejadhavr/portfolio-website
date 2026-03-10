@@ -3,106 +3,129 @@ import { Link } from 'react-router-dom';
 import { useIsMobile, AuroraBg } from './Shared';
 const workProjects = [
   {
-    title: 'CINEMATIC SHOWREEL',
-    client: 'MEJADHAVR · 2024',
-    desc: 'A curation of high-octane visual storytelling and rhythmic editing.',
-    tags: ['Showreel', 'Editorial'],
-    videoUrl: 'showreel_final',
+    title: 'BRAND MANIFESTO',
+    client: 'Astik Dyestuff P LTD, Mumbai | 2019',
+    desc: 'A cinematic brand story told through contrast and light',
+    tags: ['CORPORATE & BRAND FILM'],
+    videoUrl: 'astik',
+    url: 'https://youtu.be/B5h9Djj6BXE',
     accent: '#C8A96E',
-    gradient: 'linear-gradient(135deg, #1A1A2E 0%, #06060C 100%)',
+    gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
     aspect: '56.25%',
     colSpan: 'span 2 / auto',
     isFlipCard: true,
     caseStudy: [
       { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Year', value: '2024' },
-      { label: 'Role', value: 'Main Editor' },
-      { label: 'Style', value: 'Cinematic' }
-    ]
-  },
-  {
-    title: 'BRAND MANIFESTO',
-    client: 'RAYMOND · 2023',
-    desc: 'Crafting a narrative of elegance and heritage through visual poetry.',
-    tags: ['Commercial', 'Fashion'],
-    accent: '#00C9FF',
-    gradient: 'linear-gradient(135deg, #0A141A 0%, #06060C 100%)',
-    aspect: '110%',
-    colSpan: 'span 1 / auto',
-    isFlipCard: true,
-    caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Year', value: '2023' },
-      { label: 'Role', value: 'Colorist' },
-      { label: 'Style', value: 'Minimalist' }
-    ]
-  },
-  {
-    title: 'IDEX INDIA',
-    client: 'IDEX · 2022',
-    desc: 'Capturing the innovation and scale of industrial excellence.',
-    tags: ['Industrial', 'Corporate'],
-    accent: '#00F5FF',
-    gradient: 'linear-gradient(135deg, #0A1A1A 0%, #06060C 100%)',
-    aspect: '110%',
-    colSpan: 'span 1 / auto',
-    isFlipCard: true,
-    caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Year', value: '2022' },
-      { label: 'Role', value: 'Visual Effects' },
-      { label: 'Style', value: 'Industrial' }
+      { label: 'Role', value: 'Editor & Colorist' },
+      { label: 'Editor', value: 'Rushikesh Jadhav' },
+      { label: 'Client', value: 'Astik Dyestuff P LTD' },
+      { label: 'Year', value: '2019' },
+      { label: 'Location', value: 'Mumbai, India' }
     ]
   },
   {
     title: 'TESTIMONIAL FILM',
-    client: 'STORYTELLERS · 2021',
-    desc: 'Human stories told through authentic and intimate perspectives.',
-    tags: ['Documentary', 'Human'],
-    accent: '#E8C87A',
-    gradient: 'linear-gradient(135deg, #1A1A0A 0%, #06060C 100%)',
-    aspect: '110%',
-    colSpan: 'span 1 / auto',
-    isFlipCard: true,
-    caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Year', value: '2021' },
-      { label: 'Role', value: 'Story Editor' },
-      { label: 'Style', value: 'Narrative' }
-    ]
-  },
-  {
-    title: 'PRODUCT LAUNCH',
-    client: 'APPLE · 2020',
-    desc: 'Dynamic motion design for next-generation technology.',
-    tags: ['Motion', 'Tech'],
+    client: 'Prasun Spaces | 2023',
+    desc: 'Authentic voices and experiences captured',
+    tags: ['TESTIMONIAL FILM'],
+    videoUrl: 'testi',
+    url: 'https://youtu.be/QziZuMJMAPA',
     accent: '#00C9FF',
-    gradient: 'linear-gradient(135deg, #0A141A 0%, #06060C 100%)',
+    gradient: 'linear-gradient(135deg, #001A1F 0%, #06060C 100%)',
     aspect: '110%',
     colSpan: 'span 1 / auto',
     isFlipCard: true,
     caseStudy: [
       { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Year', value: '2020' },
-      { label: 'Role', value: 'Motion Designer' },
-      { label: 'Style', value: 'Dynamic' }
+      { label: 'Role', value: 'Editor & Colorist' },
+      { label: 'Editor', value: 'Rushikesh Jadhav' },
+      { label: 'Client', value: 'Prasun Spaces' },
+      { label: 'Year', value: '2023' },
+      { label: 'Location', value: 'Pune, India' }
     ]
   },
   {
-    title: 'MASTERCLASS EDIT',
-    client: 'EDUCATION · 2019',
-    desc: 'High-end instructional content with clear, engaging editorial flow.',
-    tags: ['Education', 'Masterclass'],
+    title: 'PRODUCT LAUNCH VIDEO',
+    client: 'Phillips Machine Tools | 2023',
+    desc: 'Impactful product reveal and showcase',
+    tags: ['PRODUCT LAUNCH VIDEO'],
+    videoUrl: 'ph',
+    url: 'https://youtu.be/GkAIIonllbo',
     accent: '#C8A96E',
-    gradient: 'linear-gradient(135deg, #1A1A0A 0%, #06060C 100%)',
-    aspect: '56.25%',
+    gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
+    aspect: '110%',
+    colSpan: 'span 1 / auto',
+    isFlipCard: true,
+    caseStudy: [
+      { label: 'Director', value: 'Rushikesh Jadhav' },
+      { label: 'Role', value: 'Editor & Colorist' },
+      { label: 'Editor', value: 'Rushikesh Jadhav' },
+      { label: 'Client', value: 'Phillips Machine Tools' },
+      { label: 'Year', value: '2023' },
+      { label: 'Location', value: 'Pune, India' }
+    ]
+  },
+  {
+    title: '7 PLUMERIA DRIVE',
+    client: 'BU Bhandari | 2024',
+    desc: 'A cinematic walkthrough experiencing the vision',
+    tags: ['MODEL WALKTHROUGH FILM'],
+    videoUrl: '7pd',
+    url: 'https://youtu.be/9nf70fQ8mdo',
+    accent: '#00C9FF',
+    gradient: 'linear-gradient(135deg, #001A1F 0%, #06060C 100%)',
+    aspect: '110%',
+    colSpan: 'span 1 / auto',
+    isFlipCard: true,
+    caseStudy: [
+      { label: 'Director', value: 'Rushikesh Jadhav' },
+      { label: 'Role', value: 'Editor & Colorist' },
+      { label: 'Editor', value: 'Rushikesh Jadhav' },
+      { label: 'Client', value: 'BU Bhandari' },
+      { label: 'Year', value: '2024' },
+      { label: 'Location', value: 'Pune, India' }
+    ]
+  },
+  {
+    title: 'IDEX INDIA',
+    client: 'Idex India | 2023',
+    desc: 'Showcasing engineering through 3D visualization',
+    tags: ['3D PRODUCT FILM'],
+    videoUrl: 'idex',
+    url: 'https://youtu.be/mcc0GLpVFhY',
+    accent: '#C8A96E',
+    gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
+    aspect: '110%',
+    colSpan: 'span 1 / auto',
+    isFlipCard: true,
+    caseStudy: [
+      { label: 'Director', value: 'Rushikesh Jadhav' },
+      { label: 'Role', value: 'Editor & Colorist' },
+      { label: 'Editor', value: 'Rushikesh Jadhav' },
+      { label: 'Client', value: 'Idex India' },
+      { label: 'Year', value: '2023' },
+      { label: 'Location', value: 'Pune, India' }
+    ]
+  },
+  {
+    title: 'EVENT HIGHLIGHTS',
+    client: 'Multiple Clients | 2022-24',
+    desc: 'Capturing the energy and movement of live events',
+    tags: ['EVENT HIGHLIGHT FILM'],
+    videoUrl: 'waca',
+    url: 'https://youtu.be/n6zK1hHCv98',
+    accent: '#00C9FF',
+    gradient: 'linear-gradient(135deg, #001A10 0%, #06060C 100%)',
+    aspect: '40%',
     colSpan: 'span 2 / auto',
     isFlipCard: true,
     caseStudy: [
       { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Year', value: '2019' },
-      { label: 'Role', value: 'Lead Editor' },
-      { label: 'Style', value: 'Educational' }
+      { label: 'Role', value: 'Editor & Colorist' },
+      { label: 'Editor', value: 'Rushikesh Jadhav' },
+      { label: 'Client', value: 'Multiple Clients' },
+      { label: 'Year', value: '2022-24' },
+      { label: 'Location', value: 'Pune, India' }
     ]
   }
 ];
@@ -379,14 +402,27 @@ function ProjectCard({ project: p, index }) {
             </div>
 
             <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: `1px solid ${p.accent}22` }}>
-              <button style={{
-                background: `${p.accent}22`, border: `1px solid ${p.accent}44`,
-                padding: '8px 16px', borderRadius: 4,
-                fontFamily: 'var(--font-mono)', fontSize: 10, color: p.accent, letterSpacing: 2,
-                cursor: 'pointer'
-              }}>
-                WATCH FULL FILM ↗
-              </button>
+              {p.url ? (
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    display: 'inline-block',
+                    background: `${p.accent}22`, border: `1px solid ${p.accent}44`,
+                    padding: '8px 16px', borderRadius: 4,
+                    fontFamily: 'var(--font-mono)', fontSize: 10, color: p.accent, letterSpacing: 2,
+                    cursor: 'pointer', textDecoration: 'none'
+                  }}
+                >
+                  WATCH FULL FILM ↗
+                </a>
+              ) : (
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: p.accent, opacity: 0.5 }}>
+                  COMING SOON
+                </div>
+              )}
             </div>
           </div>
         )}
