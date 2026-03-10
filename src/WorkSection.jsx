@@ -118,6 +118,7 @@ const workProjects = [
 export default function WorkSection() {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { setVis(e.isIntersecting); }, { threshold: 0.1 });
@@ -144,25 +145,25 @@ export default function WorkSection() {
         </div>
 
 
-      {/* Bento Grid */}
+        {/* Bento Grid */}
         <div className="work-grid" style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
           gap: 'clamp(10px, 2vw, 16px)',
           opacity: vis ? 1 : 0,
           transform: vis ? 'none' : 'translateY(40px)',
           transition: 'opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s',
         }}>
           {workProjects.map((p, i) => (
-            <MemoizedProjectCard key={i} project={p} index={i} />
+            <MemoizedProjectCard key={`project-${i}-${p.title}`} project={p} index={i} />
           ))}
         </div>
 
         {/* View Event Highlights CTA */}
-        <div style={{ 
-          marginTop: 60, textAlign: 'center', 
-          opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(20px)', 
-          transition: 'all 0.8s ease 0.6s' 
+        <div style={{
+          marginTop: 60, textAlign: 'center',
+          opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(20px)',
+          transition: 'all 0.8s ease 0.6s'
         }}>
           <Link to="/event-portfolio" style={{
             display: 'inline-flex', alignItems: 'center', gap: 12,
@@ -171,8 +172,8 @@ export default function WorkSection() {
             fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase',
             color: 'var(--gold)', textDecoration: 'none', transition: 'all 0.3s'
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = '#000'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.1)'; e.currentTarget.style.color = 'var(--gold)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = '#000'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.1)'; e.currentTarget.style.color = 'var(--gold)'; }}
           >
             Explore Event Highlights Portfolio <span>→</span>
           </Link>
@@ -194,7 +195,7 @@ function CardVideo({ src, isMobile }) {
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         } else {
           video.pause();
         }
@@ -239,7 +240,7 @@ function ProjectCard({ project: p }) {
     const rect = cardRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -14;
-    
+
     requestAnimationFrame(() => {
       setTilt({ x, y });
     });
@@ -280,8 +281,7 @@ function ProjectCard({ project: p }) {
         gridColumn: colSpan,
         perspective: isFlipCard ? '1200px' : '800px',
         position: 'relative',
-        // Modern aspect-ratio instead of padding-bottom trick
-        aspectRatio: (!useMobileFlipLayout && isFlipCard) ? p.aspect.replace('%', '') / 100 : undefined,
+        aspectRatio: (!useMobileFlipLayout && isFlipCard) ? 1 / (parseFloat(p.aspect) / 100) : undefined,
         // Min-height on mobile so card feels substantial
         minHeight: useMobileFlipLayout ? 320 : undefined,
       }}
@@ -313,7 +313,7 @@ function ProjectCard({ project: p }) {
           style={{
             position: isFlipCard ? 'absolute' : 'relative',
             inset: 0,
-            aspectRatio: isFlipCard ? undefined : p.aspect.replace('%', '') / 100,
+            aspectRatio: isFlipCard ? undefined : 1 / (parseFloat(p.aspect) / 100),
             background: p.gradient,
             border: `1px solid ${hovered ? p.accent + '44' : 'rgba(255,255,255,0.05)'}`,
             borderRadius: 16,
