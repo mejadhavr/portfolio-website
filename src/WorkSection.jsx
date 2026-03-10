@@ -13,13 +13,6 @@ const workProjects = [
     gradient: 'linear-gradient(135deg,#1a0e00,#3d2600)',
     url: 'https://youtu.be/B5h9Djj6BXE',
     videoUrl: 'astik',
-    caseStudy: [
-      { label: 'Client', value: 'Astik Dyestuff Pvt. Ltd., Mumbai' },
-      { label: 'Produced by', value: 'Unplug Infinity Media Pvt. Ltd.' },
-      { label: 'Creative Director', value: 'Alim Pathan' },
-      { label: 'Video Editor', value: 'Rushikesh Jadhav' },
-      { label: 'Role', value: 'Part of the Unplug Infinity Media team' },
-    ],
   },
   {
     title: 'Testimonial Film',
@@ -32,13 +25,6 @@ const workProjects = [
     gradient: 'linear-gradient(135deg,#001a1f,#00354a)',
     url: 'https://youtu.be/QziZuMJMAPA',
     videoUrl: 'testi',
-    caseStudy: [
-      { label: 'Client', value: 'Prasun Spaces' },
-      { label: 'Project', value: 'Prasun Adara' },
-      { label: 'Produced by', value: 'Greyscale Films' },
-      { label: 'Creative Director', value: 'Amarreddy Lingam' },
-      { label: 'Video Editor', value: 'Rushikesh Jadhav' },
-    ],
   },
   {
     title: 'Product Launch Video',
@@ -51,12 +37,6 @@ const workProjects = [
     gradient: 'linear-gradient(135deg,#0f0f0f,#1a1a2e)',
     url: 'https://youtu.be/GkAIIonllbo',
     videoUrl: 'ph',
-    caseStudy: [
-      { label: 'Client', value: 'Phillips Machine Tools India Pvt. Ltd.' },
-      { label: 'Produced by', value: 'Unplug Infinity Media Pvt. Ltd.' },
-      { label: 'Creative Director', value: 'Alim Pathan' },
-      { label: 'Video Editor', value: 'Rushikesh Jadhav' },
-    ],
   },
   {
     title: '7 Plumeria Drive',
@@ -69,13 +49,6 @@ const workProjects = [
     gradient: 'linear-gradient(135deg,#0a001a,#1a0030)',
     url: 'https://youtu.be/9nf70fQ8mdo',
     videoUrl: '7pd',
-    caseStudy: [
-      { label: 'Client', value: 'BU Bhandari' },
-      { label: 'Project', value: '7 Plumeria Drive' },
-      { label: 'Produced by', value: 'Greyscale Films' },
-      { label: 'Creative Director', value: 'Amarreddy Lingam' },
-      { label: 'Video Editor', value: 'Rushikesh Jadhav' },
-    ],
   },
   {
     title: 'Idex India',
@@ -88,12 +61,6 @@ const workProjects = [
     gradient: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)',
     url: 'https://youtu.be/mcc0GLpVFhY',
     videoUrl: 'idex',
-    caseStudy: [
-      { label: 'Client', value: 'Idex India, Mumbai' },
-      { label: 'Produced by', value: 'Unplug Infinity Media Pvt. Ltd.' },
-      { label: 'Project Manager', value: 'Ravindra Kamtam' },
-      { label: 'Video Editor', value: 'Rushikesh Jadhav' },
-    ],
   },
   {
     title: 'Event Highlight Film',
@@ -106,12 +73,6 @@ const workProjects = [
     gradient: 'linear-gradient(135deg,#001a10,#00301c)',
     url: 'https://youtu.be/n6zK1hHCv98',
     videoUrl: 'waca',
-    caseStudy: [
-      { label: 'Client', value: 'WestBridge Capital' },
-      { label: 'Produced by', value: 'Prismscale Pvt. Ltd.' },
-      { label: 'Creative Director', value: 'Dharam Vir Singh' },
-      { label: 'Video Editor', value: 'Rushikesh Jadhav' },
-    ],
   },
 ];
 
@@ -291,25 +252,28 @@ function ProjectCard({ project: p }) {
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
           zIndex: 2,
         }}>
+          {/* Film strip sprocket holes decoration */}
+          <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 20, display: 'flex', flexDirection: 'column', gap: 8, padding: '8px 5px', opacity: 0.3 }}>
+            {[...Array(6)].map((_, k) => (
+              <div key={k} style={{ width: 10, height: 8, borderRadius: 2, border: `1px solid ${p.accent}` }} />
+            ))}
+          </div>
+
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 3, color: p.accent, marginBottom: 8 }}>
             {p.tags.join(' · ')}
           </div>
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--white)', lineHeight: 1.1, marginBottom: 8 }}>{p.title}</div>
           <div style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontSize: 14, color: 'rgba(242,238,232,0.6)', marginBottom: 12 }}>{p.desc}</div>
-          {/* Credits or Case Study data if any */}
-          {p.caseStudy && (
-            <div style={{ marginTop: 8 }}>
-              {p.caseStudy.slice(0, 3).map((row, idx) => (
-                <div key={idx} style={{ display: 'flex', gap: 10, fontSize: 10, marginBottom: 4 }}>
-                  <span style={{ color: p.accent, textTransform: 'uppercase', minWidth: 60 }}>{row.label}</span>
-                  <span style={{ color: 'rgba(255,255,255,0.7)' }}>{row.value}</span>
-                </div>
-              ))}
+
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--muted)' }}>
+            {p.client}
+          </div>
+
+          {p.url && (
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--gold)', marginTop: 12 }}>
+              WATCH FULL FILM →
             </div>
           )}
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--gold)', marginTop: 12 }}>
-            {p.url ? 'WATCH FULL FILM →' : 'CLIENT: ' + p.client}
-          </div>
         </div>
 
         {/* Tag label */}
