@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AuroraBg } from './Shared';
-import { useIsMobile } from './hooks';
+import { useIsLowEnd, useIsMobile } from './hooks';
 
 /* ─────────────────────────────────────────────
    CINEMATIC VIDEO COMPONENT
@@ -9,15 +9,19 @@ function CinematicVideo() {
   const videoRef = useRef(null);
   const [muted, setMuted] = useState(true);
   const [videoSrc, setVideoSrc] = useState('');
+  const isMobile = useIsMobile();
+  const isLowEnd = useIsLowEnd();
 
   useEffect(() => {
+    if (isMobile || isLowEnd) return undefined;
+
     // Only set the video source after the page has loaded + small delay
     const timer = setTimeout(() => {
       setVideoSrc('/videos/showreel.mp4');
-    }, 2500);
+    }, 1200);
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [isLowEnd, isMobile]);
 
   const toggleMute = () => {
     const video = videoRef.current;
@@ -47,7 +51,7 @@ function CinematicVideo() {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          opacity: videoSrc ? 1 : 0,
+          opacity: videoSrc || isMobile || isLowEnd ? 1 : 0,
           transition: 'opacity 1s ease'
         }}
       >
@@ -85,7 +89,7 @@ function CinematicVideo() {
           border: '1px solid rgba(255,255,255,0.2)',
           background: 'rgba(0,0,0,0.4)',
           backdropFilter: 'blur(10px)',
-          display: 'flex',
+          display: isMobile || isLowEnd ? 'none' : 'flex',
           alignItems: 'center',
           gap: 8,
           padding: '8px 16px',

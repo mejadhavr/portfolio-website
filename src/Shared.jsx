@@ -1,28 +1,30 @@
 import React from 'react';
-import { useIsLowEnd, useIsMobile } from './hooks';
+import { useIsLowEnd, useIsMobile, usePrefersReducedMotion } from './hooks';
 
 export function AuroraBg({ accent = 'gold' }) {
   const isLowEnd = useIsLowEnd();
   const isMobile = useIsMobile();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const c1 = accent === 'cyan' ? 'rgba(0,201,255,0.12)' : 'rgba(200,169,110,0.1)';
   const c2 = accent === 'cyan' ? 'rgba(0,245,255,0.08)' : 'rgba(240,213,160,0.07)';
+  const animate = !(isLowEnd || isMobile || prefersReducedMotion);
   return (
     <div className="aurora-bg" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', transform: 'translateZ(0)', willChange: 'transform' }}>
       <div style={{
         position: 'absolute', width: '80%', height: '80%', top: '-20%', left: '-10%',
         background: `radial-gradient(ellipse at center, ${c1}, transparent 70%)`,
-        filter: isLowEnd || isMobile ? 'blur(20px)' : 'blur(60px)', animation: 'aurora1 18s ease-in-out infinite',
+        filter: isLowEnd || isMobile ? 'blur(20px)' : 'blur(60px)', animation: animate ? 'aurora1 18s ease-in-out infinite' : 'none',
       }} />
       <div style={{
         position: 'absolute', width: '60%', height: '70%', top: '20%', right: '-15%',
         background: `radial-gradient(ellipse at center, ${c2}, transparent 70%)`,
-        filter: isLowEnd || isMobile ? 'blur(24px)' : 'blur(80px)', animation: 'aurora2 22s ease-in-out infinite',
+        filter: isLowEnd || isMobile ? 'blur(24px)' : 'blur(80px)', animation: animate ? 'aurora2 22s ease-in-out infinite' : 'none',
       }} />
       {!isMobile && (
         <div style={{
           position: 'absolute', width: '50%', height: '50%', bottom: '-10%', left: '30%',
           background: `radial-gradient(ellipse at center, rgba(138,43,226,0.06), transparent 70%)`,
-          filter: isLowEnd ? 'blur(25px)' : 'blur(70px)', animation: 'aurora3 15s ease-in-out infinite',
+          filter: isLowEnd ? 'blur(25px)' : 'blur(70px)', animation: animate ? 'aurora3 15s ease-in-out infinite' : 'none',
         }} />
       )}
     </div>

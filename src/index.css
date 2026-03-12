@@ -178,6 +178,15 @@ body {
   justify-content: center;
 }
 
+.loader-shell-lite .loader-rec,
+.loader-shell-lite .timeline-playhead {
+  animation-duration: 1.4s;
+}
+
+.loader-shell-lite .timeline-track {
+  width: 220px;
+}
+
 /* Pulsing REC Indicator */
 .loader-rec {
   font-family: var(--font-mono);
@@ -650,6 +659,15 @@ body {
 }
 
 @media (max-width: 768px) {
+  .loader-shell-lite .loader-rec {
+    letter-spacing: 3px;
+    margin-bottom: 28px;
+  }
+
+  .loader-shell-lite .timeline-playhead {
+    box-shadow: 0 0 8px var(--gold);
+  }
+
   .hero-cinematic::before,
   .grain-overlay {
     display: none;

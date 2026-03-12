@@ -1,13 +1,11 @@
 import { lazy, Suspense, useEffect } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 
 const Portfolio = lazy(() => import("./Portfolio"));
 const EventPortfolio = lazy(() => import("./EventPortfolio"));
 const ProductPortfolio = lazy(() => import("./ProductPortfolio"));
 const CorporatePortfolio = lazy(() => import("./CorporatePortfolio"));
 const RealEstatePortfolio = lazy(() => import("./RealEstatePortfolio"));
-
-import { useLocation } from "react-router-dom";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -17,13 +15,19 @@ function ScrollToTop() {
   return null;
 }
 
+function PortfolioRoute() {
+  const location = useLocation();
+  const initialSection = new URLSearchParams(location.search).get("section");
+  return <Portfolio initialSection={initialSection} />;
+}
+
 function App() {
   return (
     <HashRouter>
       <ScrollToTop />
       <Suspense fallback={<div className="loader-shell" />}>
         <Routes>
-          <Route path="/" element={<Portfolio />} />
+          <Route path="/" element={<PortfolioRoute />} />
           <Route path="/event-portfolio" element={<EventPortfolio />} />
           <Route path="/product-portfolio" element={<ProductPortfolio />} />
           <Route path="/corporate-portfolio" element={<CorporatePortfolio />} />

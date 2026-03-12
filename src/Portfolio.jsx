@@ -154,15 +154,19 @@ function CustomCursor() {
    LOADING SCREEN
 ───────────────────────────────────────────── */
 function LoadingScreen({ onDone }) {
+  const isMobile = useIsMobile();
+  const isLowEnd = useIsLowEnd();
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onDone();
-    }, 1500);
+    }, prefersReducedMotion ? 250 : (isLowEnd || isMobile ? 650 : 1200));
     return () => clearTimeout(timer);
-  }, [onDone]);
+  }, [isLowEnd, isMobile, onDone, prefersReducedMotion]);
 
   return (
-    <div className="loader-shell">
+    <div className={`loader-shell${isMobile || isLowEnd ? ' loader-shell-lite' : ''}`}>
       <div className="loader-rec">REC</div>
       <div className="timeline-track">
         <div className="timeline-playhead"></div>
@@ -407,14 +411,16 @@ function HeroSection({ onContactRequest }) {
       padding: isMobile ? '96px 0 88px' : 0,
     }}>
       {/* Film Grain Overlay */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E")`,
-        opacity: 0.35,
-        pointerEvents: 'none',
-        zIndex: 1,
-      }} />
+      {!isMobile && !isLowEnd && !prefersReducedMotion && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E")`,
+          opacity: 0.35,
+          pointerEvents: 'none',
+          zIndex: 1,
+        }} />
+      )}
 
       {/* Cinematic Depth Gradients */}
       <div style={{
@@ -429,9 +435,9 @@ function HeroSection({ onContactRequest }) {
 
       {/* Background elements load immediately so they are ready when the screen fades in */}
       <>
-        {!prefersReducedMotion && <HeroParticles />}
+        {!prefersReducedMotion && !(isMobile && isLowEnd) && <HeroParticles />}
         <AuroraBg accent="gold" />
-        {isMobile && <MobileHeroBg />}
+        {isMobile && !isLowEnd && <MobileHeroBg />}
         {(!isMobile && !isLowEnd && !prefersReducedMotion) && (
           <Suspense fallback={null}>
             <HeroCanvas />
@@ -570,15 +576,17 @@ function HeroSection({ onContactRequest }) {
 /* ─────────────────────────────────────────────
    MAIN APP
 ───────────────────────────────────────────── */
-export default function App() {
+export default function App({ initialSection = null }) {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
   const [eagerSections, setEagerSections] = useState([]);
+  const pendingSectionRef = useRef(initialSection);
 
   const handleLoadDone = useCallback(() => {
     setLoading(false);
-    // Always scroll to top (Home) after loading screen, regardless of where page was before
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    if (!pendingSectionRef.current) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
   }, []);
 
   const requestSection = useCallback((id) => {
@@ -599,6 +607,14 @@ export default function App() {
     sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
     return () => obs.disconnect();
   }, [loading]);
+
+  useEffect(() => {
+    if (loading || !pendingSectionRef.current) return;
+
+    const sectionId = pendingSectionRef.current;
+    pendingSectionRef.current = null;
+    requestSection(sectionId);
+  }, [loading, requestSection]);
 
   return (
     <>
