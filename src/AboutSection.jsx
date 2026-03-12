@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from 'react';
-import { useIsMobile, AuroraBg } from './Shared';
+import React, { useState, useEffect, useRef } from 'react';
+import { AuroraBg } from './Shared';
+import { useIsMobile } from './hooks';
 
 /* ─────────────────────────────────────────────
    CINEMATIC VIDEO COMPONENT
@@ -136,13 +137,10 @@ function CinematicVideo() {
    STATISTICS TICKER
 ───────────────────────────────────────────── */
 function NumberTicker({ endValue, duration = 3500, start = false }) {
-  const [count, setCount] = useState(endValue); // Initial state for SEO/UI
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!start) return;
-
-    // Reset to 0 when starting animation
-    setCount(0);
 
     let startTimestamp = null;
     let frameId;
@@ -166,7 +164,7 @@ function NumberTicker({ endValue, duration = 3500, start = false }) {
     return () => window.cancelAnimationFrame(frameId);
   }, [endValue, duration, start]);
 
-  return <span>{count}</span>;
+  return <span>{start ? count : endValue}</span>;
 }
 
 const aboutStats = [
@@ -182,6 +180,7 @@ const aboutStats = [
 export default function AboutSection() {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { setVis(e.isIntersecting); }, { threshold: 0.15 });
@@ -190,40 +189,40 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section id="about" ref={ref} style={{
+    <section ref={ref} style={{
       position: 'relative', padding: 'clamp(80px,10vw,120px) clamp(20px,5vw,40px)',
       background: 'linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%)',
       overflow: 'hidden',
     }}>
       <AuroraBg accent="cyan" />
-      <div className="about-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center', position: 'relative', zIndex: 1 }}>
+      <div className="about-grid" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 36 : 80, alignItems: 'start', position: 'relative', zIndex: 1 }}>
 
         {/* Left */}
-        <div className={`reveal-left ${vis ? 'visible' : ''}`}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 20, textTransform: 'uppercase' }}>
+        <div className={`reveal-left ${vis ? 'visible' : ''}`} style={{ order: 1 }}>
+          <div className={`cine-reveal cine-left ${vis ? 'visible' : ''}`} style={{ '--delay': '0.05s', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 20, textTransform: 'uppercase' }}>
             ◈ About
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px,7vw,88px)', lineHeight: 0.9, marginBottom: 28, color: 'var(--white)' }}>
+          <h2 className={`cine-reveal cine-left ${vis ? 'visible' : ''}`} style={{ '--delay': '0.14s', fontFamily: 'var(--font-display)', fontSize: isMobile ? 'clamp(44px, 16vw, 74px)' : 'clamp(48px,7vw,88px)', lineHeight: 0.9, marginBottom: isMobile ? 20 : 28, color: 'var(--white)' }}>
             THE<br />
             <span className="gold-text">STORY</span><br />
             BEHIND<br />THE CUTS
           </h2>
-          <p style={{ fontFamily: 'var(--font-editorial)', fontSize: 18, lineHeight: 1.9, color: 'rgba(242,238,232,0.65)', marginBottom: 24 }}>
+          <p className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.24s', fontFamily: 'var(--font-editorial)', fontSize: isMobile ? 16 : 18, lineHeight: isMobile ? 1.7 : 1.9, color: 'rgba(242,238,232,0.65)', marginBottom: 20 }}>
             I'm <strong style={{ color: 'var(--white)' }}>Rushikesh Jadhav</strong> — a Pune-based cinematic video editor with over 7 years
             of crafting narratives that move audiences. Every cut tells a story. Every frame breathes life.
           </p>
-          <p style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontSize: 17, lineHeight: 1.8, color: 'rgba(242,238,232,0.45)', marginBottom: 40 }}>
+          <p className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.34s', fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontSize: isMobile ? 15 : 17, lineHeight: isMobile ? 1.65 : 1.8, color: 'rgba(242,238,232,0.45)', marginBottom: isMobile ? 28 : 40 }}>
             "Editing is not just assembling footage — it's sculpting time, shaping emotion, and manufacturing truth from raw reality."
           </p>
 
           {/* Stats */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: isMobile ? 12 : 16 }}>
             {aboutStats.map((s, i) => (
-              <div key={i} className="glass-card" style={{ padding: 'clamp(12px, 3vw, 24px)' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 6vw, 42px)', lineHeight: 1 }} className="gold-text">
+              <div key={i} className={`glass-card cine-reveal cine-zoom ${vis ? 'visible' : ''}`} style={{ '--delay': `${0.42 + (i * 0.08)}s`, padding: isMobile ? '14px 12px' : 'clamp(12px, 3vw, 24px)' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: isMobile ? 'clamp(26px, 9vw, 34px)' : 'clamp(28px, 6vw, 42px)', lineHeight: 1 }} className="gold-text">
                   <NumberTicker endValue={s.n} duration={2500} start={vis} />{s.suffix}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(8px, 1.5vw, 10px)', letterSpacing: 2, color: 'var(--muted)', marginTop: 8, textTransform: 'uppercase' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: isMobile ? 8 : 'clamp(8px, 1.5vw, 10px)', letterSpacing: isMobile ? 1.5 : 2, color: 'var(--muted)', marginTop: 8, textTransform: 'uppercase' }}>
                   {s.label}
                 </div>
               </div>
@@ -232,10 +231,11 @@ export default function AboutSection() {
         </div>
 
         {/* Right – video */}
-        <div className={`reveal-right ${vis ? 'visible' : ''}`} style={{ position: 'relative' }}>
+        <div className={`reveal-right ${vis ? 'visible' : ''}`} style={{ position: 'relative', order: 2, maxWidth: isMobile ? 420 : 'none', width: '100%', margin: isMobile ? '0 auto' : 0 }}>
 
           {/* Glow behind video */}
-          <div style={{
+          <div className={`cine-reveal cine-glow cine-right ${vis ? 'visible' : ''}`} style={{
+            '--delay': '0.18s',
             position: 'absolute',
             inset: -20,
             background: 'radial-gradient(ellipse, rgba(200,169,110,0.12) 0%, transparent 70%)',
@@ -243,7 +243,7 @@ export default function AboutSection() {
             borderRadius: 24
           }} />
 
-          <div className="glass-card" style={{ padding: 12, borderRadius: 20, position: 'relative' }}>
+          <div className={`glass-card cine-reveal cine-right ${vis ? 'visible' : ''}`} style={{ '--delay': '0.28s', padding: isMobile ? 10 : 12, borderRadius: 20, position: 'relative' }}>
 
             {/* Film strip header */}
             <div style={{
@@ -261,7 +261,7 @@ export default function AboutSection() {
 
               <div style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: 9,
+                fontSize: isMobile ? 8 : 9,
                 letterSpacing: 3,
                 color: 'var(--muted)'
               }}>
@@ -276,7 +276,7 @@ export default function AboutSection() {
                 background: '#000',
                 borderRadius: 12,
                 overflow: 'hidden',
-                aspectRatio: '1/1',
+                aspectRatio: isMobile ? '4 / 5' : '1/1',
                 position: 'relative'
               }}
             >
@@ -296,7 +296,7 @@ export default function AboutSection() {
             }}>
               <div style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: 9,
+                fontSize: isMobile ? 8 : 9,
                 color: 'var(--gold)',
                 letterSpacing: 2
               }}>
@@ -305,7 +305,7 @@ export default function AboutSection() {
 
               <div style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: 9,
+                fontSize: isMobile ? 8 : 9,
                 color: 'var(--muted)',
                 letterSpacing: 2
               }}>
@@ -318,7 +318,8 @@ export default function AboutSection() {
       </div>
       {/* Horizontal rule */}
       <div
-        style={{
+        className={`cine-line ${vis ? 'visible' : ''}`}
+        style={{ '--delay': '0.5s',
           maxWidth: 1200,
           margin: '80px auto 0',
           height: 1,

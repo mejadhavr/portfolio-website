@@ -1,10 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-export default function LazySection({ children, id, minHeight = "100dvh" }) {
+export default function LazySection({ children, id, minHeight = "100dvh", forceVisible = false }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const shouldRender = forceVisible || isVisible;
 
   useEffect(() => {
+    if (forceVisible) {
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -20,11 +25,11 @@ export default function LazySection({ children, id, minHeight = "100dvh" }) {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [forceVisible]);
 
   return (
     <div id={id} ref={ref} style={{ minHeight }}>
-      {isVisible ? children : null}
+      {shouldRender ? children : null}
     </div>
   );
 }

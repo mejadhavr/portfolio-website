@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
-import { Link } from "react-router-dom";
-import { useIsMobile, AuroraBg } from './Shared';
+import { AuroraBg } from './Shared';
+import { useIsMobile } from './hooks';
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM
@@ -73,7 +73,7 @@ function YouTubeEmbed({ id, title, isLinkedIn }) {
         onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
       >
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, textTransform: 'uppercase', letterSpacing: 2 }}>{title}</div>
-        <a href={`https://www.linkedin.com/posts/tofflon-india-private-limited_join-us-at-pmec-for-an-exclusive-look-at-activity-7132218700782313472-em_G/${id}`} target="_blank" rel="noopener noreferrer" style={{ padding: '12px 24px', border: '1px solid var(--gold)', color: 'var(--gold)', textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: 10, borderRadius: 4 }}>VIEW ON LINKEDIN ↗</a>
+        <a href={`https://www.linkedin.com/posts/tofflon-india-private-limited_join-us-at-pmec-for-an-exclusive-look-at-activity-7132218700782313472-em_G/${id}`} target="_blank" rel="noopener noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">View on LinkedIn <span className="cine-cta-arrow">↗</span></span></a>
       </div>
     );
   }
@@ -133,36 +133,39 @@ export default function CorporatePortfolio() {
   return (
     <div style={{ minHeight: '100vh', background: '#06060C', color: '#F2EEE8', position: 'relative', overflowX: 'hidden' }}>
       <AuroraBg accent="gold" />
-      <HeroParticles />
+      {!isMobile && <HeroParticles />}
 
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '24px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(to bottom, rgba(6,6,12,0.8), transparent)', backdropFilter: 'blur(10px)' }}>
-        <Link to="/" style={{ fontFamily: 'var(--font-display)', fontSize: 20, letterSpacing: 4, color: 'rgba(242,238,232,0.5)', textDecoration: 'none' }}>MEJADHAVR</Link>
-        <Link to="/" style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--gold)', textDecoration: 'none', border: '1px solid rgba(200,169,110,0.3)', padding: '8px 16px', borderRadius: 4, textTransform: 'uppercase' }}>← Back Home</Link>
+      <nav className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.02s', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: isMobile ? '18px 16px' : '24px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(to bottom, rgba(6,6,12,0.8), transparent)', backdropFilter: isMobile ? 'blur(6px)' : 'blur(10px)' }}>
+        <a href="https://mejadhavr.com/#/" target="_blank" rel="noreferrer" style={{ fontFamily: 'var(--font-display)', fontSize: 20, letterSpacing: 4, color: 'rgba(242,238,232,0.5)', textDecoration: 'none' }}>MEJADHAVR</a>
+        <a href="https://mejadhavr.com/#/" target="_blank" rel="noreferrer" className="cine-cta-ghost" style={{ cursor: 'pointer' }}><span className="cine-cta-label">Main Website <span className="cine-cta-arrow">-&gt;</span></span></a>
       </nav>
 
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '160px 20px 80px', position: 'relative', zIndex: 2 }}>
-        <header style={{ textAlign: 'center', marginBottom: 80, opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)', transition: 'all 1s ease' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>◈ Corporate Films</div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,7vw,90px)', lineHeight: 0.9, marginBottom: 24 }}>
+      <main style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '116px 16px 64px' : '160px 20px 80px', position: 'relative', zIndex: 2 }}>
+        <header style={{ textAlign: 'center', marginBottom: isMobile ? 56 : 80 }}>
+          <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.1s', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>◈ Corporate Films</div>
+          <h1 className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.18s', fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,7vw,90px)', lineHeight: 0.9, marginBottom: 24 }}>
             BRAND MANIFESTO &<br /><span className="gold-text">CORPORATE STORIES</span>
           </h1>
-          <p style={{ maxWidth: 600, margin: '0 auto', fontSize: 'clamp(14px,2.5vw,18px)', color: 'rgba(242,238,232,0.6)', lineHeight: 1.5 }}>
+          <p className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.26s', maxWidth: 600, margin: '0 auto', fontSize: 'clamp(14px,2.5vw,18px)', color: 'rgba(242,238,232,0.6)', lineHeight: 1.5 }}>
             Crafting cinematic narratives that define brand values, cultures, and excellence in the corporate world.
           </p>
         </header>
 
         <div style={{
           display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(400px, 1fr))',
-          gap: 32, opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(40px)', transition: 'all 1s ease 0.4s'
+          gap: isMobile ? 20 : 32
         }}>
-          {videos.map((v, i) => (<YouTubeEmbed key={i} id={v.id} title={v.title} isLinkedIn={v.isLinkedIn} />))}
+          {videos.map((v, i) => (
+            <div key={i} className={`cine-reveal cine-zoom ${revealed ? 'visible' : ''}`} style={{ '--delay': `${0.34 + (i * 0.06)}s` }}>
+              <YouTubeEmbed id={v.id} title={v.title} isLinkedIn={v.isLinkedIn} />
+            </div>
+          ))}
         </div>
 
         {/* Private Policy Section */}
-        <div style={{
-          marginTop: 100, padding: '40px', borderRadius: 20,
+        <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.62s',
+          marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,
           background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
-          opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)', transition: 'all 1s ease 0.8s'
         }}>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 40 }}>
             <div>
@@ -182,13 +185,26 @@ export default function CorporatePortfolio() {
           </div>
         </div>
 
-        <footer style={{ marginTop: 120, textAlign: 'center', paddingTop: 60, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.72s', marginTop: isMobile ? 56 : 88, display: 'grid', gap: 18 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+            <a href="https://mejadhavr.com/#/product-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Product Videos</span></a>
+            <a href="https://mejadhavr.com/#/realestate-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Real Estate Films</span></a>
+            <a href="https://mejadhavr.com/#/event-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Event Highlights</span></a>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+            <a href="https://mejadhavr.com/#/contact" target="_blank" rel="noreferrer" className="cine-cta"><span className="cine-cta-label">Contact Rushikesh</span></a>
+            <a href="https://mejadhavr.com/#/" target="_blank" rel="noreferrer" className="cine-cta-secondary"><span className="cine-cta-label">Open Main Website</span></a>
+          </div>
+        </div>
+<footer className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.78s', marginTop: 120, textAlign: 'center', paddingTop: 60, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'rgba(242,238,232,0.3)', marginBottom: 20 }}>
             Cinematic Storytelling · {new Date().getFullYear()}
           </div>
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(242,238,232,0.4)', padding: '10px 24px', borderRadius: 30, fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.4s ease' }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--white)'; e.currentTarget.style.borderColor = 'var(--gold)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'rgba(242,238,232,0.4)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}>↑ TOP</button>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="cine-cta-ghost" style={{ cursor: 'pointer' }}><span className="cine-cta-label">Back to Top <span className="cine-cta-arrow">↑</span></span></button>
         </footer>
       </main>
     </div>
   );
 }
+
+

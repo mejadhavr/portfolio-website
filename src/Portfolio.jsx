@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback, memo, Suspense, lazy } from "react";
 
 const HeroCanvas = lazy(() => import('./HeroCanvas'));
-import { useIsMobile, useIsLowEnd, AuroraBg, ContactDock } from './Shared';
+import { AuroraBg, ContactDock } from './Shared';
+import { useIsMobile, useIsLowEnd, usePrefersReducedMotion } from './hooks';
 import LazySection from './LazySection';
 
 const AboutSection = lazy(() => import('./AboutSection'));
@@ -16,8 +17,13 @@ const ContactSection = lazy(() => import('./ContactSection'));
 ───────────────────────────────────────────── */
 const HeroParticles = memo(() => {
   const canvasRef = useRef(null);
+  const isMobile = useIsMobile();
+  const isLowEnd = useIsLowEnd();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
+    if (prefersReducedMotion) return undefined;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -30,13 +36,14 @@ const HeroParticles = memo(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    const particles = Array.from({ length: 60 }, () => ({
+    const particleCount = isLowEnd ? 18 : isMobile ? 28 : 60;
+    const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 1.5 + 0.3,
       opacity: Math.random() * 0.5 + 0.1,
-      speedX: (Math.random() - 0.5) * 0.3,
-      speedY: -Math.random() * 0.4 - 0.1,
+      speedX: (Math.random() - 0.5) * (isMobile ? 0.16 : 0.3),
+      speedY: -Math.random() * (isMobile ? 0.22 : 0.4) - 0.08,
     }));
 
     const animate = () => {
@@ -61,7 +68,7 @@ const HeroParticles = memo(() => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isLowEnd, isMobile, prefersReducedMotion]);
 
   return (
     <canvas
@@ -71,7 +78,7 @@ const HeroParticles = memo(() => {
         inset: 0,
         zIndex: 1,
         pointerEvents: 'none',
-        opacity: 0.6
+        opacity: isMobile ? 0.32 : 0.6
       }}
     />
   );
@@ -147,25 +154,6 @@ function CustomCursor() {
    LOADING SCREEN
 ───────────────────────────────────────────── */
 function LoadingScreen({ onDone }) {
-  const [count, setCount] = useState(3);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress(p => Math.min(p + 1, 100));
-    }, 3500 / 100);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    if (count > 0) {
-      const timer = setTimeout(() => {
-        setCount(prev => prev > 0 ? prev - 1 : 0);
-      }, (1500 - 500) / 4); // Adjusted for total 1500ms duration
-      return () => clearTimeout(timer);
-    }
-  }, [count]);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       onDone();
@@ -186,7 +174,7 @@ function LoadingScreen({ onDone }) {
 /* ─────────────────────────────────────────────
    NAVIGATION
 ───────────────────────────────────────────── */
-function Navigation({ active }) {
+function Navigation({ active, onContactRequest }) {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -207,6 +195,12 @@ function Navigation({ active }) {
   ];
 
   const scrollToSection = (id) => {
+    if (id === 'contact') {
+      onContactRequest?.();
+      setIsOpen(false);
+      return;
+    }
+
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setIsOpen(false);
   };
@@ -228,7 +222,7 @@ function Navigation({ active }) {
           onClick={() => scrollToSection('home')}
           style={{ cursor: 'none', display: 'flex', alignItems: 'center' }}
         >
-          <img src="public/images/logo.webp" alt="MJ Logo" style={{ height: 28, width: 'auto', objectFit: 'contain' }} />
+          <img src="/images/logo.webp" alt="MJ Logo" style={{ height: 28, width: 'auto', objectFit: 'contain' }} />
         </div>
 
         <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)' }} />
@@ -257,12 +251,10 @@ function Navigation({ active }) {
 
         {/* Action Group - Right side */}
         <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-          <button onClick={() => scrollToSection('contact')} style={{
-            padding: '8px 18px', background: 'var(--gold)', border: 'none', color: '#000',
-            borderRadius: 20, fontFamily: 'var(--font-mono)', outline: 'none',
-            fontSize: 10, fontWeight: 700, letterSpacing: 1, cursor: 'none'
+          <button onClick={() => scrollToSection('contact')} className="cine-cta" style={{
+            padding: '10px 18px', outline: 'none', cursor: 'none'
           }}>
-            HIRE ME
+            <span className="cine-cta-label">Hire Me <span className="cine-cta-arrow">→</span></span>
           </button>
         </div>
       </nav>
@@ -275,8 +267,8 @@ function Navigation({ active }) {
         aria-expanded={isOpen}
         style={{
           display: isMobile ? 'flex' : 'none',
-          position: 'fixed', bottom: 24, right: 24,
-          width: 50, height: 50, borderRadius: 12, 
+          position: 'fixed', bottom: 'max(20px, env(safe-area-inset-bottom))', right: 20,
+          width: 52, height: 52, borderRadius: 14,
           background: 'rgba(6, 6, 12, 0.9)',
           backdropFilter: 'blur(10px)',
           border: '1px solid var(--gold)', zIndex: 10002,
@@ -292,14 +284,14 @@ function Navigation({ active }) {
       <div style={{
         position: 'fixed', inset: 0, background: 'var(--bg)', zIndex: 10001,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'min(24px, 4vh)',
-        padding: 40, transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+        padding: 'max(28px, env(safe-area-inset-top)) 24px max(40px, env(safe-area-inset-bottom))', transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none',
         transform: isOpen ? 'none' : 'translateY(20px)',
         overflowY: 'auto'
       }}>
         {/* Mobile Brand Mark */}
         <div style={{ marginBottom: 20 }}>
-          <img src="/logo.webp" alt="MJ Logo" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
+          <img src="/images/logo.webp" alt="MJ Logo" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
         </div>
 
         {navItems.map(item => (
@@ -376,16 +368,15 @@ function MobileHeroBg() {
 /* ─────────────────────────────────────────────
    HERO SECTION
 ───────────────────────────────────────────── */
-function HeroSection({ loading }) {
+function HeroSection({ onContactRequest }) {
 
   const [tagVisible, setTagVisible] = useState(true);
-  const [revealed, setRevealed] = useState(false);
+  const [revealed] = useState(true);
   const [tagIndex, setTagIndex] = useState(0);
 
   const isMobile = useIsMobile();
   const isLowEnd = useIsLowEnd();
-
-  const name = "Rushikesh Jadhav";
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const taglines = [
     "Cinematic Video Editing & Visual Storytelling",
@@ -395,13 +386,6 @@ function HeroSection({ loading }) {
     "Editing Where Every Frame Matters"
   ];
 
-  // reveal animation synchronised with loading screen
-  useEffect(() => {
-    // Reveal instantly to satisfy Lighthouse LCP, 
-    // but visually hidden by LoadingScreen overlay
-    setRevealed(true);
-  }, []);
-
   // rotating tagline
   useEffect(() => {
     const interval = setInterval(() => {
@@ -410,9 +394,9 @@ function HeroSection({ loading }) {
         setTagIndex((prev) => (prev + 1) % taglines.length);
         setTagVisible(true); // fade in
       }, 400);
-    }, 3500);
+    }, prefersReducedMotion ? 5000 : 3500);
     return () => clearInterval(interval);
-  }, []);
+  }, [prefersReducedMotion, taglines.length]);
 
   return (
     <section id="home" style={{
@@ -420,6 +404,7 @@ function HeroSection({ loading }) {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       overflow: 'hidden', flexDirection: 'column',
       background: 'linear-gradient(135deg, #0a0a0f 0%, #0d1a2a 40%, #1a0f05 70%, #0a0a0f 100%)',
+      padding: isMobile ? '96px 0 88px' : 0,
     }}>
       {/* Film Grain Overlay */}
       <div style={{
@@ -444,10 +429,10 @@ function HeroSection({ loading }) {
 
       {/* Background elements load immediately so they are ready when the screen fades in */}
       <>
-        <HeroParticles />
+        {!prefersReducedMotion && <HeroParticles />}
         <AuroraBg accent="gold" />
         {isMobile && <MobileHeroBg />}
-        {(!isMobile && !isLowEnd) && (
+        {(!isMobile && !isLowEnd && !prefersReducedMotion) && (
           <Suspense fallback={null}>
             <HeroCanvas />
           </Suspense>
@@ -466,19 +451,17 @@ function HeroSection({ loading }) {
       }} />
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px', width: '100%' }}>
+      <div className="hero-cinematic" style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: isMobile ? '0 18px' : '0 24px', width: '100%', maxWidth: 1280 }}>
 
         {/* Availability Badge & Location */}
-        <div style={{
+        <div className="hero-kicker" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 24,
           flexWrap: 'wrap'
         }}>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 2,
             color: 'var(--white)', textTransform: 'uppercase',
-            transform: revealed ? 'none' : 'translateY(20px)',
-            opacity: revealed ? 0.8 : 0,
-            transition: 'opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s'
+            opacity: 0.8
           }}>
             Pune, India 📍
           </div>
@@ -486,9 +469,6 @@ function HeroSection({ loading }) {
             display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px',
             background: 'rgba(200,169,110,0.1)', border: '1px solid rgba(200,169,110,0.2)',
             borderRadius: 20, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)',
-            transform: revealed ? 'none' : 'translateY(20px)',
-            opacity: revealed ? 1 : 0,
-            transition: 'opacity 0.8s ease 0.25s, transform 0.8s ease 0.25s'
           }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#25D366', boxShadow: '0 0 8px #25D366', animation: 'glow-pulse 2s infinite' }}></span>
             Available for Projects
@@ -496,89 +476,81 @@ function HeroSection({ loading }) {
         </div>
 
         {/* Main name */}
-        <h1 className="hero-name" style={{
+        <h1 className="hero-name hero-title-block" style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(50px, 15vw, 180px)',
-          lineHeight: 0.8,
+          fontSize: isMobile ? 'clamp(48px, 20vw, 92px)' : 'clamp(50px, 15vw, 180px)',
+          lineHeight: isMobile ? 0.84 : 0.8,
           color: 'var(--white)',
-          marginBottom: 20,
+          marginBottom: isMobile ? 16 : 20,
           textShadow: '0 20px 80px rgba(0,0,0,0.8)',
-          transform: revealed ? 'none' : 'translateY(30px)',
-          opacity: revealed ? 1 : 0,
-          transition: 'opacity 1s cubic-bezier(0.16,1,0.3,1) 0.5s, transform 1s cubic-bezier(0.16,1,0.3,1) 0.5s'
         }}>
-          RUSHIKESH<br />
-          <span className="gold-text">JADHAV</span>
+          <span className="hero-title-line">RUSHIKESH</span>
+          <span className="hero-title-line gold-text">JADHAV</span>
         </h1>
 
         {/* Title */}
-        <h2 style={{
+        <h2 className="hero-role" style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(24px, 5vw, 48px)',
-          color: 'var(--gold)', letterSpacing: 4, marginBottom: 16,
+          fontSize: isMobile ? 'clamp(18px, 6vw, 24px)' : 'clamp(24px, 5vw, 48px)',
+          color: 'var(--gold)', letterSpacing: isMobile ? 2.5 : 4, marginBottom: 16,
           textTransform: 'uppercase',
           textShadow: '0 4px 20px rgba(200,169,110,0.3)',
-          opacity: revealed ? 1 : 0, transform: revealed ? 'none' : 'translateY(20px)',
-          transition: 'opacity 0.8s ease 1.2s, transform 0.8s ease 1.2s'
         }}>
           Cinematic Video Editor
         </h2>
 
         {/* Tagline */}
-        <div style={{
-          fontFamily: 'var(--font-editorial)',
-          fontStyle: 'italic',
-          fontWeight: 300,
-          fontSize: 'clamp(16px, 3vw, 24px)',
-          color: 'rgba(242,238,232,0.8)',
-          marginBottom: 60,
-          letterSpacing: 1,
-          opacity: tagVisible && revealed ? 1 : 0,
-          transform: tagVisible && revealed ? 'translateY(0)' : 'translateY(10px)',
-          transition: 'opacity 0.5s ease, transform 0.5s ease',
-          filter: tagVisible ? 'blur(0px)' : 'blur(4px)'
-        }}>
-          {taglines[tagIndex]}
+        <div className="hero-copy-shell" style={{ marginBottom: isMobile ? 36 : 60 }}>
+          <div className="hero-copy" style={{
+            fontFamily: 'var(--font-editorial)',
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 'clamp(16px, 3vw, 24px)',
+            color: 'rgba(242,238,232,0.8)',
+            letterSpacing: 1,
+            opacity: tagVisible ? 1 : 0,
+            transform: tagVisible ? 'translateY(0)' : 'translateY(10px)',
+            transition: 'opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease',
+            filter: tagVisible ? 'blur(0px)' : 'blur(4px)'
+          }}>
+            {taglines[tagIndex]}
+          </div>
         </div>
 
         {/* CTAs */}
-        <div style={{
+        <div className="hero-cta-row" style={{
           display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap',
-          opacity: revealed ? 1 : 0, transition: 'opacity 1s ease 1.5s',
-          transform: revealed ? 'none' : 'translateY(20px)',
           position: 'relative', zIndex: 10
         }}>
           <button
             onClick={() => {
-              document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
+              onContactRequest?.();
               if (window.trackEvent) window.trackEvent("contact_click");
             }}
-            className="premium-cta"
+            className="cine-cta-secondary"
             style={{
-              padding: '16px 36px',
-              borderRadius: 4,
-              border: '1px solid rgba(200,169,110,0.4)',
-              background: 'rgba(12,12,22,0.8)',
-              fontFamily: 'var(--font-mono)', fontSize: 13, letterSpacing: 2, textTransform: 'uppercase',
-              color: 'var(--white)', width: isMobile ? '100%' : 'auto', backdropFilter: 'blur(10px)',
+              padding: '16px 32px',
+              width: isMobile ? '100%' : 'auto',
+              maxWidth: isMobile ? 320 : 'none',
               cursor: 'none'
             }}
           >
-            LET'S WORK TOGETHER
+            <span className="cine-cta-label">Let's Work Together <span className="cine-cta-arrow">→</span></span>
           </button>
         </div>
       </div>
 
       {/* Scroll indicator */}
+      {!isMobile && (
       <div
-        className="hero-scroll-indicator"
+        className="hero-scroll-indicator-shell"
         style={{
           position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, zIndex: 2,
           opacity: revealed ? 0.7 : 0, transition: 'opacity 1s ease 2s', pointerEvents: 'none'
         }}
       >
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 4, color: 'var(--white)', textTransform: 'uppercase' }}>Scroll</div>
+        <div className="hero-scroll-indicator" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 4, color: 'var(--white)', textTransform: 'uppercase' }}>Scroll</div>
         <div style={{
           width: 24, height: 40, borderRadius: 20, border: '1px solid rgba(255,255,255,0.2)',
           position: 'relative', display: 'flex', justifyContent: 'center'
@@ -589,6 +561,7 @@ function HeroSection({ loading }) {
           }} />
         </div>
       </div>
+      )}
 
     </section>
   );
@@ -600,11 +573,21 @@ function HeroSection({ loading }) {
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
+  const [eagerSections, setEagerSections] = useState([]);
 
   const handleLoadDone = useCallback(() => {
     setLoading(false);
     // Always scroll to top (Home) after loading screen, regardless of where page was before
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
+  const requestSection = useCallback((id) => {
+    setEagerSections((current) => (current.includes(id) ? current : [...current, id]));
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
   }, []);
 
   // Track active section
@@ -623,26 +606,20 @@ export default function App() {
 
       {loading && <LoadingScreen onDone={handleLoadDone} />}
 
-      <div style={{
-        opacity: loading ? 0 : 1,
-        transition: 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1)',
-        willChange: 'opacity'
-      }}>
-        <Navigation active={activeSection} />
-        <ContactDock />
-        <HeroSection loading={loading} />
+      {!loading && (
+        <div>
+          <Navigation active={activeSection} onContactRequest={() => requestSection('contact')} />
+          <ContactDock />
+          <HeroSection onContactRequest={() => requestSection('contact')} />
 
-        {!loading && (
-          <>
-            <LazySection id="about"><Suspense fallback={null}><AboutSection /></Suspense></LazySection>
-            <LazySection id="work"><Suspense fallback={null}><WorkSection /></Suspense></LazySection>
-            <LazySection id="services"><Suspense fallback={null}><ServicesSection /></Suspense></LazySection>
-            <LazySection id="clients"><Suspense fallback={null}><ClientsSection /></Suspense></LazySection>
-            <LazySection id="visual"><Suspense fallback={null}><VisualSection /></Suspense></LazySection>
-            <LazySection id="contact"><Suspense fallback={null}><ContactSection /></Suspense></LazySection>
-          </>
-        )}
-      </div>
+          <LazySection id="about" forceVisible={eagerSections.includes('about')}><Suspense fallback={null}><AboutSection /></Suspense></LazySection>
+          <LazySection id="work" forceVisible={eagerSections.includes('work')}><Suspense fallback={null}><WorkSection /></Suspense></LazySection>
+          <LazySection id="services" forceVisible={eagerSections.includes('services')}><Suspense fallback={null}><ServicesSection /></Suspense></LazySection>
+          <LazySection id="clients" forceVisible={eagerSections.includes('clients')}><Suspense fallback={null}><ClientsSection /></Suspense></LazySection>
+          <LazySection id="visual" forceVisible={eagerSections.includes('visual')}><Suspense fallback={null}><VisualSection /></Suspense></LazySection>
+          <LazySection id="contact" forceVisible={eagerSections.includes('contact')}><Suspense fallback={null}><ContactSection /></Suspense></LazySection>
+        </div>
+      )}
 
     </>
   );

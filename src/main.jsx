@@ -14,19 +14,24 @@ const initApp = () => {
 // Immediate render
 initApp();
 
+const registerServiceWorker = () => {
+  navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
+};
+
 // Defer non-critical work
 const deferWork = () => {
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .then(reg => console.log('SW registered:', reg.scope))
-        .catch(err => console.error('SW failed:', err));
-    });
+    if (document.readyState === 'complete') {
+      registerServiceWorker();
+      return;
+    }
+
+    window.addEventListener('load', registerServiceWorker, { once: true });
   }
 };
 
 if ('requestIdleCallback' in window) {
-  requestIdleCallback(deferWork);
+  window.requestIdleCallback(deferWork);
 } else {
   setTimeout(deferWork, 2500);
 }

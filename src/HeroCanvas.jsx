@@ -5,15 +5,17 @@ export default function HeroCanvas() {
   const mountRef = useRef(null);
 
   useEffect(() => {
+    const mountNode = mountRef.current;
     let renderer;
     let frame;
     let observer;
     let cancelled = false;
+    let cleanupThree = () => {};
 
     import('three').then((THREE) => {
-      if (cancelled || !mountRef.current) return;
+      if (cancelled || !mountNode) return;
       
-      const el = mountRef.current;
+      const el = mountNode;
       const w = el.clientWidth, h = el.clientHeight;
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -144,7 +146,7 @@ export default function HeroCanvas() {
       window.addEventListener('resize', onResize);
 
       // Cleanup function within .then
-      const originalCleanup = () => {
+      cleanupThree = () => {
         if (observer) observer.disconnect();
         if (frame) cancelAnimationFrame(frame);
         window.removeEventListener('mousemove', onMouse);
@@ -169,16 +171,11 @@ export default function HeroCanvas() {
           }
         }
       };
-      
-      // Store cleanup to be called by the outer useEffect's return
-      mountRef.current.cleanupThree = originalCleanup;
     });
 
     return () => {
       cancelled = true;
-      if (mountRef.current && mountRef.current.cleanupThree) {
-        mountRef.current.cleanupThree();
-      }
+      cleanupThree();
     };
   }, []);
 

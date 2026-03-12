@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { useIsMobile, AuroraBg } from './Shared';
+import { AuroraBg } from './Shared';
+import { useIsMobile } from './hooks';
 const workProjects = [
   {
     title: 'BRAND MANIFESTO',
-    client: 'Astik Dyestuff Pvt LTD, Mumbai',
+    client: 'Astik Dyestuff Pvt. Ltd., Mumbai',
     desc: 'A cinematic brand story told through contrast and light',
     tags: ['CORPORATE & BRAND FILM'],
     videoUrl: 'astik',
@@ -17,9 +17,9 @@ const workProjects = [
     caseStudy: [
       { label: 'CLIENT', value: 'Astik Dyestuff Pvt. Ltd., Mumbai' },
       { label: 'PRODUCED BY', value: 'Unplug Infinity Media Pvt. Ltd.' },
-      { label: 'CREATIVE DIRECTOR', value: 'Alim Pathak' },
+      { label: 'CREATIVE DIRECTOR', value: 'Alim Pathan' },
       { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' },
-      { label: 'ROLE', value: 'Part of the Unplug Infinity Media team' }
+      { label: 'NOTE', value: 'Project executed as part of the Unplug Infinity Media team' }
     ]
   },
   {
@@ -38,7 +38,9 @@ const workProjects = [
       { label: 'CLIENT', value: 'Prasun Spaces' },
       { label: 'PROJECT', value: 'Prasun Adara' },
       { label: 'PRODUCED BY', value: 'Greyscale Films' },
-      { label: 'CREATIVE DIRECTOR', value: 'Amarreddy' }
+      { label: 'CREATIVE DIRECTOR', value: 'Amarreddy Lingam' },
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' },
+      { label: 'NOTE', value: 'Project executed as part of the Greyscale Films team' }
     ]
   },
   {
@@ -55,8 +57,11 @@ const workProjects = [
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'BU Bhandari' },
-      { label: 'TYPE', value: 'Model Walkthrough Film' },
-      { label: 'DESCRIPTION', value: 'A cinematic walkthrough experiencing the vision.' }
+      { label: 'PROJECT', value: '7 Plumeria Drive' },
+      { label: 'PRODUCED BY', value: 'Greyscale Films' },
+      { label: 'CREATIVE DIRECTOR', value: 'Amarreddy Lingam' },
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' },
+      { label: 'NOTE', value: 'Project executed as part of the production team' }
     ]
   },
   {
@@ -74,13 +79,14 @@ const workProjects = [
     caseStudy: [
       { label: 'CLIENT', value: 'Phillips Machine Tools India Pvt. Ltd.' },
       { label: 'PRODUCED BY', value: 'Unplug Infinity Media Pvt. Ltd.' },
-      { label: 'CREATIVE DIRECTOR', value: 'Alim Pathak' },
-      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' }
+      { label: 'CREATIVE DIRECTOR', value: 'Alim Pathan' },
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' },
+      { label: 'NOTE', value: 'Project executed as part of the Unplug Infinity Media team' }
     ]
   },
   {
     title: 'IDEX INDIA',
-    client: 'Idex India',
+    client: 'Idex India, Mumbai',
     desc: 'Showcasing engineering through 3D visualization',
     tags: ['3D PRODUCT FILM'],
     videoUrl: 'idex',
@@ -91,14 +97,16 @@ const workProjects = [
     rowSpan: 'span 1', // Small Square
     isFlipCard: true,
     caseStudy: [
-      { label: 'CLIENT', value: 'Idex India' },
-      { label: 'TYPE', value: '3D Product Film' },
-      { label: 'DESCRIPTION', value: 'Showcasing engineering through 3D visualization.' }
+      { label: 'CLIENT', value: 'Idex India, Mumbai' },
+      { label: 'PRODUCED BY', value: 'Unplug Infinity Media Pvt. Ltd.' },
+      { label: 'PROJECT MANAGER', value: 'Ravindra Kamtam' },
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' },
+      { label: 'NOTE', value: 'Project executed as part of the Unplug Infinity Media team' }
     ]
   },
   {
     title: 'EVENT HIGHLIGHT FILM',
-    client: 'Westbridge Capital & WACA Chess',
+    client: 'WestBridge Capital',
     desc: 'Capturing the atmosphere and key moments of the tournament',
     tags: ['EVENT HIGHLIGHT FILM'],
     videoUrl: 'waca',
@@ -110,9 +118,10 @@ const workProjects = [
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'WestBridge Capital' },
-      { label: 'PRODUCED BY', value: 'Prismscale Pvt. Ltd.' },
+      { label: 'PRODUCED BY', value: 'Prismscale' },
       { label: 'CREATIVE DIRECTOR', value: 'Dharam Vir Singh' },
-      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' }
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' },
+      { label: 'NOTE', value: 'Project executed as part of the Prismscale team' }
     ]
   }
 ];
@@ -129,7 +138,7 @@ export default function WorkSection() {
   }, []);
 
   return (
-    <section id="work" ref={ref} style={{
+    <section ref={ref} style={{
       position: 'relative',
       padding: 'clamp(80px,10vw,120px) clamp(16px,5vw,40px)',
       background: 'var(--bg2)',
@@ -139,11 +148,11 @@ export default function WorkSection() {
       <AuroraBg accent="gold" />
       <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 70 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>SELECTED WORK</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(52px,9vw,108px)', lineHeight: 0.88, color: 'var(--white)' }}>
+          <div className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.04s', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>SELECTED WORK</div>
+          <h2 className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.14s', fontFamily: 'var(--font-display)', fontSize: 'clamp(52px,9vw,108px)', lineHeight: 0.88, color: 'var(--white)' }}>
             CINEMATIC<br />
             <span className="gold-text">PORTFOLIO</span>
-            <div style={{ fontSize: '0.35em', letterSpacing: 6, marginTop: 20, color: 'rgba(255,255,255,0.7)', fontWeight: 300 }}>& BRAND FILMS</div>
+            <div className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.26s', fontSize: '0.35em', letterSpacing: 6, marginTop: 20, color: 'rgba(255,255,255,0.7)', fontWeight: 300 }}>& BRAND FILMS</div>
           </h2>
         </div>
 
@@ -158,28 +167,16 @@ export default function WorkSection() {
           transition: 'opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s',
         }}>
           {workProjects.map((p, i) => (
-            <MemoizedProjectCard key={`project-${i}-${p.title}`} project={p} index={i} />
+            <MemoizedProjectCard key={`project-${i}-${p.title}`} project={p} vis={vis} delay={0.14 + (i * 0.08)} />
           ))}
         </div>
 
         {/* View Event Highlights CTA */}
-        <div style={{
+        <div className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{
+          '--delay': '0.48s',
           marginTop: 60, textAlign: 'center',
-          opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(20px)',
-          transition: 'all 0.8s ease 0.6s'
         }}>
-          <Link to="/event-portfolio" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 12,
-            padding: '16px 32px', borderRadius: 8,
-            background: 'rgba(200,169,110,0.1)', border: '1px solid rgba(200,169,110,0.3)',
-            fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 2, textTransform: 'uppercase',
-            color: 'var(--gold)', textDecoration: 'none', transition: 'all 0.3s'
-          }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = '#000'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(200,169,110,0.1)'; e.currentTarget.style.color = 'var(--gold)'; }}
-          >
-            Explore Event Highlights Portfolio <span>→</span>
-          </Link>
+          <a href="https://mejadhavr.com/#/event-portfolio" target="_blank" rel="noreferrer" style={{ cursor: 'none' }} className="cine-cta-ghost"><span className="cine-cta-label">View Event Highlights <span className="cine-cta-arrow">-&gt;</span></span></a>
         </div>
       </div>
     </section>
@@ -231,7 +228,7 @@ function CardVideo({ src, isMobile }) {
   );
 }
 
-function ProjectCard({ project: p, index }) {
+function ProjectCard({ project: p, vis, delay }) {
   const [hovered, setHovered] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -255,21 +252,23 @@ function ProjectCard({ project: p, index }) {
   const rowSpan = isMobile ? 'auto' : p.rowSpan;
   
   // Preserving your original exact 230px mobile height!
-  const cardHeight = isMobile ? '230px' : '100%';
+  const cardHeight = isMobile ? '300px' : '100%';
 
   return (
     <div
+      className={`cine-reveal cine-zoom ${vis ? 'visible' : ''}`}
       ref={cardRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => { setHovered(false); setTilt({ x: 0, y: 0 }); }}
       onMouseMove={onMouseMove}
       onClick={handleFlip}
       style={{
+        '--delay': `${delay}s`,
         gridColumn: colSpan,
         gridRow: rowSpan,
         height: cardHeight,
         borderRadius: 16, position: 'relative', cursor: 'pointer',
-        perspective: '2000px',
+        perspective: isMobile ? 'none' : '2000px',
         zIndex: isFlipped ? 50 : 1,
         transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
@@ -290,10 +289,10 @@ function ProjectCard({ project: p, index }) {
       <div style={{
         position: 'relative',
         width: '100%',
-        height: '100%', // Automatically fills the 230px on mobile, or the bento row height on desktop
+        height: '100%',
         transition: 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        transformStyle: 'preserve-3d',
-        transform: isFlipped ? 'rotateY(180deg)' : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.01)` : 'rotateX(0) rotateY(0) scale(1)'),
+        transformStyle: isMobile ? 'flat' : 'preserve-3d',
+        transform: isMobile ? 'none' : (isFlipped ? 'rotateY(180deg)' : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.01)` : 'rotateX(0) rotateY(0) scale(1)')),
       }}>
         {/* ================= FRONT FACE ================= */}
         <div style={{
@@ -301,9 +300,10 @@ function ProjectCard({ project: p, index }) {
           background: p.gradient,
           border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: 12, overflow: 'hidden',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: isMobile ? 'visible' : 'hidden',
+          WebkitBackfaceVisibility: isMobile ? 'visible' : 'hidden',
           zIndex: 2,
+          display: isMobile && isFlipped ? 'none' : 'block',
         }}>
           {p.videoUrl && (
             <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
@@ -321,10 +321,10 @@ function ProjectCard({ project: p, index }) {
           {/* Category Pill (Top-Right) */}
           <div style={{
             position: 'absolute', top: 16, right: 16,
-            padding: '4px 10px', borderRadius: 20,
+            padding: isMobile ? '4px 8px' : '4px 10px', borderRadius: 20,
             border: `1px solid ${p.accent}66`,
             background: 'rgba(0,0,0,0.3)',
-            fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: 1.5,
+            fontFamily: 'var(--font-mono)', fontSize: isMobile ? 7 : 8, letterSpacing: isMobile ? 1.1 : 1.5,
             color: p.accent, textTransform: 'uppercase', zIndex: 3
           }}>
             {p.tags[0]}
@@ -332,21 +332,22 @@ function ProjectCard({ project: p, index }) {
 
           {/* Content Overlay */}
           <div style={{
-            position: 'absolute', inset: 0, padding: 20,
+            position: 'absolute', inset: 0, padding: isMobile ? 16 : 20,
             display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
             zIndex: 2,
           }}>
             <div style={{ 
-              fontFamily: 'var(--font-display)', fontSize: isMobile ? 22 : 28, 
-              color: 'var(--white)', lineHeight: 0.9, marginBottom: 8, fontWeight: 700,
-              textTransform: 'uppercase', letterSpacing: 1
+              fontFamily: 'var(--font-display)', fontSize: isMobile ? 18 : 28,
+              color: 'var(--white)', lineHeight: 0.92, marginBottom: 6, fontWeight: 700,
+              textTransform: 'uppercase', letterSpacing: isMobile ? 0.5 : 1
             }}>
               {p.title}
             </div>
             <div style={{ 
               fontFamily: 'var(--font-editorial)', fontStyle: 'italic', 
-              fontSize: isMobile ? 13 : 14, color: 'rgba(255,255,255,0.7)', 
-              marginBottom: 16, lineHeight: 1.3, fontWeight: 300
+              fontSize: isMobile ? 12 : 14, color: 'rgba(255,255,255,0.74)',
+              marginBottom: isMobile ? 12 : 16, lineHeight: isMobile ? 1.22 : 1.3, fontWeight: 300,
+              maxWidth: isMobile ? '90%' : 'none'
             }}>
               {p.desc}
             </div>
@@ -358,9 +359,11 @@ function ProjectCard({ project: p, index }) {
               display: 'flex', justifyContent: 'space-between', alignItems: 'center'
             }}>
               <div style={{ 
-                fontFamily: 'var(--font-mono)', fontSize: 9, 
+                fontFamily: 'var(--font-mono)', fontSize: isMobile ? 8 : 9,
                 color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase',
-                letterSpacing: 2
+                letterSpacing: isMobile ? 1.2 : 2,
+                maxWidth: isMobile ? '58%' : 'none',
+                lineHeight: 1.2
               }}>
                 {p.client}
               </div>
@@ -378,21 +381,47 @@ function ProjectCard({ project: p, index }) {
         {p.isFlipCard && (
           <div style={{
             position: 'absolute', inset: 0,
-            padding: 24,
+            padding: isMobile ? 18 : 24,
             background: '#06060c',
             border: `1px solid ${p.accent}33`,
             borderRadius: 12,
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
+            backfaceVisibility: isMobile ? 'visible' : 'hidden',
+            WebkitBackfaceVisibility: isMobile ? 'visible' : 'hidden',
+            transform: isMobile ? 'none' : 'rotateY(180deg)',
             display: 'flex', flexDirection: 'column',
             zIndex: 1,
             pointerEvents: isFlipped ? 'auto' : 'none',
+            opacity: isMobile ? (isFlipped ? 1 : 0) : 1,
+            visibility: isMobile ? (isFlipped ? 'visible' : 'hidden') : 'visible',
           }}>
+            {isMobile && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsFlipped(false);
+                }}
+                className="cine-cta-ghost"
+                style={{
+                  position: 'absolute',
+                  top: 12,
+                  right: 12,
+                  padding: '6px 10px',
+                  minHeight: 'auto',
+                  fontSize: 11,
+                  cursor: 'pointer',
+                  borderColor: 'rgba(255,255,255,0.18)',
+                  color: 'var(--white)',
+                  zIndex: 3,
+                }}
+              >
+                <span className="cine-cta-label">&larr; Back</span>
+              </button>
+            )}
             {/* Header */}
             <div style={{ 
               display: 'flex', alignItems: 'center', gap: 8,
-              fontFamily: 'var(--font-mono)', fontSize: 9, 
+              fontFamily: 'var(--font-mono)', fontSize: isMobile ? 8 : 9,
               letterSpacing: 2, color: p.accent, marginBottom: 8,
               textTransform: 'uppercase'
             }}>
@@ -401,8 +430,8 @@ function ProjectCard({ project: p, index }) {
 
             {/* Project Title on Back */}
             <div style={{ 
-              fontFamily: 'var(--font-display)', fontSize: 24, 
-              color: 'var(--white)', fontWeight: 800, marginBottom: 24,
+              fontFamily: 'var(--font-display)', fontSize: isMobile ? 18 : 24,
+              color: 'var(--white)', fontWeight: 800, marginBottom: isMobile ? 16 : 24,
               lineHeight: 1, textTransform: 'uppercase'
             }}>
               {p.title}
@@ -411,49 +440,41 @@ function ProjectCard({ project: p, index }) {
             <div style={{ flex: 1, overflowY: 'auto' }}>
               {p.caseStudy.map((row, idx) => (
                 <div key={idx} style={{ 
-                  display: 'flex', marginBottom: 16, 
+                  display: 'flex', marginBottom: isMobile ? 10 : 16,
                   alignItems: 'baseline', borderBottom: '1px solid rgba(255,255,255,0.03)',
                   paddingBottom: 8
                 }}>
                   <div style={{ 
-                    width: '40%',
-                    fontFamily: 'var(--font-mono)', fontSize: 8, 
+                    width: isMobile ? '36%' : '40%',
+                    fontFamily: 'var(--font-mono)', fontSize: isMobile ? 7 : 8,
                     color: p.accent, textTransform: 'uppercase', 
-                    opacity: 0.8
+                    opacity: 0.8,
+                    letterSpacing: isMobile ? 1 : 0
                   }}>{row.label}</div>
                   <div style={{ 
                     flex: 1,
-                    fontFamily: 'var(--font-editorial)', fontSize: 14, 
-                    color: 'var(--white)', fontWeight: 300 
+                    fontFamily: 'var(--font-editorial)', fontSize: isMobile ? 12 : 14,
+                    color: 'var(--white)', fontWeight: 300,
+                    lineHeight: isMobile ? 1.3 : 1.4
                   }}>{row.value}</div>
                 </div>
               ))}
             </div>
 
-            <div style={{ marginTop: 20 }}>
+            <div style={{ marginTop: isMobile ? 12 : 20, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <a
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 10,
-                  border: `1px solid ${p.accent}`, color: p.accent,
-                  padding: '10px 20px', borderRadius: 4,
-                  fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700,
-                  letterSpacing: 1.5, textDecoration: 'none', transition: 'all 0.3s ease',
-                  textTransform: 'uppercase'
+                  cursor: 'none',
+                  borderColor: p.accent,
+                  color: p.accent
                 }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = p.accent;
-                  e.currentTarget.style.color = '#000';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = p.accent;
-                }}
+                className="cine-cta-ghost"
               >
-                WATCH FULL FILM <span style={{ fontSize: 12 }}>↗</span>
+                <span className="cine-cta-label">Watch Full Film <span className="cine-cta-arrow">↗</span></span>
               </a>
             </div>
           </div>
@@ -464,3 +485,4 @@ function ProjectCard({ project: p, index }) {
 }
 
 const MemoizedProjectCard = React.memo(ProjectCard);
+

@@ -6,15 +6,17 @@ export default function FilmScene() {
   const mountRef = useRef(null);
 
   useEffect(() => {
+    const mountNode = mountRef.current;
     let renderer;
     let frame;
     let observer;
     let cancelled = false;
+    let cleanupThree = () => {};
 
     import('three').then((THREE) => {
-      if (cancelled || !mountRef.current) return;
+      if (cancelled || !mountNode) return;
 
-      const el = mountRef.current;
+      const el = mountNode;
       const w = el.clientWidth, h = el.clientHeight;
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -91,7 +93,7 @@ export default function FilmScene() {
         lastTime = timestamp - (elapsed % fpsInterval);
         
         const t = Date.now() * 0.001;
-        strips.forEach((s, i) => {
+        strips.forEach((s) => {
           s.position.y += s.userData.vy;
           s.rotation.z += s.userData.vr;
           if (s.position.y > 4) s.position.y = -4;
@@ -110,7 +112,7 @@ export default function FilmScene() {
       };
       window.addEventListener('resize', onResize);
 
-      const originalCleanup = () => {
+      cleanupThree = () => {
         if (observer) observer.disconnect();
         if (frame) cancelAnimationFrame(frame);
         window.removeEventListener('scroll', onScroll);
@@ -122,14 +124,11 @@ export default function FilmScene() {
           }
         }
       };
-      mountRef.current.cleanupThree = originalCleanup;
     });
 
     return () => {
       cancelled = true;
-      if (mountRef.current && mountRef.current.cleanupThree) {
-        mountRef.current.cleanupThree();
-      }
+      cleanupThree();
     };
   }, []);
 

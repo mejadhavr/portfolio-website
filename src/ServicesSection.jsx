@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useIsMobile, AuroraBg } from './Shared';
+import React, { useState, useEffect, useRef } from 'react';
+import { AuroraBg } from './Shared';
+import { useIsMobile } from './hooks';
 
 /* ─────────────────────────────────────────────
    SERVICES SECTION
@@ -103,7 +104,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section id="services" ref={ref} style={{
+    <section ref={ref} style={{
       position: 'relative', padding: isMobile ? '80px 20px' : '140px 40px',
       background: 'var(--bg)',
       overflow: 'hidden',
@@ -111,11 +112,11 @@ export default function ServicesSection() {
       <AuroraBg accent="gold" />
       <div style={{ maxWidth: 1400, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: clamp(40, 100, 120) }}>
-          <div style={{ 
+          <div className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.06s',
             fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 20, 
             textTransform: 'uppercase', opacity: 0.6 
           }}>◈ Services</div>
-          <h2 style={{ 
+          <h2 className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.16s',
             fontFamily: 'var(--font-display)', 
             fontSize: 'clamp(60px,18vw,160px)', 
             lineHeight: 0.82, 
@@ -147,11 +148,9 @@ export default function ServicesSection() {
 
       {/* Scrolling video formats */}
       <div
-        style={{
-          marginTop: 120,
-          opacity: vis ? 1 : 0,
-          transform: vis ? 'none' : 'translateY(20px)',
-          transition: 'opacity 0.9s ease 0.8s, transform 0.9s ease 0.8s'
+        className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`}
+        style={{ '--delay': '0.62s',
+          marginTop: isMobile ? 72 : 120,
         }}
       >
         <div style={{
@@ -169,7 +168,7 @@ export default function ServicesSection() {
               "Explainer Videos", "Interview Cuts", "Brand Manifestos", "Startup Pitch Videos",
               "Industrial Showcases", "Travel Stories"
             ].map((item, i) => (
-              <div key={i} style={{ fontFamily: 'var(--font-editorial)', fontSize: 18, color: 'rgba(242,238,232,0.35)', padding: '0 40px', fontStyle: 'italic' }}>
+              <div key={i} style={{ fontFamily: 'var(--font-editorial)', fontSize: isMobile ? 16 : 18, color: 'rgba(242,238,232,0.35)', padding: isMobile ? '0 24px' : '0 40px', fontStyle: 'italic' }}>
                 {item}
               </div>
             ))}
@@ -180,7 +179,7 @@ export default function ServicesSection() {
               "Explainer Videos", "Interview Cuts", "Brand Manifestos", "Startup Pitch Videos",
               "Industrial Showcases", "Travel Stories"
             ].map((item, i) => (
-              <div key={"dup" + i} style={{ fontFamily: 'var(--font-editorial)', fontSize: 18, color: 'rgba(242,238,232,0.35)', padding: '0 40px', fontStyle: 'italic' }}>
+              <div key={"dup" + i} style={{ fontFamily: 'var(--font-editorial)', fontSize: isMobile ? 16 : 18, color: 'rgba(242,238,232,0.35)', padding: isMobile ? '0 24px' : '0 40px', fontStyle: 'italic' }}>
                 {item}
               </div>
             ))}
@@ -198,18 +197,16 @@ function ServiceCard({ service: s, delay, vis }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className={`cine-reveal cine-tilt-${delay % 0.3 === 0 ? 'left' : 'right'} ${vis ? 'visible' : ''}`}
       style={{
+        '--delay': `${delay + 0.12}s`,
         padding: isMobile ? '32px 24px' : '48px 32px',
         background: 'rgba(10, 10, 16, 0.4)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
+        backdropFilter: isMobile ? 'blur(6px)' : 'blur(10px)',
+        WebkitBackdropFilter: isMobile ? 'blur(6px)' : 'blur(10px)',
         border: '1px solid rgba(255, 255, 255, 0.05)',
         borderRadius: 20,
-        opacity: 0,
-        animation: vis ? `serviceReveal 1.2s cubic-bezier(0.16,1,0.3,1) forwards` : 'none',
-        animationDelay: `${delay + 0.2}s`,
-        animationFillMode: 'both',
-        transform: hovered ? 'translateY(-12px)' : 'translateY(0)',
+        transform: hovered && !isMobile ? 'translateY(-12px)' : 'translateY(0)',
         transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         boxShadow: hovered ? `0 30px 60px rgba(0, 0, 0, 0.5), 0 0 30px ${s.accent}08` : 'none',
         borderColor: hovered ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
@@ -232,7 +229,7 @@ function ServiceCard({ service: s, delay, vis }) {
       </div>
       
       <div style={{ overflow: 'hidden', width: '100%' }}>
-        <h3 style={{ 
+        <h3 className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': `${delay + 0.24}s`,
           fontFamily: 'var(--font-display)', 
           fontSize: 'clamp(20px, 2.5vw, 26px)', 
           color: 'var(--white)', 
@@ -240,22 +237,16 @@ function ServiceCard({ service: s, delay, vis }) {
           lineHeight: 1.1,
           letterSpacing: 1,
           textTransform: 'uppercase',
-          opacity: 0,
-          animation: vis ? `revealUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards` : 'none',
-          animationDelay: `${delay + 0.4}s`
         }}>{s.title}</h3>
       </div>
 
-      <p style={{ 
+      <p className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': `${delay + 0.34}s`,
         fontFamily: 'var(--font-editorial)', 
         fontSize: 'clamp(14px, 1.2vw, 16px)', 
         lineHeight: 1.6, 
         color: 'rgba(242,238,232,0.5)',
         margin: 0,
         fontWeight: 300,
-        opacity: 0,
-        animation: vis ? `fadeIn 1s ease forwards` : 'none',
-        animationDelay: `${delay + 0.6}s`
       }}>{s.desc}</p>
     </div>
   );

@@ -33,7 +33,7 @@ files.forEach(file => {
     execSync(command, { stdio: 'inherit' });
     console.log(`✅ Created ${baseName}.webp`);
     processedBaseNames.add(baseName);
-  } catch (err) {
+  } catch {
     console.error(`❌ Failed to process ${file}. Make sure FFmpeg is installed.`);
   }
 });

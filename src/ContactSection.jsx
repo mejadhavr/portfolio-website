@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from 'react';
-import { useIsMobile, AuroraBg } from './Shared';
+import React, { useState, useEffect, useRef } from 'react';
+import { AuroraBg } from './Shared';
+import { useIsMobile } from './hooks';
 /* ─────────────────────────────────────────────
    CONTACT SECTION
 ───────────────────────────────────────────── */
@@ -37,9 +38,8 @@ const contactSocials = [
   },
 ];
 
-function InquiryForm({ isMobile }) {
+function InquiryForm() {
     const [status, setStatus] = useState("");
-    const [submitting, setSubmitting] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -54,15 +54,19 @@ function InquiryForm({ isMobile }) {
         const budget = formData.get("budget");
         const message = formData.get("message");
 
-        const whatsappMessage = `*New Project Inquiry*%0A%0A` +
-            `*Name:* ${name}%0A` +
-            `*Email:* ${email}%0A` +
-            `*WhatsApp:* ${phone}%0A` +
-            `*Project:* ${project}%0A` +
-            `*Budget:* ${budget}%0A%0A` +
-            `*Message:* ${message}`;
+        const whatsappMessage = [
+            '*New Project Inquiry*',
+            '',
+            `*Name:* ${name}`,
+            `*Email:* ${email}`,
+            `*WhatsApp:* ${phone}`,
+            `*Project:* ${project}`,
+            `*Budget:* ${budget}`,
+            '',
+            `*Message:* ${message}`
+        ].join('\n');
 
-        const whatsappUrl = `https://wa.me/919309964035?text=${whatsappMessage}`;
+        const whatsappUrl = `https://wa.me/919309964035?text=${encodeURIComponent(whatsappMessage)}`;
         
         window.open(whatsappUrl, "_blank");
         setStatus("SUCCESS");
@@ -126,18 +130,18 @@ function InquiryForm({ isMobile }) {
                 </p>
             )}
 
-            <button type="submit" disabled={submitting} style={{ 
+            <button type="submit" style={{ 
                 width: '100%', padding: '16px', 
-                background: submitting ? 'rgba(200,169,110,0.4)' : 'linear-gradient(135deg, var(--gold), #E8C87A)', 
+                background: 'linear-gradient(135deg, var(--gold), #E8C87A)', 
                 border: 'none', borderRadius: 8, 
-                color: submitting ? 'rgba(0,0,0,0.5)' : '#000', 
+                color: '#000', 
                 fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: 2, 
                 textTransform: 'uppercase', fontWeight: 700, 
-                cursor: submitting ? 'not-allowed' : 'none', 
+                cursor: 'none', 
                 transition: 'all 0.3s',
-                opacity: submitting ? 0.7 : 1
+                opacity: 1
             }}>
-                {submitting ? 'Sending...' : 'Send Inquiry'}
+                Send Inquiry
             </button>
         </form>
     );
@@ -164,7 +168,7 @@ export default function ContactSection() {
   }, []);
 
   return (
-    <section id="contact" ref={ref} style={{
+    <section ref={ref} style={{
       position: 'relative', padding: 'clamp(80px, 12vw, 120px) clamp(20px, 5vw, 40px) 80px',
       background: 'linear-gradient(180deg, var(--bg2), #030306)',
       overflow: 'hidden',
@@ -172,12 +176,12 @@ export default function ContactSection() {
       <AuroraBg accent="gold" />
       <div style={{ maxWidth: 900, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 50 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>◈ Contact</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,8vw,100px)', lineHeight: 0.88, color: 'var(--white)', marginBottom: 28 }}>
+          <div className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.05s', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>◈ Contact</div>
+          <h2 className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.15s', fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,8vw,100px)', lineHeight: 0.88, color: 'var(--white)', marginBottom: 28 }}>
             LET'S <span className="gold-text">CREATE</span><br />
             SOMETHING CINEMATIC
           </h2>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: '#25D366', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 2 }}>
+          <p className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{ '--delay': '0.25s', fontFamily: 'var(--font-mono)', fontSize: 13, color: '#25D366', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 2 }}>
             <span style={{ display: 'inline-block', width: 8, height: 8, background: '#25D366', borderRadius: '50%', marginRight: 8, boxShadow: '0 0 10px #25D366', animation: 'glow-pulse 2s infinite' }}></span>
             Currently accepting projects
           </p>
@@ -191,7 +195,7 @@ export default function ContactSection() {
           {/* Left info column */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {/* Email Card */}
-            <div className="glass-card" style={{ position: 'relative', padding: 30, transition: 'all 0.3s' }}>
+            <div className={`glass-card cine-reveal cine-left ${vis ? 'visible' : ''}`} style={{ '--delay': '0.28s', position: 'relative', padding: 30, transition: 'all 0.3s' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--white)', marginBottom: 24, letterSpacing: 1 }}>
                 DROP AN EMAIL
               </div>
@@ -214,7 +218,7 @@ export default function ContactSection() {
             </div>
 
             {/* WhatsApp Card */}
-            <div className="glass-card" style={{ padding: 30, transition: 'all 0.3s' }}>
+            <div className={`glass-card cine-reveal cine-left ${vis ? 'visible' : ''}`} style={{ '--delay': '0.36s', padding: 30, transition: 'all 0.3s' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--white)', marginBottom: 24, letterSpacing: 1 }}>
                 LET'S CHAT
               </div>
@@ -225,8 +229,8 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <div className="glass-card" style={{ padding: isMobile ? '30px 20px' : '30px 40px', background: 'rgba(10,10,15,0.7)' }}>
-            <InquiryForm isMobile={isMobile} />
+          <div className={`glass-card cine-reveal cine-right ${vis ? 'visible' : ''}`} style={{ '--delay': '0.32s', padding: isMobile ? '30px 20px' : '30px 40px', background: 'rgba(10,10,15,0.7)' }}>
+            <InquiryForm />
           </div>
 
         </div>
@@ -239,7 +243,9 @@ export default function ContactSection() {
           {contactSocials.map((s, i) => (
             <a key={i} href={s.url} target="_blank" rel="noopener noreferrer"
               aria-label={`Visit my ${s.label}`}
+              className={`cine-reveal cine-zoom ${vis ? 'visible' : ''}`}
               style={{
+                '--delay': `${0.54 + (i * 0.05)}s`,
                 width: 48, height: 48, borderRadius: 12,
                 background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -255,7 +261,8 @@ export default function ContactSection() {
         </div>
 
         {/* Footer */}
-        <div style={{
+        <div className={`cine-reveal cine-rise ${vis ? 'visible' : ''}`} style={{
+          '--delay': '0.72s',
           marginTop: 80, textAlign: 'center', paddingTop: 40,
           borderTop: '1px solid rgba(255,255,255,0.05)',
         }}>
