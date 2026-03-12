@@ -1,18 +1,15 @@
-import { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense, lazy } from "react";
+import { useState, useEffect, useRef, useCallback, memo, Suspense, lazy } from "react";
 
-
-const HeroCanvas = lazy(() => import('./' + 'HeroCanvas'));
+const HeroCanvas = lazy(() => import('./HeroCanvas'));
 import { useIsMobile, useIsLowEnd, AuroraBg, ContactDock } from './Shared';
 import LazySection from './LazySection';
 
-const AboutSection = lazy(() => import('./' + 'AboutSection'));
-const WorkSection = lazy(() => import('./' + 'WorkSection'));
-const ServicesSection = lazy(() => import('./' + 'ServicesSection'));
-const VisualSection = lazy(() => import('./' + 'VisualSection'));
-const ClientsSection = lazy(() => import('./' + 'ClientsSection'));
-const ContactSection = lazy(() => import('./' + 'ContactSection'));
-
-
+const AboutSection = lazy(() => import('./AboutSection'));
+const WorkSection = lazy(() => import('./WorkSection'));
+const ServicesSection = lazy(() => import('./ServicesSection'));
+const VisualSection = lazy(() => import('./VisualSection'));
+const ClientsSection = lazy(() => import('./ClientsSection'));
+const ContactSection = lazy(() => import('./ContactSection'));
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM
@@ -177,54 +174,10 @@ function LoadingScreen({ onDone }) {
   }, [onDone]);
 
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 10001, background: '#08080c',
-      display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-      animation: 'frameFlicker 0.1s infinite'
-    }}>
-      <div style={{
-        position: 'absolute', top: 40, left: 40, fontFamily: 'var(--font-mono)', fontSize: 10,
-        letterSpacing: 4, color: 'var(--gold)', opacity: 0.6
-      }}>
-        MEJADHAVR // 2026
-      </div>
-
-      <div style={{ position: 'relative' }}>
-        {/* Film reel circle */}
-        <div style={{
-          width: 300, height: 300, borderRadius: '50%', border: '1px solid rgba(200,169,110,0.2)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center'
-        }}>
-          {/* Target Reticle */}
-          <div style={{ position: 'absolute', width: '100%', height: 1, background: 'rgba(200,169,110,0.1)' }} />
-          <div style={{ position: 'absolute', height: '100%', width: 1, background: 'rgba(200,169,110,0.1)' }} />
-
-          <div key={count} style={{
-            fontFamily: 'var(--font-display)', fontSize: 140, color: 'var(--gold)',
-            animation: 'countDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-          }}>
-            {count === 0 ? "●" : count}
-          </div>
-        </div>
-
-        {/* Outer spinning ring */}
-        <div style={{
-          position: 'absolute', inset: -20, borderRadius: '50%', border: '1px dashed rgba(200,169,110,0.1)',
-          animation: 'spin-slow 10s linear infinite'
-        }} />
-      </div>
-
-      <div style={{ marginTop: 60, width: 240 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2, color: 'var(--muted)', textTransform: 'uppercase' }}>Synchronizing Assets</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'var(--gold)' }}>{progress}%</span>
-        </div>
-        <div style={{ height: 1, width: '100%', background: 'rgba(255,255,255,0.05)', position: 'relative' }}>
-          <div style={{
-            height: '100%', background: 'var(--gold)', width: `${progress}%`,
-            transition: 'width 0.1s linear', boxShadow: '0 0 10px var(--gold)'
-          }} />
-        </div>
+    <div className="loader-shell">
+      <div className="loader-rec">REC</div>
+      <div className="timeline-track">
+        <div className="timeline-playhead"></div>
       </div>
     </div>
   );
@@ -273,12 +226,9 @@ function Navigation({ active }) {
         {/* Brand Mark (Logo) - Left side */}
         <div 
           onClick={() => scrollToSection('home')}
-          style={{ 
-            fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--gold)', 
-            letterSpacing: 1, cursor: 'none', display: 'flex', alignItems: 'center'
-          }}
+          style={{ cursor: 'none', display: 'flex', alignItems: 'center' }}
         >
-          MJ
+          <img src="public/images/logo.webp" alt="MJ Logo" style={{ height: 28, width: 'auto', objectFit: 'contain' }} />
         </div>
 
         <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.1)' }} />
@@ -307,16 +257,13 @@ function Navigation({ active }) {
 
         {/* Action Group - Right side */}
         <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-          <a href="https://instagram.com/mejadhavr" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--white)', opacity: 0.6, textDecoration: 'none', cursor: 'none' }}>
-            <svg viewBox="0 0 24 24" fill="currentColor" width={16} height={16}><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-          </a>
-          <a href="mailto:rushikesh@mejadhavr.com" target="_blank" rel="noopener noreferrer" style={{
-            padding: '8px 18px', background: 'var(--gold)', color: '#000',
-            textDecoration: 'none', borderRadius: 20, fontFamily: 'var(--font-mono)',
+          <button onClick={() => scrollToSection('contact')} style={{
+            padding: '8px 18px', background: 'var(--gold)', border: 'none', color: '#000',
+            borderRadius: 20, fontFamily: 'var(--font-mono)', outline: 'none',
             fontSize: 10, fontWeight: 700, letterSpacing: 1, cursor: 'none'
           }}>
             HIRE ME
-          </a>
+          </button>
         </div>
       </nav>
 
@@ -351,8 +298,8 @@ function Navigation({ active }) {
         overflowY: 'auto'
       }}>
         {/* Mobile Brand Mark */}
-        <div style={{ marginBottom: 10, fontFamily: 'var(--font-display)', fontSize: 40, color: 'var(--gold)' }}>
-          MJ
+        <div style={{ marginBottom: 20 }}>
+          <img src="/logo.webp" alt="MJ Logo" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
         </div>
 
         {navItems.map(item => (
@@ -467,7 +414,6 @@ function HeroSection({ loading }) {
     return () => clearInterval(interval);
   }, []);
 
-
   return (
     <section id="home" style={{
       position: 'relative', minHeight: '100dvh',
@@ -496,18 +442,17 @@ function HeroSection({ loading }) {
         zIndex: 0
       }} />
 
-      {!loading && (
-        <>
-          <HeroParticles />
-          <AuroraBg accent="gold" />
-          {isMobile && <MobileHeroBg />}
-          {(!isMobile && !isLowEnd) && (
-            <Suspense fallback={null}>
-              <HeroCanvas />
-            </Suspense>
-          )}
-        </>
-      )}
+      {/* Background elements load immediately so they are ready when the screen fades in */}
+      <>
+        <HeroParticles />
+        <AuroraBg accent="gold" />
+        {isMobile && <MobileHeroBg />}
+        {(!isMobile && !isLowEnd) && (
+          <Suspense fallback={null}>
+            <HeroCanvas />
+          </Suspense>
+        )}
+      </>
 
       {/* Light leak top */}
       <div style={{
@@ -550,7 +495,6 @@ function HeroSection({ loading }) {
           </div>
         </div>
 
-
         {/* Main name */}
         <h1 className="hero-name" style={{
           fontFamily: 'var(--font-display)',
@@ -589,7 +533,6 @@ function HeroSection({ loading }) {
           color: 'rgba(242,238,232,0.8)',
           marginBottom: 60,
           letterSpacing: 1,
-
           opacity: tagVisible && revealed ? 1 : 0,
           transform: tagVisible && revealed ? 'translateY(0)' : 'translateY(10px)',
           transition: 'opacity 0.5s ease, transform 0.5s ease',

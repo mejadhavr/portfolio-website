@@ -243,7 +243,7 @@ export default function AboutSection() {
             borderRadius: 24
           }} />
 
-          <div className="glass-card glow-border" style={{ padding: 12, borderRadius: 20, position: 'relative' }}>
+          <div className="glass-card" style={{ padding: 12, borderRadius: 20, position: 'relative' }}>
 
             {/* Film strip header */}
             <div style={{

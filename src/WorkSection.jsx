@@ -11,8 +11,8 @@ const workProjects = [
     url: 'https://youtu.be/B5h9Djj6BXE',
     accent: '#C8A96E',
     gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
-    aspect: '56.25%',
-    colSpan: 'span 2 / auto',
+    colSpan: 'span 2',
+    rowSpan: 'span 2', // Large Feature Square
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'Astik Dyestuff Pvt. Ltd., Mumbai' },
@@ -31,8 +31,8 @@ const workProjects = [
     url: 'https://youtu.be/QziZuMJMAPA',
     accent: '#00C9FF',
     gradient: 'linear-gradient(135deg, #001A1F 0%, #06060C 100%)',
-    aspect: '110%',
-    colSpan: 'span 1 / auto',
+    colSpan: 'span 1',
+    rowSpan: 'span 1', // Small Square
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'Prasun Spaces' },
@@ -50,8 +50,8 @@ const workProjects = [
     url: 'https://youtu.be/9nf70fQ8mdo',
     accent: '#00C9FF',
     gradient: 'linear-gradient(135deg, #001A1F 0%, #06060C 100%)',
-    aspect: '110%',
-    colSpan: 'span 1 / auto',
+    colSpan: 'span 1',
+    rowSpan: 'span 2', // Tall Vertical Portrait
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'BU Bhandari' },
@@ -68,8 +68,8 @@ const workProjects = [
     url: 'https://youtu.be/GkAIIonllbo',
     accent: '#C8A96E',
     gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
-    aspect: '100%',
-    colSpan: 'span 1 / auto',
+    colSpan: 'span 1',
+    rowSpan: 'span 1', // Small Square
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'Phillips Machine Tools India Pvt. Ltd.' },
@@ -87,8 +87,8 @@ const workProjects = [
     url: 'https://youtu.be/mcc0GLpVFhY',
     accent: '#C8A96E',
     gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
-    aspect: '100%',
-    colSpan: 'span 1 / auto',
+    colSpan: 'span 1',
+    rowSpan: 'span 1', // Small Square
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'Idex India' },
@@ -105,8 +105,8 @@ const workProjects = [
     url: 'https://youtu.be/n6zK1hHCv98',
     accent: '#00C9FF',
     gradient: 'linear-gradient(135deg, #001A10 0%, #06060C 100%)',
-    aspect: '48%',
-    colSpan: 'span 2 / auto',
+    colSpan: 'span 3',
+    rowSpan: 'span 1', // Wide Landscape Header
     isFlipCard: true,
     caseStudy: [
       { label: 'CLIENT', value: 'WestBridge Capital' },
@@ -150,7 +150,10 @@ export default function WorkSection() {
 
         {/* Bento Grid */}
         <div className="work-grid" style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16,
+          display: 'grid', 
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', 
+          gridAutoRows: isMobile ? 'auto' : '260px', // Forces locked row heights
+          gap: 24, // Wider gap for cleaner separation
           opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(40px)',
           transition: 'opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s',
         }}>
@@ -247,8 +250,12 @@ function ProjectCard({ project: p, index }) {
     if (p.isFlipCard) setIsFlipped(!isFlipped);
   };
 
-  const colSpan = isMobile ? 'span 4' : p.colSpan || 'span 1 / auto';
-  const cardHeight = isMobile ? '230px' : 'auto';
+  // Mobile gets 1 column span (since grid is 1fr), Desktop gets specific bento spans
+  const colSpan = isMobile ? 'span 1' : p.colSpan;
+  const rowSpan = isMobile ? 'auto' : p.rowSpan;
+  
+  // Preserving your original exact 230px mobile height!
+  const cardHeight = isMobile ? '230px' : '100%';
 
   return (
     <div
@@ -259,6 +266,7 @@ function ProjectCard({ project: p, index }) {
       onClick={handleFlip}
       style={{
         gridColumn: colSpan,
+        gridRow: rowSpan,
         height: cardHeight,
         borderRadius: 16, position: 'relative', cursor: 'pointer',
         perspective: '2000px',
@@ -282,8 +290,7 @@ function ProjectCard({ project: p, index }) {
       <div style={{
         position: 'relative',
         width: '100%',
-        height: isMobile ? '100%' : 'auto',
-        paddingBottom: isMobile ? '0' : p.aspect,
+        height: '100%', // Automatically fills the 230px on mobile, or the bento row height on desktop
         transition: 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         transformStyle: 'preserve-3d',
         transform: isFlipped ? 'rotateY(180deg)' : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.01)` : 'rotateX(0) rotateY(0) scale(1)'),

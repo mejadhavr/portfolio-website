@@ -164,26 +164,86 @@ body {
   }
 }
 
-@keyframes countDown {
-  0% {
-    opacity: 0;
-    transform: scale(1.4) translateY(-10px);
-  }
+/* ── CINEMATIC PLAYHEAD LOADER ── */
+.loader-shell {
+  position: fixed;
+  inset: 0;
+  background: var(--bg); /* Deep black background */
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  20% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+/* Pulsing REC Indicator */
+.loader-rec {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #ff4d4d;
+  letter-spacing: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: pulseOpacity 1.2s infinite;
+  margin-bottom: 40px;
+}
 
-  80% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+.loader-rec::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: #ff4d4d;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ff4d4d;
+}
 
-  100% {
-    opacity: 0;
-    transform: scale(0.7) translateY(10px);
-  }
+/* The Timeline Track */
+.timeline-track {
+  width: 260px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
+/* The Glowing Gold Playhead */
+.timeline-playhead {
+  position: absolute;
+  top: -12px;
+  left: 0;
+  width: 2px;
+  height: 25px;
+  background: var(--gold);
+  box-shadow: 0 0 15px var(--gold);
+  /* Scrubs back and forth like you are editing */
+  animation: scrubTimeline 2s cubic-bezier(0.65, 0, 0.35, 1) infinite; 
+}
+
+/* The triangle at the top of the playhead */
+.timeline-playhead::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -5px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--gold);
+}
+
+@keyframes scrubTimeline {
+  0% { left: 0%; }
+  50% { left: 100%; }
+  100% { left: 0%; }
+}
+
+@keyframes pulseOpacity {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes pulseOpacity {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 @keyframes slideUp {

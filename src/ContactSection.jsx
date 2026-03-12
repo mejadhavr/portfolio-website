@@ -189,14 +189,20 @@ export default function ContactSection() {
             opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(30px)', transition: 'opacity 0.9s ease 0.4s, transform 0.9s ease 0.4s',
         }}>
           {/* Left info column */}
-          <div>
-            <a href="mailto:rushikesh@mejadhavr.com" target="_blank" rel="noopener noreferrer" className="glass-card" style={{ position: 'relative', display: 'block', padding: 30, marginBottom: 20, transition: 'all 0.3s', textDecoration: 'none' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)', marginBottom: 12 }}>EMAIL</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)', wordBreak: 'break-all' }}>rushikesh@mejadhavr.com</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {/* Email Card */}
+            <div className="glass-card" style={{ position: 'relative', padding: 30, transition: 'all 0.3s' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--white)', marginBottom: 24, letterSpacing: 1 }}>
+                DROP AN EMAIL
+              </div>
+              <a href="mailto:rushikesh@mejadhavr.com" target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)', marginBottom: 8 }}>EMAIL</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)', wordBreak: 'break-all' }}>rushikesh@mejadhavr.com</div>
+              </a>
               <button 
                 onClick={copyEmail}
                 style={{
-                  position: 'absolute', top: 20, right: 20,
+                  position: 'absolute', top: 30, right: 30,
                   background: 'none', border: '1px solid rgba(255,255,255,0.1)',
                   color: 'rgba(255,255,255,0.4)', padding: '4px 10px', borderRadius: 4,
                   fontFamily: 'var(--font-mono)', fontSize: 8, cursor: 'none',
@@ -205,11 +211,18 @@ export default function ContactSection() {
               >
                 {copied ? 'COPIED' : 'COPY'}
               </button>
-            </a>
-            <a href="https://wa.me/919309964035" target="_blank" rel="noopener noreferrer" className="glass-card" style={{ display: 'block', padding: 30, textDecoration: 'none', transition: 'all 0.3s' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--cyan)', marginBottom: 12 }}>WHATSAPP</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)' }}>+91 93099 64035</div>
-            </a>
+            </div>
+
+            {/* WhatsApp Card */}
+            <div className="glass-card" style={{ padding: 30, transition: 'all 0.3s' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--white)', marginBottom: 24, letterSpacing: 1 }}>
+                LET'S CHAT
+              </div>
+              <a href="https://wa.me/919309964035" target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--cyan)', marginBottom: 8 }}>WHATSAPP</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)' }}>+91 93099 64035</div>
+              </a>
+            </div>
           </div>
 
           <div className="glass-card" style={{ padding: isMobile ? '30px 20px' : '30px 40px', background: 'rgba(10,10,15,0.7)' }}>
