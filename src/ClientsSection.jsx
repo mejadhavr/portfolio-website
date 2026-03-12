@@ -10,14 +10,16 @@ import { useIsMobile, AuroraBg } from './Shared';
 ───────────────────────────────────────────── */
 const Counter = memo(({ target, suffix, duration = 2000, trigger }) => {
   const [count, setCount] = useState(0);
+  const hasTriggered = useRef(false);
 
   useEffect(() => {
-    if (!trigger) return;
+    if (!trigger || hasTriggered.current) return;
+    hasTriggered.current = true;
+    
     let startTimestamp = null;
     const step = (timestamp) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * target));
       if (progress < 1) {
@@ -30,9 +32,6 @@ const Counter = memo(({ target, suffix, duration = 2000, trigger }) => {
   return <span>{count}{suffix}</span>;
 });
 
-/* ─────────────────────────────────────────────
-   MARQUEE ROW COMPONENT
-───────────────────────────────────────────── */
 const MarqueeRow = memo(({ names, dir, speed }) => {
   const content = [...names, ...names, ...names].join(' · ');
   return (
@@ -44,9 +43,10 @@ const MarqueeRow = memo(({ names, dir, speed }) => {
       textTransform: 'uppercase',
       letterSpacing: '0.05em',
       color: 'var(--gold)',
-      opacity: 0.04,
-      animation: `marqueeScroll ${speed}s linear infinite ${dir === 1 ? 'reverse' : 'normal'}`,
-      userSelect: 'none'
+      opacity: 0.1,
+      animation: `marqueeScroll ${speed}s linear infinite ${dir === 1 ? 'reverse' : 'normal'}, marqueePulse 10s ease-in-out infinite alternate`,
+      userSelect: 'none',
+      willChange: 'transform, opacity'
     }}>
       <span style={{ paddingRight: '4rem' }}>{content}</span>
       <span style={{ paddingRight: '4rem' }}>{content}</span>
@@ -96,23 +96,39 @@ export default function ClientsSection() {
 
 
       <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 2, padding: '0 40px' }}>
-        <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 80 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 20, textTransform: 'uppercase' }}>◈ Trusted By</div>
+        <div style={{ textAlign: 'center', marginBottom: 80 }}>
+          <div style={{ 
+            fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 20, textTransform: 'uppercase',
+            opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(20px)',
+            transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s'
+          }}>◈ Trusted By</div>
           
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,10vw,120px)', lineHeight: 0.88, color: 'var(--white)', marginBottom: 48 }}>
+          <h2 style={{ 
+            fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,10vw,120px)', lineHeight: 0.88, color: 'var(--white)', marginBottom: 48,
+            opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(30px)',
+            transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s'
+          }}>
             BRANDS & <br />
             <span className="gold-text">CREATORS</span><br />
             I'VE WORKED WITH
           </h2>
           
           <div style={{ display: 'flex', justifyContent: 'center', gap: 60, flexWrap: 'wrap' }}>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ 
+              textAlign: 'center',
+              opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(20px)',
+              transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s'
+            }}>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 64, color: 'var(--gold)' }}>
                 <Counter target={50} suffix="+" trigger={vis} />
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: 3, color: 'var(--muted)', textTransform: 'uppercase', marginTop: 8 }}>Brands Collaborated</div>
             </div>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ 
+              textAlign: 'center',
+              opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(20px)',
+              transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s'
+            }}>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 64, color: 'var(--gold)' }}>
                 <Counter target={250} suffix="+" trigger={vis} />
               </div>
@@ -122,9 +138,17 @@ export default function ClientsSection() {
         </div>
 
         {/* Category Tags */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 80, opacity: vis ? 1 : 0, transition: 'opacity 1s ease 0.5s' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 80 }}>
           {["Brand Films", "Reels", "Motion Graphics", "Social Content", "Product Videos"].map((tag, i) => (
-            <span key={i} style={{ padding: '8px 20px', borderRadius: 30, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'rgba(242,238,232,0.6)', letterSpacing: 1, textTransform: 'uppercase' }}>
+            <span 
+              key={i} 
+              style={{ 
+                padding: '8px 20px', borderRadius: 30, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', 
+                fontFamily: 'var(--font-mono)', fontSize: 10, color: 'rgba(242,238,232,0.6)', letterSpacing: 1, textTransform: 'uppercase',
+                opacity: vis ? 1 : 0, transform: vis ? 'none' : 'scale(0.9)',
+                transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${0.6 + (i * 0.1)}s`
+              }}
+            >
               {tag}
             </span>
           ))}

@@ -20,6 +20,12 @@ const contactSocials = [
     )
   },
   {
+    id: 'mail', label: 'Hire Me', url: 'mailto:rushikesh@mejadhavr.com', icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
+    ),
+    isMail: true
+  },
+  {
     label: 'Vimeo', url: 'https://vimeo.com/mejadhavr', icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}><path d="M22.4 7.2c-.1 2.2-1.6 5.3-4.6 9.1C14.7 20.3 12 22 9.8 22c-1.4 0-2.5-1.3-3.5-3.8L4.6 13c-.7-2.5-1.4-3.8-2.2-3.8-.2 0-.7.3-1.7.9L0 9c1.1-1 2.1-1.9 3.2-2.9 1.4-1.2 2.5-1.9 3.2-1.9 1.7-.2 2.7 1 3.1 3.5l1.4 8.7c.4 2.5 1 3.8 1.6 3.8.4 0 1.1-.7 2-2 .9-1.4 1.4-2.4 1.5-3.1.1-1.2-.3-1.7-1.5-1.7-.5 0-1.1.1-1.7.4 1.1-3.7 3.3-5.5 6.5-5.3 2.4.2 3.6 1.6 3.6 4.7l-.5.8z" /></svg>
     )
@@ -184,7 +190,7 @@ export default function ContactSection() {
         }}>
           {/* Left info column */}
           <div>
-            <a href="mailto:rushikesh@mejadhavr.com" className="glass-card" style={{ position: 'relative', display: 'block', padding: 30, marginBottom: 20, transition: 'all 0.3s', textDecoration: 'none' }}>
+            <a href="mailto:rushikesh@mejadhavr.com" target="_blank" rel="noopener noreferrer" className="glass-card" style={{ position: 'relative', display: 'block', padding: 30, marginBottom: 20, transition: 'all 0.3s', textDecoration: 'none' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 3, color: 'var(--gold)', marginBottom: 12 }}>EMAIL</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 16, color: 'var(--white)', wordBreak: 'break-all' }}>rushikesh@mejadhavr.com</div>
               <button 

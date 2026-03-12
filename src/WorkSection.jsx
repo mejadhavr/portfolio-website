@@ -4,7 +4,7 @@ import { useIsMobile, AuroraBg } from './Shared';
 const workProjects = [
   {
     title: 'BRAND MANIFESTO',
-    client: 'Astik Dyestuff P LTD, Mumbai | 2019',
+    client: 'Astik Dyestuff Pvt LTD, Mumbai',
     desc: 'A cinematic brand story told through contrast and light',
     tags: ['CORPORATE & BRAND FILM'],
     videoUrl: 'astik',
@@ -15,17 +15,16 @@ const workProjects = [
     colSpan: 'span 2 / auto',
     isFlipCard: true,
     caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Role', value: 'Editor & Colorist' },
-      { label: 'Editor', value: 'Rushikesh Jadhav' },
-      { label: 'Client', value: 'Astik Dyestuff P LTD' },
-      { label: 'Year', value: '2019' },
-      { label: 'Location', value: 'Mumbai, India' }
+      { label: 'CLIENT', value: 'Astik Dyestuff Pvt. Ltd., Mumbai' },
+      { label: 'PRODUCED BY', value: 'Unplug Infinity Media Pvt. Ltd.' },
+      { label: 'CREATIVE DIRECTOR', value: 'Alim Pathak' },
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' },
+      { label: 'ROLE', value: 'Part of the Unplug Infinity Media team' }
     ]
   },
   {
     title: 'TESTIMONIAL FILM',
-    client: 'Prasun Spaces | 2023',
+    client: 'Prasun Spaces',
     desc: 'Authentic voices and experiences captured',
     tags: ['TESTIMONIAL FILM'],
     videoUrl: 'testi',
@@ -36,38 +35,15 @@ const workProjects = [
     colSpan: 'span 1 / auto',
     isFlipCard: true,
     caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Role', value: 'Editor & Colorist' },
-      { label: 'Editor', value: 'Rushikesh Jadhav' },
-      { label: 'Client', value: 'Prasun Spaces' },
-      { label: 'Year', value: '2023' },
-      { label: 'Location', value: 'Pune, India' }
-    ]
-  },
-  {
-    title: 'PRODUCT LAUNCH VIDEO',
-    client: 'Phillips Machine Tools | 2023',
-    desc: 'Impactful product reveal and showcase',
-    tags: ['PRODUCT LAUNCH VIDEO'],
-    videoUrl: 'ph',
-    url: 'https://youtu.be/GkAIIonllbo',
-    accent: '#C8A96E',
-    gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
-    aspect: '110%',
-    colSpan: 'span 1 / auto',
-    isFlipCard: true,
-    caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Role', value: 'Editor & Colorist' },
-      { label: 'Editor', value: 'Rushikesh Jadhav' },
-      { label: 'Client', value: 'Phillips Machine Tools' },
-      { label: 'Year', value: '2023' },
-      { label: 'Location', value: 'Pune, India' }
+      { label: 'CLIENT', value: 'Prasun Spaces' },
+      { label: 'PROJECT', value: 'Prasun Adara' },
+      { label: 'PRODUCED BY', value: 'Greyscale Films' },
+      { label: 'CREATIVE DIRECTOR', value: 'Amarreddy' }
     ]
   },
   {
     title: '7 PLUMERIA DRIVE',
-    client: 'BU Bhandari | 2024',
+    client: 'BU Bhandari',
     desc: 'A cinematic walkthrough experiencing the vision',
     tags: ['MODEL WALKTHROUGH FILM'],
     videoUrl: '7pd',
@@ -78,54 +54,65 @@ const workProjects = [
     colSpan: 'span 1 / auto',
     isFlipCard: true,
     caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Role', value: 'Editor & Colorist' },
-      { label: 'Editor', value: 'Rushikesh Jadhav' },
-      { label: 'Client', value: 'BU Bhandari' },
-      { label: 'Year', value: '2024' },
-      { label: 'Location', value: 'Pune, India' }
+      { label: 'CLIENT', value: 'BU Bhandari' },
+      { label: 'TYPE', value: 'Model Walkthrough Film' },
+      { label: 'DESCRIPTION', value: 'A cinematic walkthrough experiencing the vision.' }
+    ]
+  },
+  {
+    title: 'PRODUCT LAUNCH VIDEO',
+    client: 'Phillips Machine Tools India Pvt. Ltd.',
+    desc: 'Impactful product reveal and showcase',
+    tags: ['PRODUCT LAUNCH VIDEO'],
+    videoUrl: 'ph',
+    url: 'https://youtu.be/GkAIIonllbo',
+    accent: '#C8A96E',
+    gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
+    aspect: '100%',
+    colSpan: 'span 1 / auto',
+    isFlipCard: true,
+    caseStudy: [
+      { label: 'CLIENT', value: 'Phillips Machine Tools India Pvt. Ltd.' },
+      { label: 'PRODUCED BY', value: 'Unplug Infinity Media Pvt. Ltd.' },
+      { label: 'CREATIVE DIRECTOR', value: 'Alim Pathak' },
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' }
     ]
   },
   {
     title: 'IDEX INDIA',
-    client: 'Idex India | 2023',
+    client: 'Idex India',
     desc: 'Showcasing engineering through 3D visualization',
     tags: ['3D PRODUCT FILM'],
     videoUrl: 'idex',
     url: 'https://youtu.be/mcc0GLpVFhY',
     accent: '#C8A96E',
     gradient: 'linear-gradient(135deg, #1A1A00 0%, #06060C 100%)',
-    aspect: '110%',
+    aspect: '100%',
     colSpan: 'span 1 / auto',
     isFlipCard: true,
     caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Role', value: 'Editor & Colorist' },
-      { label: 'Editor', value: 'Rushikesh Jadhav' },
-      { label: 'Client', value: 'Idex India' },
-      { label: 'Year', value: '2023' },
-      { label: 'Location', value: 'Pune, India' }
+      { label: 'CLIENT', value: 'Idex India' },
+      { label: 'TYPE', value: '3D Product Film' },
+      { label: 'DESCRIPTION', value: 'Showcasing engineering through 3D visualization.' }
     ]
   },
   {
-    title: 'EVENT HIGHLIGHTS',
-    client: 'Multiple Clients | 2022-24',
-    desc: 'Capturing the energy and movement of live events',
+    title: 'EVENT HIGHLIGHT FILM',
+    client: 'Westbridge Capital & WACA Chess',
+    desc: 'Capturing the atmosphere and key moments of the tournament',
     tags: ['EVENT HIGHLIGHT FILM'],
     videoUrl: 'waca',
     url: 'https://youtu.be/n6zK1hHCv98',
     accent: '#00C9FF',
     gradient: 'linear-gradient(135deg, #001A10 0%, #06060C 100%)',
-    aspect: '40%',
+    aspect: '48%',
     colSpan: 'span 2 / auto',
     isFlipCard: true,
     caseStudy: [
-      { label: 'Director', value: 'Rushikesh Jadhav' },
-      { label: 'Role', value: 'Editor & Colorist' },
-      { label: 'Editor', value: 'Rushikesh Jadhav' },
-      { label: 'Client', value: 'Multiple Clients' },
-      { label: 'Year', value: '2022-24' },
-      { label: 'Location', value: 'Pune, India' }
+      { label: 'CLIENT', value: 'WestBridge Capital' },
+      { label: 'PRODUCED BY', value: 'Prismscale Pvt. Ltd.' },
+      { label: 'CREATIVE DIRECTOR', value: 'Dharam Vir Singh' },
+      { label: 'VIDEO EDITOR', value: 'Rushikesh Jadhav' }
     ]
   }
 ];
@@ -152,10 +139,11 @@ export default function WorkSection() {
       <AuroraBg accent="gold" />
       <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div className={`reveal-section ${vis ? 'visible' : ''}`} style={{ textAlign: 'center', marginBottom: 70 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>◈ Selected Work</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>SELECTED WORK</div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(52px,9vw,108px)', lineHeight: 0.88, color: 'var(--white)' }}>
-            THE<br />
-            <span className="gold-text">REEL</span>
+            CINEMATIC<br />
+            <span className="gold-text">PORTFOLIO</span>
+            <div style={{ fontSize: '0.35em', letterSpacing: 6, marginTop: 20, color: 'rgba(255,255,255,0.7)', fontWeight: 300 }}>& BRAND FILMS</div>
           </h2>
         </div>
 
@@ -245,12 +233,13 @@ function ProjectCard({ project: p, index }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef(null);
+  const isMobile = useIsMobile();
 
   const onMouseMove = (e) => {
-    if (isFlipped) return;
+    if (isFlipped || isMobile) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -14;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -8;
     setTilt({ x, y });
   };
 
@@ -258,7 +247,8 @@ function ProjectCard({ project: p, index }) {
     if (p.isFlipCard) setIsFlipped(!isFlipped);
   };
 
-  const colSpan = p.colSpan || 'span 1 / auto';
+  const colSpan = isMobile ? 'span 4' : p.colSpan || 'span 1 / auto';
+  const cardHeight = isMobile ? '230px' : 'auto';
 
   return (
     <div
@@ -269,107 +259,122 @@ function ProjectCard({ project: p, index }) {
       onClick={handleFlip}
       style={{
         gridColumn: colSpan,
+        height: cardHeight,
         borderRadius: 16, position: 'relative', cursor: 'pointer',
-        perspective: '1200px',
+        perspective: '2000px',
         zIndex: isFlipped ? 50 : 1,
+        transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
     >
+      {/* Premium Color-Matched Glow */}
+      <div style={{
+        position: 'absolute',
+        inset: '-60px',
+        background: `radial-gradient(circle at center, ${p.accent}25 0%, transparent 70%)`,
+        filter: 'blur(60px)',
+        opacity: hovered ? 1 : 0.4,
+        transform: 'translateZ(-1px)',
+        transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+        zIndex: 0,
+        pointerEvents: 'none',
+        willChange: 'opacity'
+      }} />
       <div style={{
         position: 'relative',
         width: '100%',
-        paddingBottom: p.aspect,
+        height: isMobile ? '100%' : 'auto',
+        paddingBottom: isMobile ? '0' : p.aspect,
         transition: 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         transformStyle: 'preserve-3d',
-        transform: isFlipped ? 'rotateY(180deg)' : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.025)` : 'rotateX(0) rotateY(0) scale(1)'),
+        transform: isFlipped ? 'rotateY(180deg)' : (hovered ? `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) scale(1.01)` : 'rotateX(0) rotateY(0) scale(1)'),
       }}>
         {/* ================= FRONT FACE ================= */}
         <div style={{
           position: 'absolute', inset: 0,
           background: p.gradient,
-          border: `1px solid ${hovered ? p.accent + '44' : 'rgba(255,255,255,0.05)'}`,
-          borderRadius: 16, overflow: 'hidden',
+          border: '1px solid rgba(255,255,255,0.06)',
+          borderRadius: 12, overflow: 'hidden',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
           zIndex: 2,
         }}>
-          {/* Optional Video Background (Master structure) */}
           {p.videoUrl && (
             <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-              <CardVideo src={p.videoUrl} isMobile={false} />
+              <CardVideo src={p.videoUrl} isMobile={isMobile} />
             </div>
           )}
 
-          {/* Decorative inner elements */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 0 }}>
-            <div style={{
-              width: 60, height: 60, borderRadius: '50%',
-              border: `1px solid ${p.accent}33`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              opacity: hovered || isFlipped ? 0 : 0.5, transition: 'opacity 0.3s',
-            }}>
-              <div style={{ width: 24, height: 24, borderRadius: '50%', border: `1px solid ${p.accent}55` }} />
-            </div>
-          </div>
-
-          {/* Film strip sprocket holes decoration */}
-          <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 20, display: 'flex', flexDirection: 'column', gap: 8, padding: '8px 5px', opacity: 0.3, zIndex: 1 }}>
-            {[...Array(6)].map((_, k) => (
-              <div key={k} style={{ width: 10, height: 8, borderRadius: 2, border: `1px solid ${p.accent}` }} />
-            ))}
-          </div>
-
-          {/* Front Overlay on Hover */}
+          {/* Simple Gradient Overlay */}
           <div style={{
-            position: 'absolute', inset: 0, padding: 24,
-            background: `linear-gradient(135deg, ${p.accent}11, rgba(0,0,0,0.8))`,
-            opacity: hovered ? 1 : 0, transition: 'opacity 0.4s',
-            display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-            zIndex: 2,
-          }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 3, color: p.accent, marginBottom: 8 }}>
-              {p.tags.join(' · ')}
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--white)', lineHeight: 1.1, marginBottom: 8 }}>{p.title}</div>
-            <div style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontSize: 14, color: 'rgba(242,238,232,0.6)', marginBottom: 12 }}>{p.desc}</div>
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85) 100%)',
+            zIndex: 1
+          }} />
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 12 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'var(--muted)' }}>{p.client}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: p.accent, letterSpacing: 2 }}>
-                {p.isFlipCard ? 'CASE STUDY →' : 'KNOW MORE →'}
-              </div>
-            </div>
-          </div>
-
-          {/* Top Tag Label (Always visible) */}
+          {/* Category Pill (Top-Right) */}
           <div style={{
             position: 'absolute', top: 16, right: 16,
-            padding: '5px 12px', borderRadius: 20,
-            background: `${p.accent}18`, border: `1px solid ${p.accent}33`,
-            fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: 2,
+            padding: '4px 10px', borderRadius: 20,
+            border: `1px solid ${p.accent}66`,
+            background: 'rgba(0,0,0,0.3)',
+            fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: 1.5,
             color: p.accent, textTransform: 'uppercase', zIndex: 3
           }}>
             {p.tags[0]}
           </div>
 
-          {/* Bottom Title (Always visible when not hovered) */}
+          {/* Content Overlay */}
           <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px 24px',
-            background: 'linear-gradient(0deg, rgba(0,0,0,0.8), transparent)',
-            opacity: hovered ? 0 : 1, transition: 'opacity 0.3s', zIndex: 3
+            position: 'absolute', inset: 0, padding: 20,
+            display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+            zIndex: 2,
           }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--white)' }}>{p.title}</div>
+            <div style={{ 
+              fontFamily: 'var(--font-display)', fontSize: isMobile ? 22 : 28, 
+              color: 'var(--white)', lineHeight: 0.9, marginBottom: 8, fontWeight: 700,
+              textTransform: 'uppercase', letterSpacing: 1
+            }}>
+              {p.title}
+            </div>
+            <div style={{ 
+              fontFamily: 'var(--font-editorial)', fontStyle: 'italic', 
+              fontSize: isMobile ? 13 : 14, color: 'rgba(255,255,255,0.7)', 
+              marginBottom: 16, lineHeight: 1.3, fontWeight: 300
+            }}>
+              {p.desc}
+            </div>
+
+            {/* Separator Line */}
+            <div style={{ width: '100%', height: 1, background: 'rgba(255,255,255,0.1)', marginBottom: 12 }} />
+
+            <div style={{ 
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+            }}>
+              <div style={{ 
+                fontFamily: 'var(--font-mono)', fontSize: 9, 
+                color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase',
+                letterSpacing: 2
+              }}>
+                {p.client}
+              </div>
+              <div style={{ 
+                fontFamily: 'var(--font-mono)', fontSize: 9, 
+                color: p.accent, fontWeight: 700, letterSpacing: 1.5 
+              }}>
+                CASE STUDY →
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* ================= BACK FACE (CASE STUDY) ================= */}
+        {/* ================= BACK FACE ================= */}
         {p.isFlipCard && (
           <div style={{
             position: 'absolute', inset: 0,
             padding: 24,
-            background: 'var(--bg2)',
-            border: `1px solid ${p.accent}55`,
-            borderRadius: 16,
-            overflow: 'hidden',
+            background: '#06060c',
+            border: `1px solid ${p.accent}33`,
+            borderRadius: 12,
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
@@ -377,52 +382,72 @@ function ProjectCard({ project: p, index }) {
             zIndex: 1,
             pointerEvents: isFlipped ? 'auto' : 'none',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 4, color: p.accent, marginBottom: 12, textTransform: 'uppercase' }}>
-              ◈ Case Study
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, color: 'var(--white)', marginBottom: 16, lineHeight: 1 }}>
-              {p.title}
+            {/* Header */}
+            <div style={{ 
+              display: 'flex', alignItems: 'center', gap: 8,
+              fontFamily: 'var(--font-mono)', fontSize: 9, 
+              letterSpacing: 2, color: p.accent, marginBottom: 8,
+              textTransform: 'uppercase'
+            }}>
+              <span style={{ fontSize: 12 }}>◈</span> CASE STUDY
             </div>
 
-            <div style={{
-              flex: 1,
-              display: 'grid',
-              gridTemplateColumns: 'max-content 1fr',
-              columnGap: 16, rowGap: 8,
-              alignContent: 'start',
-              overflowY: 'auto',
-              paddingRight: 4,
+            {/* Project Title on Back */}
+            <div style={{ 
+              fontFamily: 'var(--font-display)', fontSize: 24, 
+              color: 'var(--white)', fontWeight: 800, marginBottom: 24,
+              lineHeight: 1, textTransform: 'uppercase'
             }}>
+              {p.title}
+            </div>
+            
+            <div style={{ flex: 1, overflowY: 'auto' }}>
               {p.caseStudy.map((row, idx) => (
-                <React.Fragment key={idx}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: p.accent, textTransform: 'uppercase' }}>{row.label}</div>
-                  <div style={{ fontFamily: 'var(--font-editorial)', fontSize: 14, color: 'rgba(242,238,232,0.8)' }}>{row.value}</div>
-                </React.Fragment>
+                <div key={idx} style={{ 
+                  display: 'flex', marginBottom: 16, 
+                  alignItems: 'baseline', borderBottom: '1px solid rgba(255,255,255,0.03)',
+                  paddingBottom: 8
+                }}>
+                  <div style={{ 
+                    width: '40%',
+                    fontFamily: 'var(--font-mono)', fontSize: 8, 
+                    color: p.accent, textTransform: 'uppercase', 
+                    opacity: 0.8
+                  }}>{row.label}</div>
+                  <div style={{ 
+                    flex: 1,
+                    fontFamily: 'var(--font-editorial)', fontSize: 14, 
+                    color: 'var(--white)', fontWeight: 300 
+                  }}>{row.value}</div>
+                </div>
               ))}
             </div>
 
-            <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: `1px solid ${p.accent}22` }}>
-              {p.url ? (
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  style={{
-                    display: 'inline-block',
-                    background: `${p.accent}22`, border: `1px solid ${p.accent}44`,
-                    padding: '8px 16px', borderRadius: 4,
-                    fontFamily: 'var(--font-mono)', fontSize: 10, color: p.accent, letterSpacing: 2,
-                    cursor: 'pointer', textDecoration: 'none'
-                  }}
-                >
-                  WATCH FULL FILM ↗
-                </a>
-              ) : (
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: p.accent, opacity: 0.5 }}>
-                  COMING SOON
-                </div>
-              )}
+            <div style={{ marginTop: 20 }}>
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 10,
+                  border: `1px solid ${p.accent}`, color: p.accent,
+                  padding: '10px 20px', borderRadius: 4,
+                  fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700,
+                  letterSpacing: 1.5, textDecoration: 'none', transition: 'all 0.3s ease',
+                  textTransform: 'uppercase'
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = p.accent;
+                  e.currentTarget.style.color = '#000';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = p.accent;
+                }}
+              >
+                WATCH FULL FILM <span style={{ fontSize: 12 }}>↗</span>
+              </a>
             </div>
           </div>
         )}

@@ -1,5 +1,5 @@
 // public/sw.js
-const CACHE_NAME = 'mejadhavr-v3';
+const CACHE_NAME = 'mejadhavr-v4';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -27,23 +27,23 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  
+
   // Skip non-GET and cross-origin analytics/tracking
   if (event.request.method !== 'GET') return;
   if (url.href.includes('googletagmanager') || url.href.includes('google-analytics')) return;
   if (url.href.includes('formspree')) return;
-  
+
   const isHTML = event.request.headers.get('accept')?.includes('text/html');
   const isFont = url.pathname.includes('/assets/fonts/');
   const isAsset = url.pathname.includes('/assets/');
   const isVideo = url.pathname.includes('/videos/');
-  
+
   if (isVideo) {
     // Don't cache video — too large
     event.respondWith(fetch(event.request));
     return;
   }
-  
+
   if (isFont || isAsset) {
     // Cache-first for static assets (fonts, JS, CSS, images)
     event.respondWith(
@@ -59,7 +59,7 @@ self.addEventListener('fetch', event => {
     );
     return;
   }
-  
+
   if (isHTML) {
     // Network-first for HTML — always fresh content
     event.respondWith(
@@ -73,7 +73,7 @@ self.addEventListener('fetch', event => {
     );
     return;
   }
-  
+
   // Default: stale-while-revalidate
   event.respondWith(
     caches.match(event.request).then(cached => {

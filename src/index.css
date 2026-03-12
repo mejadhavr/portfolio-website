@@ -232,6 +232,28 @@ body {
   }
 }
 
+@keyframes serviceReveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes glow-pulse {
 
   0%,
@@ -396,4 +418,35 @@ body {
 
 .glow-border {
   animation: glow-pulse 3s ease-in-out infinite;
+}
+/* -- MARQUEE -- */
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.format-strip {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.format-track {
+  display: flex;
+  white-space: nowrap;
+  gap: 60px;
+  width: max-content;
+  animation: scrollMarquee 30s linear infinite;
+}
+
+.format-track > div {
+  flex-shrink: 0;
+}
+
+@keyframes marqueePulse {
+  0% { opacity: 0.1; transform: translateY(0); }
+  100% { opacity: 0.15; transform: translateY(-10px); }
 }
