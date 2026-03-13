@@ -13,7 +13,7 @@ function CinematicVideo() {
   const isLowEnd = useIsLowEnd();
 
   useEffect(() => {
-    if (isMobile || isLowEnd) return undefined;
+    if (isLowEnd) return undefined;
 
     // Only set the video source after the page has loaded + small delay
     const timer = setTimeout(() => {
@@ -89,7 +89,7 @@ function CinematicVideo() {
           border: '1px solid rgba(255,255,255,0.2)',
           background: 'rgba(0,0,0,0.4)',
           backdropFilter: 'blur(10px)',
-          display: isMobile || isLowEnd ? 'none' : 'flex',
+          display: isLowEnd ? 'none' : 'flex',
           alignItems: 'center',
           gap: 8,
           padding: '8px 16px',

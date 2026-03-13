@@ -279,12 +279,21 @@ function ProjectCard({ project: p, vis, delay }) {
         inset: '-60px',
         background: `radial-gradient(circle at center, ${p.accent}25 0%, transparent 70%)`,
         filter: 'blur(60px)',
-        opacity: hovered ? 1 : 0.4,
+        opacity: hovered ? 0.8 : 0.25,
         transform: 'translateZ(-1px)',
         transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
         zIndex: 0,
         pointerEvents: 'none',
         willChange: 'opacity'
+      }} />
+      
+      {/* Extra Glow Background on Card Body */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 16,
+        boxShadow: `0 0 30px ${p.accent}30`,
+        opacity: hovered ? 1 : 0.5,
+        transition: 'opacity 0.5s ease',
+        zIndex: -1
       }} />
       <div style={{
         position: 'relative',
@@ -306,7 +315,7 @@ function ProjectCard({ project: p, vis, delay }) {
           display: isMobile && isFlipped ? 'none' : 'block',
         }}>
           {p.videoUrl && (
-            <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+            <div style={{ position: 'absolute', inset: 16, zIndex: 0, borderRadius: 8, overflow: 'hidden' }}>
               <CardVideo src={p.videoUrl} isMobile={isMobile} />
             </div>
           )}
@@ -387,12 +396,10 @@ function ProjectCard({ project: p, vis, delay }) {
             borderRadius: 12,
             backfaceVisibility: isMobile ? 'visible' : 'hidden',
             WebkitBackfaceVisibility: isMobile ? 'visible' : 'hidden',
-            transform: isMobile ? 'none' : 'rotateY(180deg)',
-            display: 'flex', flexDirection: 'column',
+            transform: 'rotateY(180deg)',
+            display: isMobile ? (isFlipped ? 'flex' : 'none') : 'flex',
+            flexDirection: 'column',
             zIndex: 1,
-            pointerEvents: isFlipped ? 'auto' : 'none',
-            opacity: isMobile ? (isFlipped ? 1 : 0) : 1,
-            visibility: isMobile ? (isFlipped ? 'visible' : 'hidden') : 'visible',
           }}>
             {isMobile && (
               <button
@@ -485,4 +492,3 @@ function ProjectCard({ project: p, vis, delay }) {
 }
 
 const MemoizedProjectCard = React.memo(ProjectCard);
-

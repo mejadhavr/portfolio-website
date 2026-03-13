@@ -73,7 +73,7 @@ function YouTubeEmbed({ id, title, isLinkedIn }) {
         onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
       >
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, textTransform: 'uppercase', letterSpacing: 2 }}>{title}</div>
-        <a href={`https://www.linkedin.com/posts/tofflon-india-private-limited_join-us-at-pmec-for-an-exclusive-look-at-activity-7132218700782313472-em_G/${id}`} target="_blank" rel="noopener noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">View on LinkedIn <span className="cine-cta-arrow">↗</span></span></a>
+        <a href={`https://www.linkedin.com/posts/tofflon-india-private-limited_join-us-at-pmec-for-an-exclusive-look-at-activity-7132218700782313472-em_G/`} target="_blank" rel="noopener noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">View on LinkedIn <span className="cine-cta-arrow">↗</span></span></a>
       </div>
     );
   }
@@ -192,7 +192,7 @@ export default function CorporatePortfolio() {
             <a href="https://mejadhavr.com/#/event-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Event Highlights</span></a>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
-            <a href="https://mejadhavr.com/#/?section=contact" target="_blank" rel="noreferrer" className="cine-cta"><span className="cine-cta-label">Contact Rushikesh</span></a>
+            <a href="https://mejadhavr.com/#/contact" target="_blank" rel="noreferrer" className="cine-cta"><span className="cine-cta-label">Contact Rushikesh</span></a>
             <a href="https://mejadhavr.com/#/" target="_blank" rel="noreferrer" className="cine-cta-secondary"><span className="cine-cta-label">Open Main Website</span></a>
           </div>
         </div>
@@ -206,5 +206,3 @@ export default function CorporatePortfolio() {
     </div>
   );
 }
-
-
