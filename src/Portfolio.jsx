@@ -189,6 +189,30 @@ function Navigation({ active, onContactRequest }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isMobile) return undefined;
+
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalTouchAction = document.body.style.touchAction;
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    } else {
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.style.touchAction = originalTouchAction;
+    }
+
+    return () => {
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.style.touchAction = originalTouchAction;
+    };
+  }, [isMobile, isOpen]);
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
@@ -263,21 +287,22 @@ function Navigation({ active, onContactRequest }) {
         </div>
       </nav>
 
-      {/* Mobile Hamburger Button (Boxed at Bottom) */}
+      {/* Mobile Hamburger Button */}
       <button
         className="nav-hamburger"
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open navigation menu"
+        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
         aria-expanded={isOpen}
         style={{
           display: isMobile ? 'flex' : 'none',
-          position: 'fixed', bottom: 'max(20px, env(safe-area-inset-bottom))', right: 20,
-          width: 52, height: 52, borderRadius: 14,
-          background: 'rgba(6, 6, 12, 0.9)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid var(--gold)', zIndex: 10002,
+          position: 'fixed', top: 'max(18px, env(safe-area-inset-top))', right: 18,
+          width: 54, height: 54, borderRadius: 18,
+          background: isOpen ? 'rgba(200,169,110,0.14)' : 'rgba(6, 6, 12, 0.88)',
+          backdropFilter: 'blur(14px)',
+          border: `1px solid ${isOpen ? 'rgba(200,169,110,0.45)' : 'rgba(255,255,255,0.12)'}`, zIndex: 10002,
           flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5,
-          boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
+          boxShadow: isOpen ? '0 16px 40px rgba(0,0,0,0.5)' : '0 10px 30px rgba(0,0,0,0.38)',
+          transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
         }}>
         <div style={{ width: 22, height: 2, background: 'var(--gold)', transform: isOpen ? 'rotate(45deg) translateY(5px)' : 'none', transition: '0.3s' }} />
         <div style={{ width: isOpen ? 0 : 16, height: 2, background: 'var(--gold)', transition: '0.3s' }} />
@@ -286,49 +311,164 @@ function Navigation({ active, onContactRequest }) {
 
       {/* Mobile Menu Overlay */}
       <div style={{
-        position: 'fixed', inset: 0, background: 'var(--bg)', zIndex: 10001,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'min(24px, 4vh)',
-        padding: 'max(28px, env(safe-area-inset-top)) 24px max(40px, env(safe-area-inset-bottom))', transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+        position: 'fixed', inset: 0,
+        background: 'rgba(5, 7, 12, 0.7)',
+        backdropFilter: 'blur(20px)',
+        zIndex: 10001,
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: 'max(88px, calc(env(safe-area-inset-top) + 72px)) 16px max(24px, env(safe-area-inset-bottom))',
+        transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
         opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none',
-        transform: isOpen ? 'none' : 'translateY(20px)',
-        overflowY: 'auto'
+        transform: isOpen ? 'none' : 'translateY(-10px)',
+        overflow: 'hidden'
       }}>
-        {/* Mobile Brand Mark */}
-        <div style={{ marginBottom: 20 }}>
-          <img src="/images/logo.webp" alt="MJ Logo" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
-        </div>
-
-        {navItems.map(item => (
-          <button
-            key={item.id}
-            onClick={() => scrollToSection(item.id)}
-            style={{
-              background: 'none', border: 'none',
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 10vw, 42px)',
-              color: active === item.id ? 'var(--gold)' : 'var(--white)',
-              textTransform: 'uppercase',
-              letterSpacing: 2, transition: 'all 0.3s ease'
-            }}
-          >
-            {item.label}
-          </button>
-        ))}
-
-        {/* Mobile Social Links at bottom of menu */}
-        <div style={{ 
-          marginTop: 40, display: 'flex', gap: 24, alignItems: 'center',
-          opacity: isOpen ? 1 : 0, transform: isOpen ? 'none' : 'translateY(20px)',
-          transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s'
+        <div style={{
+          width: '100%',
+          maxWidth: 420,
+          maxHeight: '100%',
+          margin: '0 auto',
+          padding: '22px 18px 20px',
+          borderRadius: 28,
+          background: 'linear-gradient(180deg, rgba(10,12,18,0.98) 0%, rgba(6,8,12,0.94) 100%)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.45)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 18,
+          overflowY: 'auto',
+          transform: isOpen ? 'translateY(0)' : 'translateY(18px) scale(0.98)',
+          transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
         }}>
-          <a href="https://wa.me/919309964035" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', transition: '0.3s' }}>
-            <svg viewBox="0 0 24 24" fill="currentColor" width={24} height={24}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" /></svg>
-          </a>
-          <a href="mailto:rushikesh@mejadhavr.com" style={{ color: 'var(--gold)', transition: '0.3s' }}>
-            <svg viewBox="0 0 24 24" fill="currentColor" width={24} height={24}><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
-          </a>
-          <a href="https://linkedin.com/in/rushikesh-jadhav-2bb063162" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', transition: '0.3s' }}>
-            <svg viewBox="0 0 24 24" fill="currentColor" width={24} height={24}><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a2.7 2.7 0 00-2.7-2.7c-1.2 0-1.8.7-2.1 1.2v-1.2H11v8h2.7v-4.8c0-.3 0-.5.1-.7.2-.5.6-1 1.3-1 1 0 1.4.7 1.4 1.8v4.7H19.3M6.2 9h2.7V6.3H6.2V9m0 9.5h2.7V10.7H6.2v7.8z" /></svg>
-          </a>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 12,
+            paddingBottom: 12,
+            borderBottom: '1px solid rgba(255,255,255,0.08)'
+          }}>
+            <div>
+              <div style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 10,
+                letterSpacing: 2.8,
+                color: 'var(--gold)',
+                textTransform: 'uppercase',
+                marginBottom: 6
+              }}>
+                Navigation
+              </div>
+              <div style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 28,
+                lineHeight: 1,
+                color: 'var(--white)'
+              }}>
+                Explore
+              </div>
+            </div>
+            <img src="/images/logo.webp" alt="MJ Logo" style={{ height: 38, width: 'auto', objectFit: 'contain' }} />
+          </div>
+
+          <div style={{ display: 'grid', gap: 12 }}>
+            {navItems.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 16,
+                  padding: '16px 18px',
+                  borderRadius: 18,
+                  border: active === item.id ? '1px solid rgba(200,169,110,0.45)' : '1px solid rgba(255,255,255,0.08)',
+                  background: active === item.id ? 'linear-gradient(135deg, rgba(200,169,110,0.16), rgba(200,169,110,0.05))' : 'rgba(255,255,255,0.03)',
+                  color: 'var(--white)',
+                  textAlign: 'left',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  letterSpacing: 2,
+                  color: 'rgba(242,238,232,0.45)',
+                  textTransform: 'uppercase'
+                }}>
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span style={{
+                  flex: 1,
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(20px, 6vw, 28px)',
+                  letterSpacing: 1,
+                  textTransform: 'uppercase',
+                  color: active === item.id ? 'var(--gold)' : 'var(--white)'
+                }}>
+                  {item.label}
+                </span>
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 12,
+                  color: active === item.id ? 'var(--gold)' : 'rgba(255,255,255,0.35)'
+                }}>
+                  {'->'}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <div style={{
+            marginTop: 4,
+            paddingTop: 14,
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 12
+          }}>
+            <div style={{
+              fontFamily: 'var(--font-editorial)',
+              fontStyle: 'italic',
+              fontSize: 15,
+              color: 'rgba(242,238,232,0.62)'
+            }}>
+              Reach out directly
+            </div>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <a href="https://wa.me/919309964035" target="_blank" rel="noopener noreferrer" style={{
+                width: 40, height: 40, borderRadius: 999,
+                display: 'grid', placeItems: 'center',
+                color: 'var(--gold)',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)'
+              }}>
+                <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" /></svg>
+              </a>
+              <a href="mailto:rushikesh@mejadhavr.com" style={{
+                width: 40, height: 40, borderRadius: 999,
+                display: 'grid', placeItems: 'center',
+                color: 'var(--gold)',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)'
+              }}>
+                <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>
+              </a>
+              <a href="https://linkedin.com/in/rushikesh-jadhav-2bb063162" target="_blank" rel="noopener noreferrer" style={{
+                width: 40, height: 40, borderRadius: 999,
+                display: 'grid', placeItems: 'center',
+                color: 'var(--gold)',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)'
+              }}>
+                <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a2.7 2.7 0 00-2.7-2.7c-1.2 0-1.8.7-2.1 1.2v-1.2H11v8h2.7v-4.8c0-.3 0-.5.1-.7.2-.5.6-1 1.3-1 1 0 1.4.7 1.4 1.8v4.7H19.3M6.2 9h2.7V6.3H6.2V9m0 9.5h2.7V10.7H6.2v7.8z" /></svg>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </>

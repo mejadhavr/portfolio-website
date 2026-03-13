@@ -11,17 +11,18 @@ function CinematicVideo() {
   const [videoSrc, setVideoSrc] = useState('');
   const isMobile = useIsMobile();
   const isLowEnd = useIsLowEnd();
+  const shouldReduceVideo = isLowEnd && !isMobile;
 
   useEffect(() => {
-    if (isLowEnd) return undefined;
+    if (shouldReduceVideo) return undefined;
 
     // Only set the video source after the page has loaded + small delay
     const timer = setTimeout(() => {
       setVideoSrc('/videos/showreel.mp4');
-    }, 1200);
+    }, isMobile ? 250 : 1200);
     
     return () => clearTimeout(timer);
-  }, [isLowEnd, isMobile]);
+  }, [isMobile, shouldReduceVideo]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -61,21 +62,15 @@ function CinematicVideo() {
         playsInline
         preload={isMobile ? 'metadata' : 'none'}
         poster="/assets/images/showreel-poster.webp"
+        src={videoSrc || undefined}
         style={{
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          opacity: videoSrc || isMobile || isLowEnd ? 1 : 0,
+          opacity: videoSrc || isMobile || shouldReduceVideo ? 1 : 0,
           transition: 'opacity 1s ease'
         }}
-      >
-        {videoSrc && (
-          <>
-            <source src="/videos/showreel.webm" type="video/webm" />
-            <source src="/videos/showreel.mp4" type="video/mp4" />
-          </>
-        )}
-      </video>
+      />
 
       {/* REC indicator */}
       <div style={{
@@ -103,7 +98,7 @@ function CinematicVideo() {
           border: '1px solid rgba(255,255,255,0.2)',
           background: 'rgba(0,0,0,0.4)',
           backdropFilter: 'blur(10px)',
-          display: isLowEnd ? 'none' : 'flex',
+          display: shouldReduceVideo ? 'none' : 'flex',
           alignItems: 'center',
           gap: 8,
           padding: '8px 16px',
