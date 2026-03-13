@@ -396,7 +396,7 @@ function ProjectCard({ project: p, vis, delay }) {
             borderRadius: 12,
             backfaceVisibility: isMobile ? 'visible' : 'hidden',
             WebkitBackfaceVisibility: isMobile ? 'visible' : 'hidden',
-            transform: 'rotateY(180deg)',
+            transform: isMobile ? 'none' : 'rotateY(180deg)',
             display: isMobile ? (isFlipped ? 'flex' : 'none') : 'flex',
             flexDirection: 'column',
             zIndex: 1,
