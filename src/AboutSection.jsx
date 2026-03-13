@@ -23,6 +23,20 @@ function CinematicVideo() {
     return () => clearTimeout(timer);
   }, [isLowEnd, isMobile]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !videoSrc) return undefined;
+
+    video.load();
+
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {});
+    }
+
+    return undefined;
+  }, [videoSrc]);
+
   const toggleMute = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -45,8 +59,8 @@ function CinematicVideo() {
         loop
         muted={muted}
         playsInline
-        preload="none"
-        poster="/assets/images/hero-poster.webp"
+        preload={isMobile ? 'metadata' : 'none'}
+        poster="/assets/images/showreel-poster.webp"
         style={{
           width: '100%',
           height: '100%',
