@@ -6,6 +6,7 @@ const EventPortfolio = lazy(() => import("./EventPortfolio"));
 const ProductPortfolio = lazy(() => import("./ProductPortfolio"));
 const CorporatePortfolio = lazy(() => import("./CorporatePortfolio"));
 const RealEstatePortfolio = lazy(() => import("./RealEstatePortfolio"));
+const SaasPortfolio = lazy(() => import("./SaasPortfolio"));
 const NotFound = lazy(() => import("./NotFound"));
 
 function ScrollToTop() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/product-portfolio" element={<ProductPortfolio />} />
           <Route path="/corporate-portfolio" element={<CorporatePortfolio />} />
           <Route path="/realestate-portfolio" element={<RealEstatePortfolio />} />
+          <Route path="/saas-portfolio" element={<SaasPortfolio />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
