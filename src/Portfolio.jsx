@@ -684,6 +684,84 @@ function HeroSection({ onContactRequest }) {
             <span className="cine-cta-label">Let's Work Together <span className="cine-cta-arrow">→</span></span>
           </button>
         </div>
+
+        {/* Freelance Cards */}
+        <div className="hero-cta-row freelance-cards" style={{
+          display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap',
+          position: 'relative', zIndex: 10, marginTop: 40
+        }}>
+          {/* Upwork Card */}
+          <a href="https://www.upwork.com/freelancers/~0101c5c74da4502422" target="_blank" rel="noopener noreferrer" 
+             style={{
+               display: 'flex', alignItems: 'center', gap: 16,
+               padding: '12px 24px', borderRadius: 20,
+               background: 'rgba(10, 15, 20, 0.4)',
+               backdropFilter: 'blur(10px)',
+               border: '1px solid rgba(20, 168, 0, 0.3)',
+               textDecoration: 'none',
+               cursor: 'none',
+               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+               boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+             }}
+             onMouseEnter={e => {
+               e.currentTarget.style.transform = 'translateY(-4px)';
+               e.currentTarget.style.boxShadow = '0 15px 40px rgba(20, 168, 0, 0.2)';
+               e.currentTarget.style.background = 'rgba(20, 168, 0, 0.08)';
+             }}
+             onMouseLeave={e => {
+               e.currentTarget.style.transform = 'translateY(0)';
+               e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+               e.currentTarget.style.background = 'rgba(10, 15, 20, 0.4)';
+             }}
+          >
+             <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#14a800', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 'bold', fontSize: 24, fontStyle: 'normal' }}>
+               U
+             </div>
+             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                 <span style={{ color: '#14a800', fontSize: 12 }}>★★★★★</span>
+                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--white)', opacity: 0.8, fontWeight: 'normal', fontStyle: 'normal' }}>Top Rated</span>
+               </div>
+               <span style={{ fontFamily: 'var(--font-display)', fontSize: 20, color: 'var(--white)', letterSpacing: 1, fontStyle: 'normal' }}>Hire on Upwork</span>
+             </div>
+          </a>
+
+          {/* Fiverr Card */}
+          <a href="https://www.fiverr.com/s/WEy6Vp7" target="_blank" rel="noopener noreferrer" 
+             style={{
+               display: 'flex', alignItems: 'center', gap: 16,
+               padding: '12px 24px', borderRadius: 20,
+               background: 'rgba(10, 15, 20, 0.4)',
+               backdropFilter: 'blur(10px)',
+               border: '1px solid rgba(29, 191, 115, 0.3)',
+               textDecoration: 'none',
+               cursor: 'none',
+               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+               boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+             }}
+             onMouseEnter={e => {
+               e.currentTarget.style.transform = 'translateY(-4px)';
+               e.currentTarget.style.boxShadow = '0 15px 40px rgba(29, 191, 115, 0.2)';
+               e.currentTarget.style.background = 'rgba(29, 191, 115, 0.08)';
+             }}
+             onMouseLeave={e => {
+               e.currentTarget.style.transform = 'translateY(0)';
+               e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+               e.currentTarget.style.background = 'rgba(10, 15, 20, 0.4)';
+             }}
+          >
+             <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#1dbf73', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 'bold', fontSize: 24, fontStyle: 'italic' }}>
+               fi
+             </div>
+             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                 <span style={{ color: '#1dbf73', fontSize: 12 }}>★★★★★</span>
+                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--white)', opacity: 0.8, fontWeight: 'normal', fontStyle: 'normal' }}>Pro Seller</span>
+               </div>
+               <span style={{ fontFamily: 'var(--font-display)', fontSize: 20, color: 'var(--white)', letterSpacing: 1, fontStyle: 'normal' }}>Hire on Fiverr</span>
+             </div>
+          </a>
+        </div>
       </div>
 
       {/* Scroll indicator */}
