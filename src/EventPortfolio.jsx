@@ -162,6 +162,32 @@ export default function EventPortfolio() {
           ))}
         </div>
 
+        {/* SEO Text Section */}
+        <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.58s',
+          marginTop: isMobile ? 56 : 80, padding: isMobile ? '24px 18px' : '30px 40px', borderRadius: 16,
+          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 20, letterSpacing: 3, textTransform: 'uppercase' }}>◈ About This Work</div>
+          <div style={{ fontSize: 15, color: 'rgba(242,238,232,0.6)', lineHeight: 1.8, maxWidth: 900 }}>
+            <p style={{ margin: '0 0 20px 0' }}>
+              From intimate studio sessions to large-scale corporate events, I edit event highlight reels that capture the energy,
+              emotion, and key moments of any occasion. Clients include National Public School, NSS events, corporate award nights,
+              and product launches.
+            </p>
+            <p style={{ margin: '0 0 20px 0' }}>
+              Every event highlight reel is crafted to distill hours of footage into a cinematic, emotionally resonant story —
+              fast-paced cuts synced to music, dynamic color grading, and seamless transitions that keep viewers engaged from
+              the first frame to the last.
+            </p>
+            <p style={{ margin: '0 0 20px 0', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', letterSpacing: 1 }}>
+              Services: Corporate Event Films · Award Night Highlights · Product Launch Recaps · Foundation Day Films · Expo Coverage · Conference Recaps
+            </p>
+            <p style={{ margin: 0, fontSize: 13, color: 'rgba(242,238,232,0.35)' }}>
+              Based in Pune, Maharashtra | Available for on-site and remote editing across India
+            </p>
+          </div>
+        </div>
+
         {/* Disclaimer Section */}
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.62s',
           marginTop: isMobile ? 56 : 80, padding: isMobile ? '24px 18px' : '30px 40px', borderRadius: 16,

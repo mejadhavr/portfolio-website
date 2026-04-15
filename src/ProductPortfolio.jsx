@@ -157,6 +157,32 @@ export default function ProductPortfolio() {
           ))}
         </div>
 
+        {/* SEO Text Section */}
+        <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.58s',
+          marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,
+          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 20, letterSpacing: 3, textTransform: 'uppercase' }}>◈ About This Work</div>
+          <div style={{ fontSize: 15, color: 'rgba(242,238,232,0.6)', lineHeight: 1.8, maxWidth: 900 }}>
+            <p style={{ margin: '0 0 20px 0' }}>
+              Product video editing for e-commerce brands, direct-to-consumer companies, and retail brands. Clean, sharp editing
+              that showcases product features and drives conversions. Deliverables in multiple aspect ratios for Amazon, Flipkart,
+              Instagram, and YouTube.
+            </p>
+            <p style={{ margin: '0 0 20px 0' }}>
+              From industrial machinery showcases to consumer product launches, every product video is edited with precision —
+              cinematic lighting adjustments, smooth transitions between product angles, and motion graphics overlays that
+              highlight key specifications and selling points.
+            </p>
+            <p style={{ margin: '0 0 20px 0', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', letterSpacing: 1 }}>
+              Services: E-Commerce Product Videos · Industrial Product Films · Product Launch Promos · Technical Animations · Brand Commercials
+            </p>
+            <p style={{ margin: 0, fontSize: 13, color: 'rgba(242,238,232,0.35)' }}>
+              Based in Pune | Freelance product video editor available across India
+            </p>
+          </div>
+        </div>
+
         {/* Private Policy Section */}
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.62s',
           marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,

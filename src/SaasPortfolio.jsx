@@ -186,6 +186,31 @@ export default function SaasPortfolio() {
           </div>
         ))}
 
+        {/* SEO Text Section */}
+        <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.70s',
+          marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,
+          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 20, letterSpacing: 3, textTransform: 'uppercase' }}>◈ About This Work</div>
+          <div style={{ fontSize: 15, color: 'rgba(242,238,232,0.6)', lineHeight: 1.8, maxWidth: 900 }}>
+            <p style={{ margin: '0 0 20px 0' }}>
+              Motion graphics and SaaS explainer videos — from app demos and UI walkthroughs to animated infographics and
+              branded intro sequences. Built using Adobe After Effects with typography-driven storytelling.
+            </p>
+            <p style={{ margin: '0 0 20px 0' }}>
+              For SaaS companies and tech startups, I create product demonstration videos that simplify complex features into
+              visually engaging narratives. Clean UI animations, kinetic typography, and smooth screen recordings are combined
+              to create videos that drive user adoption and investor confidence.
+            </p>
+            <p style={{ margin: '0 0 20px 0', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', letterSpacing: 1 }}>
+              Services: SaaS Product Demos · App Walkthrough Videos · Motion Graphics · Animated Explainers · UI/UX Showcase Films · Branded Intro Sequences
+            </p>
+            <p style={{ margin: 0, fontSize: 13, color: 'rgba(242,238,232,0.35)' }}>
+              Built with Adobe After Effects & Premiere Pro | Available for remote projects worldwide
+            </p>
+          </div>
+        </div>
+
         {/* Private Policy Section */}
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.74s',
           marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,
