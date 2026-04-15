@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { AuroraBg } from './Shared';
-import { useIsMobile } from './hooks';
+import { useIsMobile, useSEO } from './hooks';
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM
@@ -123,6 +123,10 @@ function YouTubeEmbed({ id, title, isLinkedIn }) {
 }
 
 export default function CorporatePortfolio() {
+  useSEO({
+    title: "Corporate Video Editor India | Brand Films & Manifesto | Rushikesh Jadhav",
+    description: "Freelance corporate video editor in India. Cinematic brand films, corporate stories, and manifesto videos for businesses. Based in Pune, available worldwide."
+  });
   const isMobile = useIsMobile();
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {

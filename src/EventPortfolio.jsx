@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { AuroraBg } from './Shared';
-import { useIsMobile } from './hooks';
+import { useIsMobile, useSEO } from './hooks';
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM (Kept as is)
@@ -117,6 +117,10 @@ function YouTubeEmbed({ id }) {
    MAIN COMPONENT
 ───────────────────────────────────────────── */
 export default function EventPortfolio() {
+  useSEO({
+    title: "Event Highlights Video Editor | Freelance Cinematic Editor Pune",
+    description: "Professional event video editor. High-energy highlight reels, corporate expos, and foundation day films tailored for production houses and brands."
+  });
   const isMobile = useIsMobile();
   const [revealed, setRevealed] = useState(false);
 

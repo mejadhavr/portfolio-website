@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { AuroraBg } from './Shared';
-import { useIsMobile } from './hooks';
+import { useIsMobile, useSEO } from './hooks';
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM
@@ -114,6 +114,10 @@ function YouTubeEmbed({ id, title }) {
 }
 
 export default function ProductPortfolio() {
+  useSEO({
+    title: "Product Video Editor | Cinematic Commercials | Rushikesh Jadhav",
+    description: "Cinematic product video editor based in Pune. High-end commercials and promotional films with Hollywood-style aesthetics and professional color grading."
+  });
   const isMobile = useIsMobile();
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {

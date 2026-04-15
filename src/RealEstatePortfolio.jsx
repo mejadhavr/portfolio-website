@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { AuroraBg } from './Shared';
-import { useIsMobile } from './hooks';
+import { useIsMobile, useSEO } from './hooks';
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM
@@ -150,6 +150,10 @@ function YouTubeEmbed({ id, title, isShort, isPlaceholder }) {
 }
 
 export default function RealEstatePortfolio() {
+  useSEO({
+    title: "Real Estate Video Editor | Cinematic Walkthroughs | Rushikesh Jadhav",
+    description: "Freelance real estate video editor in Pune. Cinematic property walkthroughs, launch reels, and architectural edits for premium residential and commercial projects."
+  });
   const isMobile = useIsMobile();
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {

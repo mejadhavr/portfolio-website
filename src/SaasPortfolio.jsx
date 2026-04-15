@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { AuroraBg } from './Shared';
-import { useIsMobile } from './hooks';
+import { useIsMobile, useSEO } from './hooks';
 
 /* ─────────────────────────────────────────────
    HERO PARTICLES SYSTEM
@@ -130,6 +130,10 @@ function YouTubeEmbed({ id, title, isShort, isPlaceholder }) {
 }
 
 export default function SaasPortfolio() {
+  useSEO({
+    title: "SaaS Video Editor | Product Demos & Promos | mejadhavr.com",
+    description: "Video editing for SaaS companies. Engaging software demos, UI animations, and promotional videos crafted with Premiere Pro and After Effects."
+  });
   const isMobile = useIsMobile();
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {
