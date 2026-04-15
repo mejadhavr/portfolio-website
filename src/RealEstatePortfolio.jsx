@@ -206,6 +206,41 @@ export default function RealEstatePortfolio() {
           </div>
         ))}
 
+        {/* SEO Text Section */}
+        <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.70s',
+          marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,
+          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 20, letterSpacing: 3, textTransform: 'uppercase' }}>◈ About This Work</div>
+          <div style={{ fontSize: 15, color: 'rgba(242,238,232,0.6)', lineHeight: 1.8, maxWidth: 900 }}>
+            <p style={{ margin: '0 0 20px 0' }}>
+              Real estate video walkthroughs by Rushikesh Jadhav — cinematic property films that showcase architecture,
+              interior design, and spatial flow in a way still photography simply cannot.
+            </p>
+            <p style={{ margin: '0 0 16px 0' }}>
+              For architects, interior designers, and real estate developers, a cinematic walkthrough:
+            </p>
+            <ul style={{ margin: '0 0 20px 0', paddingLeft: 20, listStyleType: 'disc' }}>
+              <li style={{ marginBottom: 8 }}>Captures the true flow, lighting, and scale of the space</li>
+              <li style={{ marginBottom: 8 }}>Highlights premium textures, materials, and design details</li>
+              <li style={{ marginBottom: 8 }}>Elevates property listings to attract high-end clients and investors</li>
+              <li style={{ marginBottom: 8 }}>Works as a compelling portfolio piece for design firms</li>
+            </ul>
+            <p style={{ margin: '0 0 20px 0' }}>
+              Clients include residential developers, commercial spaces, and interior design firms across Pune and Mumbai.
+            </p>
+            <p style={{ margin: '0 0 20px 0', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(242,238,232,0.4)', letterSpacing: 1 }}>
+              Technical Specs: Shot in 4K/6K | Color graded to match brand aesthetic | Delivered in 16:9 (YouTube/website) and 9:16 (social media reels) | Aerial drone footage available
+            </p>
+            <p style={{ margin: '0 0 20px 0', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', letterSpacing: 1 }}>
+              Services: Residential Walkthroughs · Commercial Property Films · Interior Design Showcases · Architectural Films · Site Progress Videos
+            </p>
+            <p style={{ margin: 0, fontSize: 13, color: 'rgba(242,238,232,0.35)' }}>
+              Based in Pune, Maharashtra | Serving India-wide clients
+            </p>
+          </div>
+        </div>
+
         {/* Private Policy Section */}
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.74s',
           marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,

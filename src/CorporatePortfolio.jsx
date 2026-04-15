@@ -166,6 +166,39 @@ export default function CorporatePortfolio() {
           ))}
         </div>
 
+        {/* SEO Text Section */}
+        <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.58s',
+          marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,
+          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 20, letterSpacing: 3, textTransform: 'uppercase' }}>◈ About This Work</div>
+          <div style={{ fontSize: 15, color: 'rgba(242,238,232,0.6)', lineHeight: 1.8, maxWidth: 900 }}>
+            <p style={{ margin: '0 0 20px 0' }}>
+              As a cinematic video editor based in Pune, I specialize in transforming raw corporate footage into compelling brand
+              narratives. My corporate films work spans brand manifestos, product launch films, testimonial series, and company culture videos.
+            </p>
+            <p style={{ margin: '0 0 16px 0' }}>Notable Corporate Film Projects:</p>
+            <ul style={{ margin: '0 0 20px 0', paddingLeft: 20, listStyleType: 'disc' }}>
+              <li style={{ marginBottom: 8 }}>Borosil Scientific — Manufacturing facility walkthrough showcasing 4 production locations</li>
+              <li style={{ marginBottom: 8 }}>Licious — 7th Foundation Day brand film crafted for Prism Scale Pvt Ltd.</li>
+              <li style={{ marginBottom: 8 }}>Klimapharm — Pharmaceutical product film</li>
+              <li style={{ marginBottom: 8 }}>Skindus — Industrial brand story</li>
+              <li style={{ marginBottom: 8 }}>Tofflon — Corporate profile (via LinkedIn)</li>
+            </ul>
+            <p style={{ margin: '0 0 20px 0' }}>
+              Editing Approach: Every corporate film I cut is built around cinematic storytelling — kinetic transitions,
+              deliberate pacing, and visual rhythm that reflects the brand's growth and culture. I work with agencies
+              including Unplug Infinity, Prismscale, iTam, and Greyscale.
+            </p>
+            <p style={{ margin: '0 0 20px 0', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)', letterSpacing: 1 }}>
+              Services: Brand Manifestos · Product Films · Testimonial Series · Annual Day Films · Company Profiles
+            </p>
+            <p style={{ margin: 0, fontSize: 13, color: 'rgba(242,238,232,0.35)' }}>
+              Based in Pune | Available across India | Remote projects worldwide
+            </p>
+          </div>
+        </div>
+
         {/* Private Policy Section */}
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.62s',
           marginTop: isMobile ? 64 : 100, padding: isMobile ? '24px 18px' : '40px', borderRadius: 20,
