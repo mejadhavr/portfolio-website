@@ -1,15 +1,15 @@
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import { AuroraBg } from './Shared';
 import { useIsMobile, useSEO } from './hooks';
 
 /* ─────────────────────────────────────────────
-   CASE STUDY: Licious 7-Year Brand Film
+   CASE STUDY: Astik Dyestuff Corporate Film
 ───────────────────────────────────────────── */
 
-export default function CaseStudyLicious() {
+export default function CaseStudyAstik() {
   useSEO({
-    title: "Case Study: Editing Licious's 7-Year Brand Film | Corporate Video Editor India",
-    description: "Deep-dive into editing the Licious Foundation Day brand film. How cinematic pacing, kinetic transitions, and visual rhythm shaped 7 years of brand journey into one emotional story."
+    title: "Case Study: Astik Dyestuff Corporate Film | Industrial Video Editor India",
+    description: "Deep-dive into editing the Astik Dyestuff corporate movie. How cinematic storytelling transformed a 45-year legacy in reactive dyes into an engaging brand narrative."
   });
 
   const isMobile = useIsMobile();
@@ -61,18 +61,18 @@ export default function CaseStudyLicious() {
         <header style={{ marginBottom: isMobile ? 48 : 72 }}>
           <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.08s', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 5, color: 'var(--gold)', marginBottom: 20, textTransform: 'uppercase' }}>◈ Case Study</div>
           <h1 className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.16s', fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 6vw, 64px)', lineHeight: 1, marginBottom: 28 }}>
-            EDITING LICIOUS'S<br />
-            <span className="gold-text">7-YEAR BRAND FILM</span>
+            ASTIK DYESTUFF<br />
+            <span className="gold-text">CORPORATE FILM</span>
           </h1>
           <p className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.24s', fontSize: 'clamp(16px, 2.5vw, 20px)', color: 'rgba(242,238,232,0.5)', lineHeight: 1.6, fontFamily: 'var(--font-editorial)', fontStyle: 'italic', maxWidth: 640 }}>
-            A Story of Rhythm and Culture
+            Building a Cinematic Legacy for a 45-Year Industrial Pioneer
           </p>
           <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.30s', marginTop: 24, display: 'flex', flexWrap: 'wrap', gap: 16, fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2, color: 'rgba(242,238,232,0.35)' }}>
-            <span>CLIENT: LICIOUS</span>
+            <span>CLIENT: ASTIK DYESTUFF PVT. LTD.</span>
             <span style={{ color: 'rgba(242,238,232,0.15)' }}>|</span>
-            <span>AGENCY: PRISM SCALE PVT. LTD.</span>
+            <span>TYPE: CORPORATE MOVIE</span>
             <span style={{ color: 'rgba(242,238,232,0.15)' }}>|</span>
-            <span>TYPE: FOUNDATION DAY FILM</span>
+            <span>INDUSTRY: CHEMICAL MANUFACTURING</span>
           </div>
         </header>
 
@@ -85,7 +85,7 @@ export default function CaseStudyLicious() {
             boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
           }}>
             <iframe
-              title="Licious 7-Year Brand Film"
+              title="Astik Dyestuff Corporate Film"
               srcDoc={`
                 <style>
                   * { padding: 0; margin: 0; overflow: hidden; background: #000; }
@@ -99,8 +99,8 @@ export default function CaseStudyLicious() {
                   }
                   a:hover span { background: #C8A96E; transform: translateX(-50%) scale(1.15); }
                 </style>
-                <a href="https://www.youtube.com/embed/d3xqNKXgMO4?autoplay=1&rel=0">
-                  <img src="https://img.youtube.com/vi/d3xqNKXgMO4/hqdefault.jpg" alt="Licious Brand Film">
+                <a href="https://www.youtube.com/embed/B5h9Djj6BXE?autoplay=1&rel=0">
+                  <img src="https://img.youtube.com/vi/B5h9Djj6BXE/hqdefault.jpg" alt="Astik Dyestuff Corporate Film">
                   <span>▶</span>
                 </a>
               `}
@@ -117,15 +117,15 @@ export default function CaseStudyLicious() {
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.42s', ...sectionStyle }}>
           <div style={sectionTitleStyle}>01 — The Brief</div>
           <p style={bodyTextStyle}>
-            <span style={highlightStyle}>Licious</span>, one of India's fastest-growing D2C meat and seafood brands, was celebrating
-            its <span style={highlightStyle}>7th Foundation Day</span>. The brief was clear but ambitious: create a cinematic brand film
-            that would capture seven years of relentless growth, cultural milestones, and the human stories behind the brand — all
-            condensed into a single, emotionally resonant narrative.
+            <span style={highlightStyle}>Astik Dyestuff Pvt. Ltd.</span> — a leading manufacturer of reactive dyes with a
+            <span style={highlightStyle}> 45-year legacy</span> in the Indian chemical industry — needed a corporate film that would
+            communicate their scale, technological excellence, and industry leadership to clients, partners, and investors worldwide.
           </p>
           <p style={bodyTextStyle}>
-            I collaborated with <span style={highlightStyle}>Prism Scale Pvt. Ltd.</span> and Creative Director
-            <span style={highlightStyle}> Dharam Vir Singh</span>, working from raw footage spanning team celebrations, warehouse operations,
-            leadership moments, and candid employee interactions captured over the years.
+            With manufacturing facilities spanning <span style={highlightStyle}>Ankleshwar (Gujarat)</span> and
+            <span style={highlightStyle}> Tarapur (Maharashtra)</span>, and a strategic partnership with
+            <span style={highlightStyle}> Nippon Kayaku Co. Ltd. (Japan)</span>, the film needed to convey both industrial precision
+            and global credibility — all while keeping the narrative engaging and cinematic.
           </p>
         </div>
 
@@ -133,13 +133,14 @@ export default function CaseStudyLicious() {
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.48s', ...sectionStyle }}>
           <div style={sectionTitleStyle}>02 — The Challenge</div>
           <p style={bodyTextStyle}>
-            Anniversary films are dangerous territory. They risk becoming generic highlight reels — a montage of handshakes, office
-            parties, and milestone numbers set to uplifting stock music. The actual craft lies in building a
-            <span style={highlightStyle}> cinematic narrative</span> that makes the viewer <em>feel</em> the brand's journey, not just see it.
+            Industrial corporate films carry a unique set of editing challenges. The raw footage is often shot across
+            <span style={highlightStyle}> multiple factory floors, laboratories, and warehouse facilities</span> — environments that
+            are visually complex, noisy, and rarely cinematic by default.
           </p>
           <p style={bodyTextStyle}>
-            The challenge was threefold: distill years of diverse footage into a coherent visual story, maintain emotional momentum
-            across the entire runtime, and honor the brand's culture without slipping into corporate cliché.
+            The challenge was to transform dense industrial footage — chemical reactors, quality control labs, packaging lines,
+            and management walkthroughs — into a polished, emotionally engaging corporate narrative that would resonate with both
+            technical buyers and business decision-makers.
           </p>
         </div>
 
@@ -147,8 +148,8 @@ export default function CaseStudyLicious() {
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.54s', ...sectionStyle }}>
           <div style={sectionTitleStyle}>03 — My Approach</div>
           <p style={bodyTextStyle}>
-            Every editing decision was driven by one principle: <span style={highlightStyle}>visual rhythm should mirror the brand's rhythm</span>.
-            Licious grew explosively — and the edit needed to feel that kinetic energy.
+            The editing strategy was built around creating a <span style={highlightStyle}>visual hierarchy</span> — leading the viewer
+            through the company's story from legacy to innovation to global impact.
           </p>
           <div style={{
             padding: isMobile ? '20px 18px' : '28px 32px', borderRadius: 12,
@@ -157,10 +158,10 @@ export default function CaseStudyLicious() {
           }}>
             <ul style={{ margin: 0, paddingLeft: isMobile ? 16 : 20, listStyleType: 'none' }}>
               {[
-                { label: 'Kinetic Transitions', desc: 'for high-energy celebrations and rapid-growth milestones — speed ramps, whip pans, and rhythmic cuts synced to the soundtrack' },
-                { label: 'Deliberate Pacing', desc: 'for foundational brand moments — letting key frames breathe so the audience could absorb the emotional weight of each milestone' },
-                { label: 'Authentic Human Moments', desc: 'candid employee interactions and behind-the-scenes footage were given room to breathe, creating contrast against the high-energy sequences' },
-                { label: 'Color Grading', desc: 'a warm, golden-toned grade using DaVinci Resolve that unified footage from different cameras and time periods into a cohesive visual language' },
+                { label: 'Establishing Scale', desc: 'wide aerial and facility shots were graded with a cold industrial tone, then progressively warmed as the narrative moved toward innovation and human stories' },
+                { label: 'Process Cinematography', desc: 'manufacturing sequences were cut to a rhythmic pace — reactor operations, dye mixing, and quality testing edited as visual choreography rather than documentation' },
+                { label: 'Leadership Integration', desc: 'management and team footage was woven naturally between process shots, avoiding the static "talking head" format in favor of contextual, in-facility framing' },
+                { label: 'Sound Design', desc: 'factory ambience was layered beneath the soundtrack — the hum of machinery, the precision of lab equipment — adding industrial texture without overwhelming the voiceover' },
               ].map((item, i) => (
                 <li key={i} style={{ marginBottom: 16, fontSize: isMobile ? 14 : 15, color: 'rgba(242,238,232,0.6)', lineHeight: 1.7 }}>
                   <span style={{ color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: 2 }}>◈ </span>
@@ -175,10 +176,13 @@ export default function CaseStudyLicious() {
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.60s', ...sectionStyle }}>
           <div style={sectionTitleStyle}>04 — The Result</div>
           <p style={bodyTextStyle}>
-            The final film shaped <span style={highlightStyle}>7 years of journey into a single emotional story</span> — a narrative
-            that moved from Licious's humble beginnings through explosive growth to the vibrant, people-first culture that defines
-            the brand today. The film was premiered at the Foundation Day celebration and received outstanding reception from both
-            the leadership team and employees.
+            The final corporate film successfully communicates <span style={highlightStyle}>Astik's 45-year journey</span> —
+            from a regional dye manufacturer to a globally recognized partner of Nippon Kayaku. The film balances technical authority
+            with human warmth, giving viewers a cinematic window into the precision, scale, and culture that define the company.
+          </p>
+          <p style={bodyTextStyle}>
+            The film is now used across client presentations, trade expo booths, and the company's digital channels as their
+            primary brand communication tool.
           </p>
         </div>
 
@@ -196,7 +200,7 @@ export default function CaseStudyLicious() {
               fontFamily: 'var(--font-editorial)', fontStyle: 'italic',
               margin: 0, paddingLeft: isMobile ? 8 : 16,
             }}>
-              Pacing dictates not just the speed of a video, but its emotional weight.
+              Industrial footage becomes cinematic when you edit for rhythm, not just information. The factory floor has its own heartbeat — the editor's job is to find it.
             </p>
           </div>
         </div>
@@ -225,9 +229,9 @@ export default function CaseStudyLicious() {
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', marginBottom: 20, letterSpacing: 3, textTransform: 'uppercase' }}>◈ Credits</div>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 16 : 24 }}>
             {[
-              { role: 'Client', name: 'Licious' },
-              { role: 'Production Agency', name: 'Prism Scale Pvt. Ltd.' },
-              { role: 'Creative Director', name: 'Dharam Vir Singh' },
+              { role: 'Client', name: 'Astik Dyestuff Pvt. Ltd.' },
+              { role: 'Industry', name: 'Chemical Manufacturing / Reactive Dyes' },
+              { role: 'Facilities', name: 'Ankleshwar, Gujarat & Tarapur, Maharashtra' },
               { role: 'Video Editor', name: 'Rushikesh Jadhav' },
             ].map((credit) => (
               <div key={credit.role}>
@@ -241,14 +245,13 @@ export default function CaseStudyLicious() {
         {/* CTA Links */}
         <div className={`cine-reveal cine-rise ${revealed ? 'visible' : ''}`} style={{ '--delay': '0.80s', marginTop: isMobile ? 40 : 56, display: 'grid', gap: 18 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
-            <a href="https://mejadhavr.com/#/case-study/astik-dyestuff-corporate-film" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Astik Case Study</span></a>
+            <a href="https://mejadhavr.com/#/case-study/licious-brand-film" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Licious Case Study</span></a>
             <a href="https://mejadhavr.com/#/corporate-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Corporate Films</span></a>
             <a href="https://mejadhavr.com/#/product-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Product Videos</span></a>
             <a href="https://mejadhavr.com/#/realestate-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Real Estate Films</span></a>
-            <a href="https://mejadhavr.com/#/event-portfolio" target="_blank" rel="noreferrer" className="cine-cta-ghost"><span className="cine-cta-label">Event Highlights</span></a>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
-            <a href="https://mejadhavr.com/#/contact" target="_blank" rel="noreferrer" className="cine-cta"><span className="cine-cta-label">Hire Me for Your Brand Film</span></a>
+            <a href="https://mejadhavr.com/#/contact" target="_blank" rel="noreferrer" className="cine-cta"><span className="cine-cta-label">Hire Me for Your Corporate Film</span></a>
             <a href="https://mejadhavr.com/#/" target="_blank" rel="noreferrer" className="cine-cta-secondary"><span className="cine-cta-label">Open Main Website</span></a>
           </div>
         </div>
