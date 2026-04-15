@@ -9,6 +9,7 @@ const RealEstatePortfolio = lazy(() => import("./RealEstatePortfolio"));
 const SaasPortfolio = lazy(() => import("./SaasPortfolio"));
 const CaseStudyLicious = lazy(() => import("./CaseStudyLicious"));
 const CaseStudyAstik = lazy(() => import("./CaseStudyAstik"));
+const CaseStudyBibleNotes = lazy(() => import("./CaseStudyBibleNotes"));
 const NotFound = lazy(() => import("./NotFound"));
 
 function ScrollToTop() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/saas-portfolio" element={<SaasPortfolio />} />
           <Route path="/case-study/licious-brand-film" element={<CaseStudyLicious />} />
           <Route path="/case-study/astik-dyestuff-corporate-film" element={<CaseStudyAstik />} />
+          <Route path="/case-study/bible-notes-app-demo" element={<CaseStudyBibleNotes />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
