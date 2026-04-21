@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>From the Edit Bay — Rushikesh Jadhav</title>
+    <link>https://mejadhavr.com/#/feed</link>
+    <description>Case studies, behind-the-scenes stories, editing tips, and creative thoughts from a cinematic video editor in Pune, India.</description>
+    <language>en-in</language>
+    <lastBuildDate>Tue, 01 Apr 2025 00:00:00 +0530</lastBuildDate>
+    <atom:link href="https://mejadhavr.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://mejadhavr.com/og-image.jpg</url>
+      <title>From the Edit Bay — Rushikesh Jadhav</title>
+      <link>https://mejadhavr.com/#/feed</link>
+    </image>
+
+    <item>
+      <title>How we made Licious feel like cinema — not just an ad</title>
+      <link>https://mejadhavr.com/#/case-study/licious-brand-film</link>
+      <description>The brief was simple: show why Licious is premium. The challenge was avoiding every tired food-video cliché. Here's the frame-by-frame thinking behind the grade, the pacing, and why we cut 40 seconds the client loved.</description>
+      <category>Case study</category>
+      <pubDate>Tue, 01 Apr 2025 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/case-study/licious-brand-film</guid>
+    </item>
+
+    <item>
+      <title>Shooting a corporate film in a live factory — what nobody tells you</title>
+      <link>https://mejadhavr.com/#/case-study/astik-dyestuff-corporate-film</link>
+      <description>Astik Dyestuff gave us 6 hours, one shift, and no second chance. Here's how we mapped audio, light, and b-roll in a chemical plant.</description>
+      <category>Behind the scenes</category>
+      <pubDate>Sat, 01 Mar 2025 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/case-study/astik-dyestuff-corporate-film</guid>
+    </item>
+
+    <item>
+      <title>How I open every SaaS demo video — and why most get it wrong</title>
+      <link>https://mejadhavr.com/#/case-study/bible-notes-app-demo</link>
+      <description>After editing the Bible Notes app demo and three other SaaS products, a pattern emerged. Here's the 3-second rule I now follow.</description>
+      <category>Process and tips</category>
+      <pubDate>Sat, 01 Feb 2025 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/feed-saas-3-second-rule</guid>
+    </item>
+
+    <item>
+      <title>Luxury real estate film — Wakad project walkthrough</title>
+      <link>https://mejadhavr.com/#/realestate-portfolio</link>
+      <description>The brief asked for aspirational. We delivered cinematic. A look at how aerial + interior work together when the property sells a lifestyle, not just a flat.</description>
+      <category>Client work</category>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/feed-real-estate-spotlight</guid>
+    </item>
+
+    <item>
+      <title>Are Indian D2C brands ready for cinematic video?</title>
+      <link>https://mejadhavr.com/#/feed</link>
+      <description>After working with food, fashion, and SaaS brands across Pune and Mumbai, a clear split is emerging — and it's not about budget.</description>
+      <category>Thoughts</category>
+      <pubDate>Sun, 01 Dec 2024 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/feed-indian-brands-thoughts</guid>
+    </item>
+
+    <item>
+      <title>Brand film vs. corporate film — why my DaVinci Resolve node tree changes</title>
+      <link>https://mejadhavr.com/#/feed</link>
+      <description>Same LUT, same footage, two different storytelling goals. Here's how my DaVinci Resolve node tree changes between the two.</description>
+      <category>Process and tips</category>
+      <pubDate>Fri, 01 Nov 2024 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/feed-davinci-node-tree</guid>
+    </item>
+
+    <item>
+      <title>Product table-top shoots — 6 shots that made the final cut vs 40 that didn't</title>
+      <link>https://mejadhavr.com/#/product-portfolio</link>
+      <description>Table-top product films look simple. They're not. A look at the lighting rig, lens choices, and the 6 shots that made the final cut vs the 40 that didn't.</description>
+      <category>Behind the scenes</category>
+      <pubDate>Tue, 01 Oct 2024 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/feed-tabletop-bts</guid>
+    </item>
+
+    <item>
+      <title>Why I always record room tone — and 4 other habits that save hours in post</title>
+      <link>https://mejadhavr.com/#/feed</link>
+      <description>Small habits compound. Room tone, slate discipline, color charts, proxy workflows — the boring stuff that separates amateurs from professionals.</description>
+      <category>Process and tips</category>
+      <pubDate>Sun, 01 Sep 2024 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/feed-event-coverage-tips</guid>
+    </item>
+
+    <item>
+      <title>Bible Notes app — motion graphics demo that took 200+ layers</title>
+      <link>https://mejadhavr.com/#/case-study/bible-notes-app-demo</link>
+      <description>A clean, minimal demo that looks effortless. Behind it: 200+ After Effects layers, Element 3D, and a Figma-to-motion pipeline that took weeks to refine.</description>
+      <category>Client work</category>
+      <pubDate>Thu, 01 Aug 2024 00:00:00 +0530</pubDate>
+      <guid isPermaLink="true">https://mejadhavr.com/#/feed-bible-notes-spotlight</guid>
+    </item>
+
+  </channel>
+</rss>
